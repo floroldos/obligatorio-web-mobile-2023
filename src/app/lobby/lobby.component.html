@@ -1,0 +1,60 @@
+<nav class="navbar"> <a href="#" class="navbar-brand">Mati in the Box</a> </nav>
+<main>
+  <section id="create-game">
+      <h2>Crear juego</h2>
+      <form>
+          <label for="proposal">Tema:</label>
+          <select id="proposal" name="proposal">
+              <!-- Listado de propuestas disponibles -->
+          </select>
+
+          <label for="unique-code">Código único:</label>
+          <input type="text" id="unique-code" name="unique-code" readonly>
+
+          <label for="game-link">Link de la sala de juego:</label>
+          <input type="text" id="game-link" name="game-link" readonly>
+
+          <button type="submit">Crear juego</button>
+      </form>
+  </section>
+<!-- TEMA -->
+  <section id="create-topic">
+      <h2>Agregar tema</h2>
+      <form>
+          <label for="topic">Actividad:</label>
+          <select id="topic" name="topic">
+              <!-- Listado de tarjetas de actividades disponibles -->
+          </select>
+          <label for="game-link">Nombre tema:</label>
+          <input type="text" id="game-link" name="game-link" readonly>
+          <button type="submit" >Crear tema</button>
+      </form>
+  </section>
+ <!-- TARJETA -->
+  <section id="create-card">
+      <h2>Generar tarjeta de actividad</h2>
+      <form>
+          <label for="card-title">Título:</label>
+          <input [(ngModel)]="this.tarjetaService.contenedor.nombre" type="text" id="card-title" name="card-title">
+
+          <label for="card-description">Descripción:</label>
+          <textarea [(ngModel)]="this.tarjetaService.contenedor.descripcion" id="card-description" name="card-description"></textarea>
+
+          <label for="card-image">Imagen (opcional):</label>
+          <input type="file" id="card-image" name="activcardity-image">
+
+          <button [(ngModel)]="this.tarjetaService.contenedor.imagen" type="submit" (click)="this.tarjetaService.agregarTarjeta(this.tarjetaService.contenedor)">Crear tarjeta</button>
+      </form>
+  </section>
+
+  <section id="join-game">
+      <h2>Unirse a un juego</h2>
+      <form>
+          <label for="game-code">Código único:</label>
+          <input type="text" id="game-code" name="game-code">
+
+          <button type="submit" *ngIf="">Unirse al juego</button>
+      </form>
+  </section>
+</main>
+
