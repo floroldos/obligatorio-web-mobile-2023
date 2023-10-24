@@ -11,12 +11,14 @@ export class TarjetaService {
   
   TARJETAS: tarjeta[] = []
   id: number = 0;
+  votos: number = 0;
 
   @Input() contenedor: tarjeta = {
     id: -1,
     nombre: '',
     descripcion: '',
-    imagen: ''
+    imagen: '',
+    votos: -1
   };
     
   getTarjetas(): tarjeta[] {

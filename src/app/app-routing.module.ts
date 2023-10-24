@@ -4,7 +4,7 @@ import { LobbyComponent } from './lobby/lobby.component';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 
 const routes: Routes = [
-  {path : '', component : LobbyComponent} ,
+  {path : '', component : TarjetaComponent} ,
   {path : 'home', component : TarjetaComponent}
 ]
 

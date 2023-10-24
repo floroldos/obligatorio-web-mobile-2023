@@ -11,6 +11,7 @@ import { tarjeta } from '../tarjeta';
 export class TarjetaComponent {
 
   listaTarjetas: tarjeta[] = [];
+  votoEnviado: boolean = false;
 
   constructor(private tarjetaService: TarjetaService) { }
 
@@ -29,4 +30,8 @@ export class TarjetaComponent {
   quitarTarjeta(tarj: tarjeta){
     this.tarjetaService.quitarTarjeta(tarj);
   }
+
+  enviarVoto() {
+    this.votoEnviado = true;
+   }
 }

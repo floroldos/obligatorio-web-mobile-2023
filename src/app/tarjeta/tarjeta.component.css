@@ -1,39 +1,3 @@
-main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    background-color: #f4f5f7;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-   }
-
-   section {
-    flex: 1;
-    margin: 10px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-   }
-   
-   h2 {
-    color: #667eea;
-    margin-bottom: 20px;
-   }
-   button[type="submit"] {
-    background-color: #667eea;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-   }
-   
-   button[type="submit"]:hover {
-    background-color: #5a67d8
-   }
 
    .navbar {
     background-color: #333;
@@ -48,17 +12,92 @@ main {
    .navbar-nav {
     list-style-type: none;
     padding: 0;
+   }  
+   .card-card {
+    width: 300px;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
    }
    
-   .nav-item {
-    margin-right: 15px;
+   .card-card h2 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+    width: 100%;
    }
    
-   .nav-link {
-    color: #fff;
-    text-decoration: none;
+   .card-card p {
+    font-size: 16px;
+    margin-bottom: 10px;
    }
    
-   .nav-link:hover {
-    color: #ccc;
+   .card-card button:hover {
+    background-color: #545454;
    }
+
+   .card-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  }
+
+ .timer {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background-color: #eee;
+   }
+   
+   .barra {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #667eea;
+    animation: progress 25s linear infinite;
+   }
+   
+   @keyframes progress {
+     0% { width: 100%; }
+     100% { width: 0%; }
+   }
+   
+   .animated {
+    animation: pulse 0.3s ease;
+   }
+
+   #voto-positivo, #voto-negativo, #voto-neutro{
+    padding-bottom: 10px;
+    margin: 10px;
+    padding: 5px 10px;
+    display: inline-block;
+    transition: all 0.3s ease;
+   }
+
+   #voto-positivo:hover, #voto-negativo:hover, #voto-neutro:hover {
+    transform: scale(1.2);
+   }
+
+  .submitted{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    color: #3f198a;
+    text-align: center;
+  }
+
+.voting-time {
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+
+.round-count {
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+}
+
