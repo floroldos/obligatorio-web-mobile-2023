@@ -9,9 +9,16 @@ import { tarjeta } from '../tarjeta';
   styleUrls: ['./tarjeta.component.css']
 })
 export class TarjetaComponent {
-
   listaTarjetas: tarjeta[] = [];
   votoEnviado: boolean = false;
+
+  tarjeta: tarjeta = {
+    id: 1,
+    nombre: 'Sample Tarjeta',
+    descripcion: 'A sample tarjeta',
+    imagen: 'sample.jpg',
+    puntos: 0
+  };
 
   constructor(private tarjetaService: TarjetaService) { }
 
@@ -23,15 +30,26 @@ export class TarjetaComponent {
     this.listaTarjetas = this.tarjetaService.getTarjetas();
   }
 
-  agregarTarjeta(tarj:tarjeta){
+  agregarTarjeta(tarj: tarjeta){
     this.tarjetaService.agregarTarjeta(tarj);
   }
 
   quitarTarjeta(tarj: tarjeta){
+    tarj.puntos = 0;
     this.tarjetaService.quitarTarjeta(tarj);
   }
 
   enviarVoto() {
     this.votoEnviado = true;
    }
+
+   sumarPuntos(tarj: tarjeta) {
+    tarj.puntos++;
+    console.log(tarj.puntos);
+  }
+
+  restarPuntos(tarj: tarjeta) {
+    tarj.puntos--;
+    console.log(tarj.puntos);
+  }
 }
