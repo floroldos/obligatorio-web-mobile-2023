@@ -27,7 +27,7 @@ router.post('/user', (req, res)=> {
 // Metodo Delete //
 router.delete('/temas/:id', (req, res)=> {
     let id = req.params.id;
-    temas = temas.filter((tema) => tema.id != id);
+    usesrs = temas.filter((tema) => tema.id != id);
     res.send(temas);
 });
 
