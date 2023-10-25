@@ -2,6 +2,8 @@ import express from 'express'
 import juegosRouter from './routes/juegos'
 import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
+import userRoutere from './routes/user'
+var jwt = require('jsonwebtoken');
 
 const app = express()
 app.use(express.json()) //middleware
@@ -14,8 +16,26 @@ app.get('/test', (req, res) => {
 })
 
 app.use('/api/jueos', juegosRouter)
-app.use('/api/tema', temasRouter)
+app.use('/api/temas', temasRouter)
 app.use('/api/actividades', actividadesRouter)
+app.use('/api/Users', userRoutere)
+
+// Login //
+app.post('/api/login', (req, res) => {
+    const user = req.body.user;
+    const password = req.body.password;
+    if (user === 'admin' && password === 'admin') {
+        const token = jwt.sign({user}, 'my_secret_key');
+        res.json({
+            token
+        });
+    } else {
+        res.status(401).send('Usuario o contraseña incorrectos');
+    }
+});
+
+
+
 
 // Validacion de token //
 function validateToken(req: any, res: any, next: any){

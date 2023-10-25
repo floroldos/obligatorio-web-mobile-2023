@@ -4,8 +4,8 @@ import { LobbyComponent } from './lobby/lobby.component';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 
 const routes: Routes = [
-  {path : '', component : TarjetaComponent} ,
-  {path : 'home', component : TarjetaComponent}
+  {path : '', component : LobbyComponent} ,
+  {path : 'home', component : LobbyComponent}
 ]
 
 @NgModule({

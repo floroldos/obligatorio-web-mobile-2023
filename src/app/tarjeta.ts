@@ -3,5 +3,6 @@ export interface tarjeta {
     nombre: string;
     descripcion: string;
     imagen: string;
+    tema: string;
     puntos: number;
 }

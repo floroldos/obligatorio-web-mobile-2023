@@ -8,14 +8,15 @@ import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { LoginInterceptor } from './login.interceptor';
 import { FormsModule } from '@angular/forms';
-import { TarjetaService } from './tarjeta.service';
+import { TemaComponent } from './tema/tema.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SalaComponent,
     TarjetaComponent,
-    LobbyComponent
+    LobbyComponent,
+    TemaComponent
   ],
   imports: [
     BrowserModule,

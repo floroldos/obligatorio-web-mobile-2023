@@ -18,7 +18,8 @@ export class TarjetaService {
     nombre: '',
     descripcion: '',
     imagen: '',
-    puntos: 0
+    puntos: 0,
+    tema: ''
   };
     
   getTarjetas(): tarjeta[] {
@@ -28,6 +29,7 @@ export class TarjetaService {
   }
 
   agregarTarjeta(tarj: tarjeta){
+    console.log(tarj.nombre)
     tarj.id = this.id;
     this.id ++;
     this.TARJETAS.push(tarj);

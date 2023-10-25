@@ -17,7 +17,8 @@ export class TarjetaComponent {
     nombre: 'Sample Tarjeta',
     descripcion: 'A sample tarjeta',
     imagen: 'sample.jpg',
-    puntos: 0
+    puntos: 0,
+    tema: ''
   };
 
   constructor(private tarjetaService: TarjetaService) { }
