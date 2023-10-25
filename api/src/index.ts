@@ -2,7 +2,7 @@ import express from 'express'
 import juegosRouter from './routes/juegos'
 import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
-import userRoutere from './routes/user'
+import userRoutere from './routes/users'
 var jwt = require('jsonwebtoken');
 
 const app = express()
@@ -25,7 +25,7 @@ app.post('/api/login', (req, res) => {
     const user = req.body.user;
     const password = req.body.password;
     if (user === 'admin' && password === 'admin') {
-        const token = jwt.sign({user}, 'my_secret_key');
+        const token = jwt.sign({user}, 'la_mama_de_mati');
         res.json({
             token
         });
@@ -33,9 +33,6 @@ app.post('/api/login', (req, res) => {
         res.status(401).send('Usuario o contraseña incorrectos');
     }
 });
-
-
-
 
 // Validacion de token //
 function validateToken(req: any, res: any, next: any){

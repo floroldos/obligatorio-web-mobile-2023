@@ -15,6 +15,7 @@ export class SalaService {
     codigoSala: '',
     propuesta: '',
     tarjetasSala: [],
-    tarjetaActualSala: 0
+    tarjetaActualSala: 0,
+    estadoActual: false
   };
 }

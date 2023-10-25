@@ -3,4 +3,5 @@ export interface sala {
     propuesta: string;
     tarjetasSala: any[];
     tarjetaActualSala: any;
+    estadoActual: boolean;
 }

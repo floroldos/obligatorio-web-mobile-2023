@@ -8,10 +8,12 @@ import { tarjeta } from '../tarjeta';
   templateUrl: './tarjeta.component.html',
   styleUrls: ['./tarjeta.component.css']
 })
-export class TarjetaComponent {
+export class TarjetaComponent{
   listaTarjetas: tarjeta[] = [];
   votoEnviado: boolean = false;
-
+  tarjetaActual: number = 0;
+  cambio: any;
+//la_mama_de_ana_she
   tarjeta: tarjeta = {
     id: 1,
     nombre: 'Sample Tarjeta',
@@ -25,6 +27,7 @@ export class TarjetaComponent {
 
   ngOnInit() : void{
     this.getLista();
+    this.tarjetaTemporizador();
   }
 
   getLista(): void {
@@ -52,5 +55,19 @@ export class TarjetaComponent {
   restarPuntos(tarj: tarjeta) {
     tarj.puntos--;
     console.log(tarj.puntos);
+  }
+
+  tarjetaTemporizador() {
+    this.cambio.setInterval(() => {
+      this.cambiarTarjeta
+    }, 30000);
+  }
+
+  cambiarTarjeta(){
+    if (this.tarjetaActual < this.listaTarjetas.length -1){
+      this.tarjetaActual++;
+    } else {
+      this.tarjetaActual = 0;
+    }
   }
 }

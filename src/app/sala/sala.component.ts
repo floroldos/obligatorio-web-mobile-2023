@@ -13,7 +13,8 @@ export class SalaComponent {
     codigoSala: '1234',
     propuesta: 'Sample Propuesta - tipos de mati',
     tarjetasSala: ['Mati pelado', 'Mati con pelo', 'Mati con barba'],
-    tarjetaActualSala: 'Sample Actividad Actual - tipos de mati'
+    tarjetaActualSala: 'Sample Actividad Actual - tipos de mati',
+    estadoActual: false
   };
   
   constructor(private salaService: SalaService) { }
