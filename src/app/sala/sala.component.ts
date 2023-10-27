@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { sala } from '../sala';
 import { SalaService } from '../sala.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-sala',
   templateUrl: './sala.component.html',
@@ -17,9 +19,10 @@ export class SalaComponent {
     estadoActual: false
   };
   
-  constructor(private salaService: SalaService) { }
+  constructor(private salaService: SalaService, private router: Router) { }
 
   iniciarJuego() {
     // Cuando el anfitrión inicia el juego, muestra la primera actividad.
+    this.router.navigate(['../tarjeta']);
   }
 }

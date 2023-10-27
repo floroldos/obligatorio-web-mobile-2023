@@ -1,21 +1,44 @@
-.sala {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-   }
-   
-   .sala ul {
-    list-style-type: none;
-    padding: 0;
-   }
-   
-   .sala li {
-    margin-bottom: 20px;
-   }
-   
-   .sala img {
-    max-width: 100%;
-    height: auto;
-   }
+   .sala-body { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    height: 100vh; background-color: #2C2F33; 
+    color: #FFF; 
+} 
+    .sala-content { 
+        text-align: center; 
+    } 
+    .sala-header { 
+        font-size: 3rem; 
+        margin-bottom: 1rem; 
+    } 
+    .sala-code { 
+        font-size: 2rem; 
+        margin-bottom: 2rem; 
+    } 
+    .sala-players { 
+        font-size: 1.5rem; 
+        margin-bottom: 1rem; 
+    }
+
+    .btn-iniciar {
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        background-color: #667eea;
+        border: none;
+        padding: 15px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        margin: 4px 2px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .btn-iniciar:hover {
+        background-color: rgb(96, 63, 162);
+    }
+
+

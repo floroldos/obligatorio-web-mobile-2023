@@ -1,9 +1,9 @@
 <div class="voting-time"> <h2>Voting Time!</h2></div>
-<div class="round-count"><h3> Quedan ?/8 Matis</h3></div>
+<div class="round-count"><h3> Quedan {{listaTarjetas.length}}/8 Matis</h3></div>
 
 <div class="card-card">
-    <h3 class="card-title" [(ngModel)]="listaTarjetas[tarjetaActual]">Titulo generico</h3>
-    <p class="card-description">Descripción generica</p>
+    <h3 class="card-title">{{this.tarjetaActual}}</h3>
+    <p class="card-description">{{listaTarjetas.toString}}</p>
     <img class="card-image" src="../../assets/img.png" alt="Imagen de la tarjeta">
     <div class="vote-buttons" *ngIf="!votoEnviado">
         <button id="voto-positivo" class="btn btn-success" (click)="enviarVoto(); sumarPuntos(listaTarjetas[tarjetaActual])"> 

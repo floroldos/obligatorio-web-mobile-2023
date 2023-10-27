@@ -5,13 +5,10 @@ import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { SalaComponent } from './sala/sala.component';
 
 const routes: Routes = [
-<<<<<<< HEAD
-  {path : '', component : LobbyComponent} ,
-  {path : 'home', component : LobbyComponent}
-=======
-  {path : '', component : SalaComponent} ,
-  {path : 'home', component : TarjetaComponent}
->>>>>>> bbc32cde8c9e74933caf9acd0789344f239ea48f
+  { path: '', redirectTo: '/lobby', pathMatch: 'full' } ,
+  { path: 'lobby', component: LobbyComponent } ,
+  { path: 'sala', component: SalaComponent } ,
+  { path: 'tarjeta', component: TarjetaComponent }
 ]
 
 @NgModule({
@@ -19,5 +16,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
-  
- }
+  }

@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { TarjetaService } from '../tarjeta.service';
 import { tarjeta } from '../tarjeta';
 import { TemaService } from '../tema.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lobby',
@@ -10,11 +12,11 @@ import { TemaService } from '../tema.service';
 })
 export class LobbyComponent {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   temaS = new TemaService();
-
   tarjS = new TarjetaService();
+  tarjetasGeneradas: tarjeta[] = [];
 
   @Input() temaContenedor: string = '';
   
@@ -26,5 +28,23 @@ export class LobbyComponent {
     puntos: 0,
     tema: ''
   };
+
+  unirseSala() {
+    this.router.navigate(['../sala']);
+ }
+
+ cargarImagen(event: any) {
+  const file = event.target.files[0];
+  
+  if (file) {
+    // Genera una URL para la imagen cargada
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.tarjContenedor.imagen = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  }
+}
 
 }

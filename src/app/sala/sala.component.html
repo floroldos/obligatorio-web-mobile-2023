@@ -1,15 +1,12 @@
 <main>
-    <div>
-        <h1>Sala de Juego</h1>
-        <p>Código de Sala:</p>
-      
-        <div>
-          <button (click)="iniciarJuego()">Iniciar Juego</button>
-        </div>
-      
-        <div>
-          <h2>Actividad Actual</h2>
-          <p></p>
-        </div>
-      </div>      
+  <div class="sala-body"> 
+    <div class="sala-content">
+       <h1 class="sala-header">¡Bienvenidos a la sala de Mati!</h1> 
+        <app-tema></app-tema>
+       <h2 class="sala-code">Código de la sala: {{sala.codigoSala}}</h2> 
+       <p class="sala-players">Esperando a los jugadores...</p> 
+    </div>
+    <!--boton para admins-->
+  <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
+  </div>
 </main>

@@ -22,12 +22,16 @@ export class TarjetaComponent{
     puntos: 0,
     tema: ''
   };
-
   constructor(private tarjetaService: TarjetaService) { }
 
   ngOnInit() : void{
     this.getLista();
     this.tarjetaTemporizador();
+  }
+
+  ngOnDestroy() {
+    // Detiene el timer cuando el componente se destruye
+    clearTimeout(this.cambio);
   }
 
   getLista(): void {
@@ -58,16 +62,17 @@ export class TarjetaComponent{
   }
 
   tarjetaTemporizador() {
-    this.cambio.setInterval(() => {
-      this.cambiarTarjeta
-    }, 30000);
+    this.cambiarTarjeta(); // Inicia el primer cambio de tarjeta
   }
 
-  cambiarTarjeta(){
-    if (this.tarjetaActual < this.listaTarjetas.length -1){
-      this.tarjetaActual++;
-    } else {
-      this.tarjetaActual = 0;
-    }
+  cambiarTarjeta() {
+    this.cambio = setTimeout(() => {
+      if (this.tarjetaActual < this.listaTarjetas.length - 1) {
+        this.tarjetaActual++;
+      } else {
+        this.tarjetaActual = 0;
+      }
+      this.cambiarTarjeta(); // Programa el siguiente cambio de tarjeta
+    }, 30000); // Cambia la tarjeta cada 30 segundos
   }
 }

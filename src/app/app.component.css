@@ -20,6 +20,7 @@ body.dark-theme {
    .navbar-brand {
     color: #fff;
     font-size: 20px;
+    font-family: 'Impact';
    }
    
    .navbar-nav {

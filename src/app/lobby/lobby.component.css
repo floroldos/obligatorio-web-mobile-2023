@@ -79,3 +79,41 @@ main {
    .nav-link:hover {
     color: #ccc;
    }
+
+   #aviable-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Cambiado a space-between */
+    align-items: stretch; /* Alinea las tarjetas en la misma altura */
+    background-color: #f4f5f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card {
+    flex: 0 0 calc(33.33% - 20px); /* Tamaño fijo del 33.33% y margen de 20px entre tarjetas */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .card h3 {
+    color: #667eea;
+    margin-bottom: 10px; /* Reducido el margen inferior */
+  }
+  
+  .card p {
+    margin-bottom: 20px;
+  }
+  
+  .card img {
+    max-width: 100%; /* Ajusta la imagen al ancho máximo de su contenedor */
+    height: auto;
+    max-height: 200px; /* Ajusta la altura máxima de la imagen (ajusta este valor según tus necesidades) */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  }
+  
