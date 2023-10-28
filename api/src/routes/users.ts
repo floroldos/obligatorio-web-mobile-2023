@@ -1,34 +1,52 @@
 import express from 'express'
-
-// Temas -- -id -nombre -descripcion
-
+const userSchema = require('../models/users');
 const router = express.Router()
 
-var users: Map<string, string> = new Map();
-var password: Map<string, string> = new Map();
+// Users -- -id -nombre -password -email
 
-// Metodo Get //
-router.get('/user', (req, res)=> {
-    res.send(users);
-});
-
-// Metodo Post //
+// Metodo Post // //Crear usuario //
 router.post('/user', (req, res)=> {
-    let user = {
-        id: req.body.id,
-        nombre: req.body.nombre,
-        password: req.body.password
-    }
-    users.set(user.id, user.nombre);
-    password.set(user.nombre, user.password);
-    res.send(user);
+  const user = userSchema(req.body)
+  user
+    .save()
+    .then((user: any) => res.json(user))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
-// Metodo Delete //
-router.delete('/temas/:id', (req, res)=> {
-    let id = req.params.id;
-    users.delete(id);
-    res.send('Usuario con id: ' + id + ' eliminado');
+// Metodo Get // // Obtener todos los usuarios //
+router.get('/user', (req, res)=> {
+  userSchema
+    .find()
+    .then((user: any) => res.json(user))
+    .catch((err: any) => res.json('Error: ' + err));
+});
+
+// Metodo Get // // Obtener usuario por id //
+router.get('/user/:id', (req, res)=> {
+  const { id } = req.params;
+  userSchema
+    .findById( id )
+    .then((user: any) => res.json(user))
+    .catch((err: any) => res.json('Error: ' + err));
+});
+
+// Metodo Put // // Actualizar usuario //
+router.put('/user/:id', (req, res)=> {
+  const { id } = req.params;
+  const { userName, email, password } = req.body;
+  userSchema
+    .updateOne({ _id: id }, { $set: { userName, email, password } })
+    .then((user: any) => res.json(user))
+    .catch((err: any) => res.json('Error: ' + err));
+});
+
+// Metodo Delete // // Eliminar usuario //
+router.delete('/user/:id', (req, res)=> {
+  const { id } = req.params;
+  userSchema
+    .deleteOne({ _id: id })
+    .then((user: any) => res.json(user))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
 export default router
