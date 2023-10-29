@@ -6,7 +6,6 @@ import userRouter from './routes/users'
 import mongoose from 'mongoose'
 //const jwt = require('jsonwebtoken');
 
-
 const app = express()
 
 // Middleware //
