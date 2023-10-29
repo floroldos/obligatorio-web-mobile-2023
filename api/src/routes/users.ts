@@ -1,12 +1,17 @@
-import express from 'express'
+import express from 'express';
 const userSchema = require('../models/users');
 const router = express.Router()
+import jwt from "jsonwebtoken";
+const secret = 'la_mama_de_la_mama_de_la_mama';
 
-// Users -- -id -nombre -password -email
-
-// Metodo Post // //Crear usuario //
+// Metodo Post // //Crear usuario // Sign up //
 router.post('/user', (req, res)=> {
-  const user = userSchema(req.body)
+  const { userName, email, password } = req.body;
+  const token = jwt.sign({
+    userName,
+    email
+  }, secret);
+  const user = new userSchema({ userName, email, password, token });
   user
     .save()
     .then((user: any) => res.json(user))
@@ -14,7 +19,7 @@ router.post('/user', (req, res)=> {
 });
 
 // Metodo Get // // Obtener todos los usuarios //
-router.get('/user', (req, res)=> {
+router.get('/user', validateToken,(req, res)=> {
   userSchema
     .find()
     .then((user: any) => res.json(user))
@@ -22,7 +27,7 @@ router.get('/user', (req, res)=> {
 });
 
 // Metodo Get // // Obtener usuario por id //
-router.get('/user/:id', (req, res)=> {
+router.get('/user/:id', validateToken, (req, res)=> {
   const { id } = req.params;
   userSchema
     .findById( id )
@@ -48,5 +53,18 @@ router.delete('/user/:id', (req, res)=> {
     .then((user: any) => res.json(user))
     .catch((err: any) => res.json('Error: ' + err));
 });
+
+// Validation token //
+function validateToken(req: any, res: any, next: any){
+    let bearer = req.headers['authorization'] || req.query.accessToken;
+    if (!bearer) res.send('No autorizado');
+    jwt.verify(bearer, secret, (err: any, user: any) => {
+      if(err) res.send('No autorizado');
+      else {
+        req.user = user;
+        next();
+      }
+    });
+};
 
 export default router

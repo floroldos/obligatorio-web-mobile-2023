@@ -4,20 +4,15 @@ import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
-//const jwt = require('jsonwebtoken');
 
 const app = express()
+
 
 // Middleware //
 app.use(express.json())
 app.use('/api', juegosRouter, temasRouter, userRouter, actividadesRouter);
 
-const PORT = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
-    console.log("Api corriendo")
-    res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
-});
+const PORT = 3000;
 
 // Conexion a la base de datos //
 mongoose
@@ -25,32 +20,29 @@ mongoose
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error));
 
-// Login //
-/*app.post('/api/login', (req, res) => {
-    const user = req.body.user;
-    const password = req.body.password;
-    if (user === 'admin' && password === 'admin') {
-        const token = jwt.sign({user}, 'la_mama_de_mati');
-        res.json({
-            token
-        });
-    } else {
-        res.status(401).send('Usuario o contraseña incorrectos');
-    }
+app.get('/', (req, res) => {
+    console.log("Api corriendo")
+    res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
 });
 
-// Validacion de token //
-function validateToken(req: any, res: any, next: any){
-    let bearer = req.headers['authorization'];
-    if(typeof bearer !== 'undefined'){
-        bearer = bearer.split(" ");
-        req.token = bearer;
-        next();
-    } else{
-        res.state(401);
-        res.send('No autorizado', 'anashe');
-    }
-};*/
+//Acceso al token //
+app.post('/api/token', (req, res) => {
+  const token = null;
+  res.send(token);
+});
+
+app.get("/api/public", (req, res) => {
+  res.send("Soy publico");
+});
+
+app.get("/api/private", (req, res) => {
+  try {
+    res.send("Soy privado");
+  }
+  catch (error) {
+    res.status(401).send("No autorizado");
+  }
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
