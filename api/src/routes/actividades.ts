@@ -1,36 +1,51 @@
 import express from 'express'
-
-// Actividades -- -id -nombre -descripcion -imagen -temaId
+const actividadSchema = require('../models/actividades');
 
 const router = express.Router()
 
-var actividades: any[] = [];
-
-// Metodo Post // // Crear Usuario //
-router.post('/actividades', (req, res)=> {
-  let actividad = {
-    id: req.body.id,
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    imagen: req.body.imagen,
-    temaId: req.body.temaId
-  }
-  actividades.push(actividad)
-  res.send(actividad);
+// Metodo Post // //Crear actividad //
+router.post('/actividad', (req, res)=> {
+  const actividad = actividadSchema(req.body)
+  actividad
+    .save()
+    .then((actividad: any) => res.json(actividad))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
-
-// Metodo Get //
-router.get('/actividades', (req, res)=> {
-    res.send(actividades);
+// Metodo Get // // Obtener todas las actividades //
+router.get('/actividad', (req, res)=> {
+  actividadSchema
+    .find()
+    .then((actividad: any) => res.json(actividad))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
-// Metodos Delete //
-router.delete('/actividades/:id', (req, res)=> {
-    let id = req.params.id;
-    actividades = actividades.filter((actividad) => actividad.id != id);
-    res.send(actividades);
+// Metodo Get // // Obtener actividad por id //
+router.get('/actividad/:id', (req, res)=> {
+  const { id } = req.params;
+  actividadSchema
+    .findById( id )
+    .then((actividad: any) => res.json(actividad))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
+// Metodo Put // // Actualizar actividad //
+router.put('/actividad/:id', (req, res)=> {
+  const { id } = req.params;
+  const { nombre, descripcion, imagen, temaId } = req.body;
+  actividadSchema
+    .updateOne({ _id: id }, { $set: { nombre, descripcion, imagen, temaId } })
+    .then((actividad: any) => res.json(actividad))
+    .catch((err: any) => res.json('Error: ' + err));
+});
+
+// Metodo Delete // // Eliminar actividad //
+router.delete('/actividad/:id', (req, res)=> {
+  const { id } = req.params;
+  actividadSchema
+    .deleteOne({ _id: id })
+    .then((actividad: any) => res.json(actividad))
+    .catch((err: any) => res.json('Error: ' + err));
+});
 
 export default router

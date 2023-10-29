@@ -1,33 +1,52 @@
 import express from 'express'
-
-// Juego -- -id -nombre -codigo -estaJugando
-
+const juegoSchema  = require('../models/juegos');
 const router = express.Router()
 
-var juegos: any[] = [];
+// Juego -- -nombre -codigo -estaJugando
 
-// Metodo Get //
-router.get('/juegos', (req, res)=> {
-    res.send(juegos);
+// Metodo Post // //Crear juego //
+router.post('/juego', (req, res)=> {
+  const juego = juegoSchema(req.body)
+  juego
+    .save()
+    .then((juego: any) => res.json(juego))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
-// Metodo Post //
-router.post('/juegos', (req, res)=> {
-    let juego = {
-        id: req.body.id,
-        nombre: req.body.nombre,
-        codigo: req.body.codigo,
-        estaJugando: req.body.estaJugando
-    }
-    juegos.push(juego) 
-    res.send(juego);
+// Metodo Get // // Obtener todos los juegos //
+router.get('/juego', (req, res)=> {
+  juegoSchema
+    .find()
+    .then((juego: any) => res.json(juego))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
-// Metodos Delete //
-router.delete('/juegos/:id', (req, res)=> {
-    let id = req.params.id;
-    juegos = juegos.filter((juego) => juego.id != id);
-    res.send(juegos);
+// Metodo Get // // Obtener juego por id //
+router.get('/juego/:id', (req, res)=> {
+  const { id } = req.params;
+  juegoSchema
+    .findById( id )
+    .then((juego: any) => res.json(juego))
+    .catch((err: any) => res.json('Error: ' + err));
+});
+
+// Metodo Put // // Actualizar juego //
+router.put('/juego/:id', (req, res)=> {
+  const { id } = req.params;
+  const { nombre, codigo, estaJugando } = req.body;
+  juegoSchema
+    .updateOne({ _id: id }, { $set: { nombre, codigo, estaJugando } })
+    .then((juego: any) => res.json(juego))
+    .catch((err: any) => res.json('Error: ' + err));
+});
+
+// Metodo Delete // // Eliminar juego //
+router.delete('/juego/:id', (req, res)=> {
+  const { id } = req.params;
+  juegoSchema
+    .deleteOne({ _id: id })
+    .then((juego: any) => res.json(juego))
+    .catch((err: any) => res.json('Error: ' + err));
 });
 
 export default router
