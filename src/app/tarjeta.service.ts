@@ -9,7 +9,21 @@ export class TarjetaService {
 
   constructor() { }
   
-  TARJETAS: tarjeta[] = []
+  TARJETAS: tarjeta[] = [
+    {id: -1,
+      nombre: 'miamsi',
+      descripcion: 'aaa',
+      imagen: 'assets/img.png',
+      puntos: 0,
+      tema: 'el pepe'},
+
+    {id: -1,
+      nombre: 'pepe',
+      descripcion: 'asdasdasd',
+      imagen: 'assets/img.png',
+      puntos: 0,
+      tema: 'el pepe'},
+  ];
   id: number = 0;
   puntos: number = 0;
 
@@ -19,8 +33,8 @@ export class TarjetaService {
     descripcion: '',
     imagen: '',
     puntos: 0,
-    tema: ''
-  };
+    tema: ''}
+  ;
     
   getTarjetas(): tarjeta[] {
     //get a la webapi
@@ -40,6 +54,4 @@ export class TarjetaService {
     this.TARJETAS.splice(this.TARJETAS.indexOf(tarj), 1);
     //delete a la webapi
   }
-
-  
-  };
+  }
