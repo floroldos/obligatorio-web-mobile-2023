@@ -4,7 +4,6 @@ import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
-
 const app = express()
 
 
@@ -25,25 +24,10 @@ app.get('/', (req, res) => {
     res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
 });
 
-//Acceso al token //
-app.post('/api/token', (req, res) => {
-  const token = null;
-  res.send(token);
-});
+// Validation token //
 
-app.get("/api/public", (req, res) => {
-  res.send("Soy publico");
-});
-
-app.get("/api/private", (req, res) => {
-  try {
-    res.send("Soy privado");
-  }
-  catch (error) {
-    res.status(401).send("No autorizado");
-  }
-});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
-})
+});
+
