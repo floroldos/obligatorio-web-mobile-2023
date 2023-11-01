@@ -5,7 +5,6 @@ import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
 const app = express()
-import { uri } from './enviorment'
 
 
 // Middleware //
@@ -16,7 +15,7 @@ const PORT = 3000;
 
 // Conexion a la base de datos //
 mongoose
-  .connect(uri)
+  .connect('mongodb://root:weberos@localhost:27017/test?authSource=admin&w=1')
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error));
 
