@@ -89,7 +89,7 @@ export class TarjetaService {
   }
   cambiarTarjeta() {
     this.cambio = setTimeout(() => {
-      if(this.tarjetaActual < this.TARJETAS.length - 1){
+      if(this.tarjetaActual < this.tarjetasSeleccionadas.length - 1){
         this.tarjetaActual++;
       } else {
         this.finalizarVotacion(); // Llama a finalizarVotacion al final de las tarjetas
@@ -101,7 +101,7 @@ export class TarjetaService {
   calcularTarjetaMasVotada() {
     let tarjetaMasVotada: tarjeta | null = null;
     let puntajeMasAlto = 0;
-    for (let tarjeta of this.TARJETAS) {
+    for (let tarjeta of this.tarjetasSeleccionadas) {
       if (tarjeta.puntos > puntajeMasAlto) {
       tarjetaMasVotada = tarjeta;
       puntajeMasAlto = tarjeta.puntos;

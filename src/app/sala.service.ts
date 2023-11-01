@@ -43,6 +43,7 @@ export class SalaService {
   
   unirseAJuego(){
       if(this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1){
+        // falta ver como se manejan los usuarios
         this.router.navigate(['../sala']);
       }
       else{

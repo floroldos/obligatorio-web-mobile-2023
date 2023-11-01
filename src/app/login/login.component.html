@@ -1,5 +1,18 @@
 <main>
-    <section>
-        <p>login</p>
+    <section id="join-game">
+        <h2>Unirse a un juego</h2>
+          <label for="game-code">Código único:</label>
+          <input [(ngModel)]="this.salaService.codigoSalaUsuario" placeholder="" id="game-code" name="game-code">
+          <button type="submit" (click)="this.salaService.unirseAJuego()">Unirse al juego</button>
     </section>
+    <section id="loguearse">
+        <h2>Entrar como administrador</h2>
+          <label for="game-code">Usuario: </label>
+          <input placeholder="pone el usuario">
+          <label> Contraseña:</label>
+          <input type="password" placeholder="pone la contraseña">
+          
+          <button type="submit" (click)="this.login()">Iniciar sesión</button>
+    </section>
+
 </main>

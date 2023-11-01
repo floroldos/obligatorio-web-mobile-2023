@@ -116,4 +116,15 @@ main {
     max-height: 200px; /* Ajusta la altura máxima de la imagen (ajusta este valor según tus necesidades) */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   }
+
+  #icono-borrar-tarj{
+    color: #667eea;
+    margin-bottom: 10px; /* Reducido el margen inferior */
+  }
+
+  #boton-borrar{
+    background: none;
+    border: 0;
+    color: inherit;
+  }
   
