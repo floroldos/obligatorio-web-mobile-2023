@@ -1,12 +1,11 @@
 import express from 'express';
 const userSchema = require('../models/users');
 const jwt = require('jsonwebtoken');
-const secret = process.env.SECRET;
+import { secret } from '../enviorment';
 
 const router = express.Router();
-
 // Metodo Post // //Crear usuario // Sign up //
-router.post('/user', validateToken, (req, res)=> {
+router.post('/user', (req, res)=> {
   const { userName, email, password } = req.body;
   const token = jwt.sign({
     userName,

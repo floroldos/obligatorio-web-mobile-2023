@@ -5,6 +5,7 @@ import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
 const app = express()
+import { uri } from './enviorment'
 
 
 // Middleware //
@@ -15,7 +16,7 @@ const PORT = 3000;
 
 // Conexion a la base de datos //
 mongoose
-  .connect("mongodb://root:weberos@localhost:27017/test?authSource=admin&w=1")
+  .connect(uri)
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error));
 
@@ -23,8 +24,6 @@ app.get('/', (req, res) => {
     console.log("Api corriendo")
     res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
 });
-
-// Validation token //
 
 
 app.listen(PORT, () => {
