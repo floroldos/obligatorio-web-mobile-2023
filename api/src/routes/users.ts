@@ -1,11 +1,12 @@
 import express from 'express';
 const userSchema = require('../models/users');
-const router = express.Router()
-import jwt from "jsonwebtoken";
-const secret = 'la_mama_de_la_mama_de_la_mama';
+const jwt = require('jsonwebtoken');
+const secret = process.env.SECRET;
+
+const router = express.Router();
 
 // Metodo Post // //Crear usuario // Sign up //
-router.post('/user', (req, res)=> {
+router.post('/user', validateToken, (req, res)=> {
   const { userName, email, password } = req.body;
   const token = jwt.sign({
     userName,
@@ -36,7 +37,7 @@ router.get('/user/:id', validateToken, (req, res)=> {
 });
 
 // Metodo Put // // Actualizar usuario //
-router.put('/user/:id', (req, res)=> {
+router.put('/user/:id', validateToken, (req, res)=> {
   const { id } = req.params;
   const { userName, email, password } = req.body;
   userSchema
@@ -46,7 +47,7 @@ router.put('/user/:id', (req, res)=> {
 });
 
 // Metodo Delete // // Eliminar usuario //
-router.delete('/user/:id', (req, res)=> {
+router.delete('/user/:id', validateToken,(req, res)=> {
   const { id } = req.params;
   userSchema
     .deleteOne({ _id: id })
@@ -54,17 +55,16 @@ router.delete('/user/:id', (req, res)=> {
     .catch((err: any) => res.json('Error: ' + err));
 });
 
-// Validation token //
 function validateToken(req: any, res: any, next: any){
-    let bearer = req.headers['authorization'] || req.query.accessToken;
-    if (!bearer) res.send('No autorizado');
-    jwt.verify(bearer, secret, (err: any, user: any) => {
-      if(err) res.send('No autorizado');
-      else {
-        req.user = user;
-        next();
-      }
-    });
+  let bearer = req.headers['authorization'] || req.query.accessToken;
+  if (!bearer) res.send('No autorizado');
+  jwt.verify(bearer, secret, (err: any, user: any) => {
+    if(err) res.send('No autorizado');
+    else {
+      req.user = user;
+      next();
+    }
+  });
 };
 
 export default router
