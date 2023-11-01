@@ -57,7 +57,7 @@
     height: 100%;
     width: 100%;
     background-color: #667eea;
-    animation: progress 30s linear infinite;
+    animation: progress 20s linear infinite;
    }
    
    @keyframes progress {

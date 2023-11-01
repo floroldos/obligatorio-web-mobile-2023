@@ -9,6 +9,7 @@ import { LobbyComponent } from './lobby/lobby.component';
 import { LoginInterceptor } from './login.interceptor';
 import { FormsModule } from '@angular/forms';
 import { TemaComponent } from './tema/tema.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { TemaComponent } from './tema/tema.component';
     SalaComponent,
     TarjetaComponent,
     LobbyComponent,
-    TemaComponent
+    TemaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

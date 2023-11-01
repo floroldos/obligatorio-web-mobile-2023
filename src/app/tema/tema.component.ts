@@ -6,8 +6,8 @@ import { TemaService } from '../tema.service';
   templateUrl: './tema.component.html',
   styleUrls: ['./tema.component.css']
 })
-export class TemaComponent {
 
+export class TemaComponent {
   temas: string[] = [];
 
   constructor(private listaTemas: TemaService ) { }

@@ -4,6 +4,8 @@ import { tarjeta } from '../tarjeta';
 import { TemaService } from '../tema.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SalaService } from '../sala.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-lobby',
@@ -16,6 +18,7 @@ export class LobbyComponent {
 
   temaS = new TemaService();
   tarjS = new TarjetaService();
+  salaService = new SalaService(this.router);
   tarjetasGeneradas: tarjeta[] = [];
 
   @Input() temaContenedor: string = '';
@@ -30,7 +33,11 @@ export class LobbyComponent {
   };
 
   unirseSala() {
-    this.router.navigate(['../sala']);
+    this.salaService.unirseAJuego();
+ }
+
+ crearSala(){
+    this.salaService.crearSala();
  }
 
  cargarImagen(event: any) {

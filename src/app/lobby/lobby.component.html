@@ -2,18 +2,11 @@
   <section id="create-game">
       <h2>Crear juego</h2>
           <label for="proposal">Tema:</label>
-          <select name="topic" id="topic">
+          <select [(ngModel)]="this.salaService.contenedor.propuesta" name="topic" id="topic">
             <option *ngFor="let tema of this.temaS.TEMAS" value="{{tema}}">{{tema}}</option>
           </select>
           <br>
-
-          <label for="unique-code">Código único:</label>
-          <input type="text" id="unique-code" name="unique-code">
-
-          <label for="game-link">Link de la sala de juego:</label>
-          <input type="text" id="game-link" name="game-link">
-
-          <button type="submit">Crear juego</button>
+          <button type="submit" (click)="crearSala()">Crear juego</button>
   </section>
 <!-- TEMA -->
   <section id="create-topic">
@@ -49,7 +42,7 @@
   <section id="join-game">
       <h2>Unirse a un juego</h2>
         <label for="game-code">Código único:</label>
-        <input type="text" id="game-code" name="game-code">
+        <input [(ngModel)]="this.salaService.codigoSalaUsuario" placeholder="" id="game-code" name="game-code">
         <button type="submit" (click)="unirseSala()">Unirse al juego</button>
   </section>
 </main>
@@ -61,7 +54,7 @@
     <div class="card">
       <h3>{{ tarjeta.nombre }}</h3>
       <p>{{ tarjeta.descripcion }}</p>
-      <img [src]="this.tarjContenedor.imagen" alt="Imagen de la tarjeta" id="imagen-preview">
+      <img src={{tarjeta.imagen}} alt="Imagen de la tarjeta" id="imagen-preview">
     </div>
   </div>
  </div>

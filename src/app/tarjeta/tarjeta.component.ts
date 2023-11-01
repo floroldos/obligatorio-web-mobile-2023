@@ -11,12 +11,6 @@ import { tarjeta } from '../tarjeta';
 export class TarjetaComponent{
 
   listaTarjetas: tarjeta[] = [];
-  votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
-  tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
-  cambio: any; //variable para el timeout, para que cambie la tarjeta cada 30 segundos
-  mostrarPuntaje: boolean = false; //para mostrar el puntaje si ya pasaron todas las tarjetas
-  puntajes: { [tarjetaId: number]: number } = {}; //para guardar los puntajes de cada tarjeta
-  tarjetaMasVotada: tarjeta | null = null;
 
 //la_mama_de_ana_she
   tarjeta: tarjeta = {
@@ -27,7 +21,7 @@ export class TarjetaComponent{
     puntos: 0,
     tema: ''
   };
-  constructor(private tarjetaService: TarjetaService) { }
+  constructor(public tarjetaService: TarjetaService) { }
 
   ngOnInit() : void{
     this.getLista();
@@ -36,11 +30,15 @@ export class TarjetaComponent{
 
   ngOnDestroy() {
     // Detiene el timer cuando el componente se destruye
-    clearTimeout(this.cambio);
+    clearTimeout(this.tarjetaService.cambio);
   }
 
   getLista(): void {
-    this.listaTarjetas = this.tarjetaService.getTarjetas();
+    fetch('http://localhost:3000/api/tarjetas')
+    .then(response => response.json())
+    .then(data => {
+      this.listaTarjetas = data;
+    });
   }
 
   agregarTarjeta(tarj: tarjeta){
@@ -53,53 +51,30 @@ export class TarjetaComponent{
   }
 
   enviarVoto() {
-    this.votoEnviado = true;
+    this.tarjetaService.enviarVoto();
    }
 
   sumarPuntos(tarj: tarjeta) {
-    tarj.puntos++;
-    this.puntajes[tarj.id] = tarj.puntos;
+    this.tarjetaService.sumarPuntos(tarj);
   }
 
   restarPuntos(tarj: tarjeta) {
-    tarj.puntos--;
-    console.log(tarj.puntos);
+    this.tarjetaService.restarPuntos(tarj);
   }
 
   tarjetaTemporizador() {
-    this.cambiarTarjeta(); // Inicia el primer cambio de tarjeta
+    this.tarjetaService.cambiarTarjeta(); // Inicia el primer cambio de tarjeta
   }
 
 cambiarTarjeta() {
-    this.cambio = setTimeout(() => {
-      if (this.tarjetaActual < this.listaTarjetas.length - 1) {
-        this.tarjetaActual++;
-      } else {
-        this.finalizarVotacion(); // Llama a finalizarVotacion al final de las tarjetas
-        return; // Evita continuar cambiando las tarjetas
-      }
-      this.cambiarTarjeta(); // Programa el siguiente cambio de tarjeta
-    }, 30000); // Cambia la tarjeta cada 30 segundos
+    this.tarjetaService.cambiarTarjeta();
   }
   
 calcularTarjetaMasVotada() {
-  let tarjetaMasVotada: tarjeta | null = null;
-  let puntajeMasAlto = -1;
-
-  for (const tarjeta of this.listaTarjetas) {
-    const puntaje = this.puntajes[tarjeta.id] || 0;
-    if (puntaje > puntajeMasAlto) {
-      tarjetaMasVotada = tarjeta;
-      puntajeMasAlto = puntaje;
-    }
-  }
-
-  return tarjetaMasVotada;
+ this.tarjetaService.calcularTarjetaMasVotada();
 }
 
 finalizarVotacion() {
-  this.tarjetaMasVotada = this.calcularTarjetaMasVotada();
-  this.mostrarPuntaje = true;
+  this.tarjetaService.finalizarVotacion();
 }
-
 }

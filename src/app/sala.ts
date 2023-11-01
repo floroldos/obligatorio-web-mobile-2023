@@ -1,5 +1,5 @@
 export interface sala {
-    codigoSala: string;
+    codigoSala: number;
     propuesta: string;
     tarjetasSala: any[];
     tarjetaActualSala: any;
