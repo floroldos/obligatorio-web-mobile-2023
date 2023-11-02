@@ -11,11 +11,17 @@ import { LoginService } from '../login.service';
 })
 export class LoginComponent {
 
+  activeTab: string = 'unirse-juego';
+
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService) {}
 
   login(){
     // verificar en la base de datos
     this.loginService.login();
+  }
+
+  changeTab(tab: string) {
+    this.activeTab = tab;
   }
 
 }

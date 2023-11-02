@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TarjetaService } from './tarjeta.service';
 import { tarjeta } from './tarjeta';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
+import { LobbyComponent } from './lobby/lobby.component';
 
 
 @Injectable({

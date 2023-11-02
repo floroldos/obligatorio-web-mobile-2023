@@ -1,29 +1,20 @@
-body {
-    background-color: #ede4d5;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    color: #333333;
-    transition: background-color 0.5s ease, color 0.5s ease;
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
 }
 
-body.dark-theme {
-    background-color: #333333;
-    color: #ffffff;
+.navbar p {
+    text-decoration: none;
+    color: #f1f1f1;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: 0.3s;
 }
-.navbar {
-    background-color: #333;
-    padding: 15px;
-   }
-   
-   .navbar-brand {
-    color: #fff;
-    font-size: 20px;
-    font-family: 'Impact';
-   }
-   
-   .navbar-nav {
-    list-style-type: none;
-    padding: 0;
-   }
