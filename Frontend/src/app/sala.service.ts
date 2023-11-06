@@ -5,15 +5,23 @@ import { TarjetaService } from './tarjeta.service';
 import { tarjeta } from './tarjeta';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { LobbyComponent } from './lobby/lobby.component';
+import { HttpClient } from '@angular/common/http';
+import { io } from 'socket.io-client';
+
   
 @Injectable({
   providedIn: 'root'
 })
+
 export class SalaService {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) { }
   SALAS: sala[] = [];
   codigoSalaUsuario: number = -1;
-  tarjS = new TarjetaService();
+  tarjS = new TarjetaService(this.http);
+
+  usuarios: string[] = [];
+  socket = io();
+
 
   @Input() contenedor: sala = {
     codigoSala: -1,
@@ -43,34 +51,19 @@ export class SalaService {
 unirseAJuego() {
   if (this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1) {
     // Falta ver cómo se manejan los usuarios
+    this.socket.emit('entrarSala', 'token');
     this.router.navigate(['../sala']);
   } else {
-    alert("El código de sala es inválido");
+    const modalElement = document.getElementById('modalCodigoInvalido');
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+  }
   }
 }
 
-  /* unirseAJuego(){
- // Encuentra la sala de juego en la que el usuario está
- const salaUsuario = this.contenedor.salas.find(sala => sala.codigoSala === this.codigoSalaUsuario);
-
- if(salaUsuario){
-    // Verifica si el usuario ya se encuentra en la sala de juego
-    const usuarioEnSala = salaUsuario.usuarios.find(usuario => usuario.id === this.usuarioActual.id);
-
-    if(usuarioEnSala){
-      alert('El usuario ya se encuentra en la sala de juego');
-    } else {
-      // Añade el usuario a la sala de juego
-      salaUsuario.usuarios.push(this.usuarioActual);
-
-      // Redirige al usuario a la página de la sala de juego
-      this.router.navigate(['../sala']);
-    }
- } else {
-    alert('Código de sala inválido'); */
-
-  seleccionarTarjetas(){
-    let tema = this.contenedor.propuesta;
+seleccionarTarjetas(){
+  let tema = this.contenedor.propuesta;
     for(let tarjeta of this.tarjS.TARJETAS){
       if(tarjeta.tema == tema){
         this.tarjS.tarjetasPorTema.push(tarjeta);

@@ -12,13 +12,12 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.css']
 })
+
 export class LobbyComponent {
-
-  constructor(private router: Router) { }
-
+  constructor(private router: Router, private http: HttpClient) { }
   temaS = new TemaService();
-  tarjS = new TarjetaService();
-  salaService = new SalaService(this.router);
+  tarjS = new TarjetaService(this.http);
+  salaService = new SalaService(this.router, this.http);
   tarjetasGeneradas: tarjeta[] = [];
 
   @Input() temaContenedor: string = '';

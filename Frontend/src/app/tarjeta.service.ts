@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { tarjeta } from './tarjeta';
 import { Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TarjetaService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
   
   TARJETAS: tarjeta[] = [
     {id: -1,
@@ -50,16 +51,19 @@ export class TarjetaService {
     this.tarjetaTemporizador();
   }
   
-    ngOnDestroy() {
-      // Detiene el timer cuando el componente se destruye
-      clearTimeout(this.cambio);
-    }
-    
-  getTarjetas(): tarjeta[] {
+  ngOnDestroy() {
+    // Detiene el timer cuando el componente se destruye
+    clearTimeout(this.cambio);
+  }
+   
+  //Get para obtener las tarjetas de la webapi
+  getTarjetas() {
     //get a la webapi
-    return this.TARJETAS;
+    const url = 'http://localhost:3000/api/tarjetas';	
+    return this.http.get(url);
   }
 
+  //Para agregar tarjetas a la lista de tarjetas existentes
   agregarTarjeta(tarj: tarjeta){
     console.log(tarj.nombre)
     tarj.id = this.id;
@@ -72,21 +76,27 @@ export class TarjetaService {
     this.TARJETAS.splice(this.TARJETAS.indexOf(tarj), 1);
     //delete a la webapi
   }
+
   enviarVoto() {
     //enviar a la webapi
     this.votoEnviado = true;
   }
+
   sumarPuntos(tarj: tarjeta) {
     tarj.puntos++;
     this.puntajes[tarj.id] = tarj.puntos;
   }
+
   restarPuntos(tarj: tarjeta) {
     tarj.puntos--;
     console.log(tarj.puntos);
   }
+
   tarjetaTemporizador() {
     this.cambiarTarjeta(); // Inicia el primer cambio de tarjeta
   }
+
+  //Función para cambiar la tarjeta cada 20 segundos
   cambiarTarjeta() {
     this.cambio = setTimeout(() => {
       if(this.tarjetaActual < this.tarjetasSeleccionadas.length - 1){
@@ -98,6 +108,8 @@ export class TarjetaService {
       this.cambiarTarjeta(); // Llama a cambiarTarjeta() cada 20 segundos
   }, 20000);
 }
+
+//Funcion para calcular la tarjeta mas votada
   calcularTarjetaMasVotada() {
     let tarjetaMasVotada: tarjeta | null = null;
     let puntajeMasAlto = 0;
@@ -109,11 +121,14 @@ export class TarjetaService {
     }
     return tarjetaMasVotada;
   }
+
+  //Funcion para finalizar la votacion de tarjetas y mostrar el puntaje
   finalizarVotacion(){
     this.tarjetaMasVotada = this.calcularTarjetaMasVotada();
     this.mostrarPuntaje = true;
   }
 
+  //para resetear la lista de tarjetas seleccionadas
   resetSeleccionadas(){
     this.tarjetasSeleccionadas = [];
   }
