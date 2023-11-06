@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TarjetaService } from '../tarjeta.service';
 import { tarjeta } from '../tarjeta';
-
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tarjeta',
@@ -10,7 +10,7 @@ import { tarjeta } from '../tarjeta';
 })
 export class TarjetaComponent{
 
-  listaTarjetas: tarjeta[] = [];
+  listaTarjetas: any;
 
 //la_mama_de_ana_she
   tarjeta: tarjeta = {
@@ -24,21 +24,16 @@ export class TarjetaComponent{
   constructor(public tarjetaService: TarjetaService) { }
 
   ngOnInit() : void{
-    this.getLista();
+    this.tarjetaService.getTarjetas().subscribe((data) => {
+      this.listaTarjetas = data;
+      console.log(this.listaTarjetas);
+    });
     this.tarjetaTemporizador();
   }
 
   ngOnDestroy() {
     // Detiene el timer cuando el componente se destruye
     clearTimeout(this.tarjetaService.cambio);
-  }
-
-  getLista(): void {
-    fetch('http://localhost:3000/api/tarjetas')
-    .then(response => response.json())
-    .then(data => {
-      this.listaTarjetas = data;
-    });
   }
 
   agregarTarjeta(tarj: tarjeta){
