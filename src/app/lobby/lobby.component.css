@@ -15,6 +15,7 @@ main {
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #e9e8e8;
+    
    }
    
    h2 {
@@ -101,7 +102,7 @@ main {
   
   .card h3 {
     color: #667eea;
-    margin-bottom: 10px; /* Reducido el margen inferior */
+    margin-bottom: 10px; 
   }
   
   .card p {
@@ -117,7 +118,7 @@ main {
 
   #icono-borrar-tarj{
     color: #667eea;
-    margin-bottom: 10px; /* Reducido el margen inferior */
+    margin-bottom: 10px;
   }
 
   #boton-borrar{
