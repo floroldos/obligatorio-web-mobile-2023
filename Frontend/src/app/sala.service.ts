@@ -16,12 +16,12 @@ import { io } from 'socket.io-client';
 export class SalaService {
   constructor(private router: Router, private http: HttpClient) { }
   SALAS: sala[] = [];
+  juegoActivo: boolean = false;
   codigoSalaUsuario: number = -1;
   tarjS = new TarjetaService(this.http);
 
   usuarios: string[] = [];
   socket = io();
-
 
   @Input() contenedor: sala = {
     codigoSala: -1,

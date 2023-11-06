@@ -1,20 +1,38 @@
-<div class="voting-time"> <h2>Voting Time!</h2></div>
-<div class="round-count"><h3> Quedan {{ tarjS.TARJETAS.length - tarjS.tarjetaActual }}/{{tarjS.TARJETAS.length}} Matis</h3></div>
-
 <main>
   <div class="sala-body">
     <div class="sala-content">
-       <h1 class="sala-header">¡Bienvenidos a la sala de Mati!</h1> 
-        <app-tema></app-tema>
-       <h2 class="sala-code">Código de la sala: {{this.salaService.contenedor.codigoSala}}</h2> 
-       <p class="sala-players">Esperando a los jugadores...</p> 
+      <h1 class="sala-header">¡Bienvenidos a la sala de Mati!</h1>
+      <app-tema></app-tema>
+      <h2 class="sala-code">Código de la sala: {{ salaService.contenedor.codigoSala }}</h2>
+      <p class="sala-players">Esperando a los jugadores...</p>
     </div>
-    <!--boton para admins-->
-  <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
-  </div>
-</main>
+    <!-- Botón para admins -->
+    <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
 
+    <!-- Chat  -->
+    <div class = "chat-main-container">
+    <div class="chat-container">
+      <div class="chat-messages">
+        <div class="chat-messages">
+          <div class="message" *ngFor="let message of chatMessages">
+            <span class="message-username">{{ message.username }}:</span>
+            <span class="message-text">{{ message.message }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="chat-input">
+      <input type="text" #input placeholder="Escribe un mensaje">
+      <button class="btn btn-primary" (click)="sendMessage(input.value)">Enviar</button>
+    </div>
+  </div>
+</div>
 <section>
+  <div class="voting-time" *ngIf="juegoActivo"> 
+    <h2>Voting Time!</h2>
+    <div class="round-count"><h3> Quedan {{ tarjS.TARJETAS.length - tarjS.tarjetaActual }}/{{tarjS.TARJETAS.length}} Matis</h3></div>
+  </div>  
   <div *ngIf="tarjS.mostrarPuntaje">
     <h2>Podio!</h2>
     <div *ngIf="this.tarjS.tarjetaMasVotada">
@@ -23,4 +41,4 @@
     </div>
   </div>
 </section>
-
+</main>

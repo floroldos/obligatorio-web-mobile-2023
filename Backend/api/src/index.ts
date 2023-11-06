@@ -4,9 +4,8 @@ import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
-import io from "socket.io-client";
 
-const jwt = require('jsonwebtoken');
+//const jwt = require('jsonwebtoken');
 const app = express();
 
 
@@ -14,20 +13,28 @@ const app = express();
 app.use(express.json())
 app.use('/api', juegosRouter, temasRouter, userRouter, actividadesRouter);
 
-const secretKey = 'key';
-
-let socket = io("server");
-
-socket.on('connection', (socket) => {
-  console.log('Usuario conectado');
-
-  const token = jwt.sign({ userId: socket.id }, secretKey);
-  socket.emit('token', token);
-})
-
 const PORT = 3000;
 
-// Conexion a la base de datos //
+/* --------------- SOCKET.IO --------------- */
+
+//Crea un servidor de socket.io
+const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
+
+//Crea un namespace de socket.io para el juego
+const gameNamespace = io.of("/game");
+
+//Event handler para cuando un usuario se conecta
+gameNamespace.on('connection', (socket: any) => {
+  console.log('User connected');
+
+//Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
+socket.on('message', (data: any) => {
+    gameNamespace.emit('message', data);
+  });
+});
+
+// --------------- Conexion a la base de datos --------------- //
+
 mongoose
   .connect("mongodb://root:weberos@localhost:9999/test?authSource=admin&w=1")
   .then(() => console.log('Conectado a MongoDB'))

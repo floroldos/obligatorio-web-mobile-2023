@@ -27,12 +27,12 @@
 
 #recuadro {
     border-radius: 0px 0px 10px 10px;
-    height: 22em;
-    box-shadow: 0px 25px 98px 10px rgba(46,91,255,0.9);
+    height: 28em;
+    box-shadow: 0px 30px 98px 10px rgba(46,91,255,0.9);
 }
 
 #recuadro-2 {
     border-radius: 0px 0px 10px 10px;
     height: 30em;
-    box-shadow: 0px 25px 98px 10px rgba(46,91,255,0.9);
+    box-shadow: 0px 30px 98px 10px rgba(46,91,255,0.9);
 }
