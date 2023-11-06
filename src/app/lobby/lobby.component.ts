@@ -40,6 +40,8 @@ export class LobbyComponent {
     this.salaService.crearSala();
  }
 
+ /* es para que carguen las imagenes de las tarjetas */
+ 
  cargarImagen(event: any) {
   const file = event.target.files[0];
   
@@ -53,5 +55,4 @@ export class LobbyComponent {
     reader.readAsDataURL(file);
   }
 }
-
 }

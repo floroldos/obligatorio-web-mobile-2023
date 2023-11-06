@@ -1,18 +1,16 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable, Input, ViewChild } from '@angular/core';
 import { sala } from './sala';
 import { Router } from '@angular/router';
 import { TarjetaService } from './tarjeta.service';
 import { tarjeta } from './tarjeta';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { LobbyComponent } from './lobby/lobby.component';
-
-
+  
 @Injectable({
   providedIn: 'root'
 })
 export class SalaService {
   constructor(private router: Router) { }
-
   SALAS: sala[] = [];
   codigoSalaUsuario: number = -1;
   tarjS = new TarjetaService();
@@ -27,7 +25,7 @@ export class SalaService {
 
   //Funcion para codigo de sala random
   randomInt() {
-    return Math.floor(Math.random() * (101));
+    return Math.floor(Math.random() * (1001));
   }
 
   crearSala(){
@@ -42,15 +40,34 @@ export class SalaService {
     }
 }
   
-  unirseAJuego(){
-      if(this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1){
-        // falta ver como se manejan los usuarios
-        this.router.navigate(['../sala']);
-      }
-      else{
-        alert('Código de sala inválido');
-      }
+unirseAJuego() {
+  if (this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1) {
+    // Falta ver cómo se manejan los usuarios
+    this.router.navigate(['../sala']);
+  } else {
+    alert("El código de sala es inválido");
   }
+}
+
+  /* unirseAJuego(){
+ // Encuentra la sala de juego en la que el usuario está
+ const salaUsuario = this.contenedor.salas.find(sala => sala.codigoSala === this.codigoSalaUsuario);
+
+ if(salaUsuario){
+    // Verifica si el usuario ya se encuentra en la sala de juego
+    const usuarioEnSala = salaUsuario.usuarios.find(usuario => usuario.id === this.usuarioActual.id);
+
+    if(usuarioEnSala){
+      alert('El usuario ya se encuentra en la sala de juego');
+    } else {
+      // Añade el usuario a la sala de juego
+      salaUsuario.usuarios.push(this.usuarioActual);
+
+      // Redirige al usuario a la página de la sala de juego
+      this.router.navigate(['../sala']);
+    }
+ } else {
+    alert('Código de sala inválido'); */
 
   seleccionarTarjetas(){
     let tema = this.contenedor.propuesta;
