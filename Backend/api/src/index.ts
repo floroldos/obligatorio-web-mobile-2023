@@ -47,7 +47,6 @@ app.get('/', (req, res) => {
 
 // Validation token //
 
-
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });

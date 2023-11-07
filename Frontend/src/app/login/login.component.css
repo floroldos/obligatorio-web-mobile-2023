@@ -1,7 +1,7 @@
 .gradient-custom {    
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, rgb(63, 63, 88), rgb(26, 34, 55));
-    min-height: 100vh;
+    min-height: 93vh;
 }
 .nav-pills .nav-link {
     border-radius: 10px 10px 0px 0px;
