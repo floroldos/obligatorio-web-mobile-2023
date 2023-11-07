@@ -10,7 +10,7 @@ import { LoginService } from '../login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
+  username: string = '';
   activeTab: string = 'unirse-juego';
 
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService) {}

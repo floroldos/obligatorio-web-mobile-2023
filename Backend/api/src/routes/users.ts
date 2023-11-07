@@ -1,13 +1,14 @@
 import express from 'express';
 const userSchema = require('../models/users');
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config()
 const secret = process.env.SECRET;
 
-const router = express.Router();
 
+const router = express.Router();
 // Metodo Post // //Crear usuario // Sign up //
-router.post('/user', validateToken, (req, res)=> {
+router.post('/user', (req, res)=> {
   const { userName, email, password } = req.body;
   const token = jwt.sign({
     userName,

@@ -78,6 +78,7 @@ seleccionarTarjetas(){
     }
   }
 
+  //algoritmo para elegir tarjetas de forma random
   shuffleArray<T>(array: T[]): T[] {
     const newArray = array.slice(); // Create a copy of the original array to avoid modifying it directly
     for (let i = newArray.length - 1; i > 0; i--) {
