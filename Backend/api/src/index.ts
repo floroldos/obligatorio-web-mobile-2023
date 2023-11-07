@@ -4,6 +4,7 @@ import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
+import { uri } from './enviorment'
 
 //const jwt = require('jsonwebtoken');
 const app = express();
@@ -14,7 +15,6 @@ app.use(express.json())
 app.use('/api', juegosRouter, temasRouter, userRouter, actividadesRouter);
 
 const PORT = 3000;
-const uri = process.env.URI || "No funciona lo uri"
 
 /* --------------- SOCKET.IO --------------- */
 

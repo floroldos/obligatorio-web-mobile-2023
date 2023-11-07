@@ -1,9 +1,8 @@
 import express from 'express';
+import { secret } from '../enviorment'
 const userSchema = require('../models/users');
 const jwt = require('jsonwebtoken');
 
-require('dotenv').config()
-const secret = process.env.SECRET;
 
 
 const router = express.Router();
