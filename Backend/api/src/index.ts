@@ -14,6 +14,7 @@ app.use(express.json())
 app.use('/api', juegosRouter, temasRouter, userRouter, actividadesRouter);
 
 const PORT = 3000;
+const uri = process.env.URI || "No funciona lo uri"
 
 /* --------------- SOCKET.IO --------------- */
 
@@ -36,7 +37,7 @@ socket.on('message', (data: any) => {
 // --------------- Conexion a la base de datos --------------- //
 
 mongoose
-  .connect("mongodb://root:weberos@localhost:9999/test?authSource=admin&w=1")
+  .connect(uri)
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error));
 
@@ -44,9 +45,6 @@ app.get('/', (req, res) => {
     console.log("Api corriendo")
     res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
 });
-
-// Validation token //
-
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
