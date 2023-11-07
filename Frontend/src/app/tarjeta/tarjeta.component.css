@@ -1,0 +1,89 @@
+
+ .card-card {
+    width: 300px;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+   }
+   
+   .card-card h2 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+    width: 100%;
+   }
+   
+   .card-card p {
+    font-size: 16px;
+    margin-bottom: 10px;
+   }
+   
+   .card-card button:hover {
+    background-color: #545454;
+   }
+
+   .card-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  }
+
+ .timer {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background-color: #eee;
+   }
+   
+   .barra {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #667eea;
+    animation: progress 20s linear infinite;
+   }
+   
+   @keyframes progress {
+     0% { width: 100%; }
+     100% { width: 0%; }
+   }
+   
+   .animated {
+    animation: pulse 0.3s ease;
+   }
+
+   #voto-positivo, #voto-negativo, #voto-neutro{
+    padding-bottom: 10px;
+    margin: 10px;
+    padding: 5px 10px;
+    display: inline-block;
+    transition: all 0.3s ease;
+   }
+
+   #voto-positivo:hover, #voto-negativo:hover, #voto-neutro:hover {
+    transform: scale(1.2);
+   }
+
+  .submitted{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    color: #3f198a;
+    text-align: center;
+  }
+
+.voting-time {
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+
+.round-count {
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+}
+

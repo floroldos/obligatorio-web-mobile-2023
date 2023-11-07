@@ -1,0 +1,99 @@
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+
+   section {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e9e8e8;
+    
+   }
+   
+   h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+   }
+   
+   form {
+    display: flex;
+    flex-direction: column;
+   }
+   
+   label {
+    margin-bottom: 5px;
+   }
+   
+   input, select, textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+   }
+   
+   button[type="submit"] {
+    background-color: #667eea;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+   }
+   
+   button[type="submit"]:hover {
+    background-color: #5a67d8
+   }
+
+   #aviable-cards {
+    display: grid;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card {
+    flex: 0 0 calc(33.33% - 20px); /* Tamaño fijo del 33.33% y margen de 20px entre tarjetas */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .card h3 {
+    color: #667eea;
+    margin-bottom: 10px; 
+  }
+  
+  .card p {
+    margin-bottom: 20px;
+  }
+  
+  .card img {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  #icono-borrar-tarj{
+    color: #667eea;
+    margin-bottom: 10px;
+  }
+
+  #boton-borrar{
+    background: none;
+    border: 0;
+    color: inherit;
+  }
+  

@@ -1,0 +1,90 @@
+<section class="gradient-custom">
+
+<!-- elementos de adentro - login de admin y unirse al juego -->
+
+<div id="unirse-juego" role="tabpanel" aria-labelledby="unirse-juego" *ngIf="activeTab === 'unirse-juego'">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <ul class="nav nav-pills nav-justified"> 
+          <li class="nav-item" role="presentation"> 
+            <a class="nav-link" id="tab-login" data-mdb-toggle="pill" href="#login-admin" role="tab" aria-controls="login-admin" (click)="changeTab('login-admin')">Login</a>
+          </li> 
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tab-juego" data-mdb-toggle="pill" href="#unirse-juego" role="tab" aria-controls="unirse-juego" (click)="changeTab('unirse-juego')">Unirse a sala</a>
+          </li> 
+        </ul>
+        <div class="card bg-dark text-white" id="recuadro">
+          <div class="card-body p-5 text-center">
+              <h1 class="fw-bold mb-2 text-uppercase">Unirse a una sala</h1>
+              <hr>
+              <div class="form-outline form-white mb-4">
+                <label class="form-label" for="nickname" [(ngModel)]="username">Nickname</label>
+                <input id="nickname" class="form-control form-control-lg" />
+              </div>
+              <div class="form-outline form-white mb-4">
+                <label class="form-label" for="salacode">Código único de la sala</label>
+                <input id="salacode" class="form-control form-control-lg" />
+              </div>
+              <button class="btn btn-outline-light btn-lg px-5" data-bs-toggle="modal" data-bs-target="#modalCodigoInvalido" 
+              (click)="this.salaService.unirseAJuego()">Unirse</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="login-admin" role="tabpanel" aria-labelledby="login-admin" *ngIf="activeTab === 'login-admin'">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <ul class="nav nav-pills nav-justified"> 
+            <li class="nav-item" role="presentation"> 
+              <a class="nav-link" id="tab-login" data-mdb-toggle="pill" href="#login-admin" role="tab" aria-controls="login-admin" (click)="changeTab('login-admin')">Login</a>
+            </li> 
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="tab-juego" data-mdb-toggle="pill" href="#unirse-juego" role="tab" aria-controls="unirse-juego" (click)="changeTab('unirse-juego')">Unirse a sala</a>
+            </li> 
+          </ul>
+          <div class="card bg-dark text-white" id="recuadro-2">
+            <div class="card-body p-5 text-center">
+                <h1 class="fw-bold mb-2 text-uppercase">Iniciar sesión</h1>
+                <label class="form-label" for="salacode">Login solo para administradores</label>
+                <hr>
+                <div class="form-outline form-white mb-4">
+                  <input type="name" class="form-control form-control-lg" />
+                  <label class="form-label">Usuario</label>
+                </div>
+                <div class="form-outline form-white mb-4">
+                  <input type="password" id="typePassword" class="form-control form-control-lg" />
+                  <label class="form-label">Contraseña</label>
+                </div>
+                <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="this.login()">Iniciar sesión</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+</section>
+
+<!--modal de aviso - codigo inválido-->
+
+<div class="modal" id="modalCodigoInvalido" tabindex="-1" role="dialog" aria-labelledby="modalCodigoInvalidoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+        <h2 class="heading">Código de sala inválido</h2>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button class="btn btn-primary btn-danger" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
