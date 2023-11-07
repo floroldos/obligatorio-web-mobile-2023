@@ -13,9 +13,9 @@ export class LoginService {
     this.router.navigate(['../lobby']);
   }
 
-  userName: string;
-  email: string;
-  password: string;
+  userName: string = '';
+  email: string = '';
+  password: string = '';
 
   url = "http://10.13.230.206:3000/api/user"
 
