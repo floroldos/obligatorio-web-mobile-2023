@@ -5,10 +5,13 @@ import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
 import mongoose from 'mongoose'
 import { uri } from './enviorment'
+import { sala } from '../../../Frontend/src/app/sala'
+
 
 //const jwt = require('jsonwebtoken');
 const app = express();
 
+let jugadores: string[] = [];
 
 // Middleware //
 app.use(express.json())
@@ -27,12 +30,54 @@ const gameNamespace = io.of("/game");
 //Event handler para cuando un usuario se conecta
 gameNamespace.on('connection', (socket: any) => {
   console.log('User connected');
+  socket.emit('confirmar', jugadores);
 
-//Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
-socket.on('message', (data: any) => {
+  socket.on('disconnection', (socket : any) => {
+    jugadores.splice(gameNamespace.id, -1);
+    gameNamespace.emit('confirmar', jugadores);
+  });
+
+  socket.on('entrarSala', (data: string) => {
+    jugadores[gameNamespace.id] = data;
+    gameNamespace.emit('confirmar', jugadores);
+  }
+
+  );
+
+  socket.on('message', (data: any) => {
     gameNamespace.emit('message', data);
   });
+
+  socket.on('crearSala', (data: { [key: string]: any }) =>{
+      sala = {
+      codigoSala: data['crearSala'].codigoSala,
+      propuesta: data['crearSala'].propuesta,
+      tarjetasSala: data['crearSala'].tarjetasSala,
+      tarjetaActualSala: data['crearSala'].tarjetaActualSala,
+      estadoActual: data['crearSala'].estadoActual,
+      jugadores: data['crearSala'].jugadores
+    }
+  });
+
+  socket.on('navegar', (data : any) => {
+    console.log("ME navegaron");
+    
+    setTimeout(() => {
+      console.log("CONFIRMO NAVEGAR");
+      socket.emit('navegar', sala);
+    }, 5000);
+  });
 });
+
+let sala = {
+    codigoSala: -1,
+    propuesta: '',
+    tarjetasSala: [],
+    tarjetaActualSala: {},
+    estadoActual: false,
+    jugadores: []
+}
+
 
 // --------------- Conexion a la base de datos --------------- //
 
@@ -49,5 +94,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });
-
 

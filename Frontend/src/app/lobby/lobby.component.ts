@@ -33,7 +33,7 @@ export class LobbyComponent {
 
   unirseSala() {
     this.salaService.unirseAJuego();
- }
+  }
 
  crearSala(){
     this.salaService.crearSala();

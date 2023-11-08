@@ -22,10 +22,10 @@ router.get('/juego', (req, res)=> {
 });
 
 // Metodo Get // // Obtener juego por id //
-router.get('/juego/:id', (req, res)=> {
-  const { id } = req.params;
+router.get('/juego/:codigo', (req, res)=> {
+  const { codigo } = req.params;
   juegoSchema
-    .findById( id )
+    .find( { codigo: codigo } )
     .then((juego: any) => res.json(juego))
     .catch((err: any) => res.json('Error: ' + err));
 });

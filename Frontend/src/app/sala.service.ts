@@ -1,35 +1,80 @@
 import { Injectable, Input, ViewChild } from '@angular/core';
 import { sala } from './sala';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { TarjetaService } from './tarjeta.service';
 import { tarjeta } from './tarjeta';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { HttpClient } from '@angular/common/http';
-import { io } from 'socket.io-client';
+import { SalaComponent } from './sala/sala.component';
+import { io, Socket } from 'socket.io-client';
 
-  
 @Injectable({
   providedIn: 'root'
 })
 
 export class SalaService {
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { 
+    this.socket = io('ws://10.13.230.206:3001/game', { transports: ['websocket'] });
+    this.socket.emit('navegar');
+  }
+
   SALAS: sala[] = [];
   juegoActivo: boolean = false;
   codigoSalaUsuario: number = -1;
   tarjS = new TarjetaService(this.http);
+  socket!: Socket;
+  url = 'http://localhost:3000/api/juego';
+
+  sala: sala = {
+        codigoSala: -1,
+        propuesta: '',
+        tarjetasSala: [],
+        tarjetaActualSala: {},
+        estadoActual: false,
+        jugadores: []  
+  }
+
+  ngOnInit(): void {
+    this.socket = io('ws://10.13.230.206:3001/game', {
+       transports: ['websocket']
+    });
+
+    this.socket.on('message', (data: any) => {
+      console.log(data);
+      this.chatMessages.push(data); 
+    });
+
+    this.socket.on('navegar', (data: { [key: string]: any }) => {
+      console.log("CONFIRMO NAVEGAR");
+      console.log(data);
+
+      /*
+      this.sala = {
+        codigoSala: data.codigoSala,
+        propuesta: data.propuesta,
+        tarjetasSala: data.tarjetasSala,
+        tarjetaActualSala: data.tarjetaActualSala,
+        estadoActual: data.estadoActual,
+        jugadores: data.jugadores
+      }
+      */
+    });
+  }
+
+  @Input() nickname: string = 'mati';
 
   usuarios: string[] = [];
-  socket = io();
 
   @Input() contenedor: sala = {
     codigoSala: -1,
     propuesta: '',
     tarjetasSala: [],
     tarjetaActualSala: 0,
-    estadoActual: false
+    estadoActual: false,
+    jugadores: []
   };
+
 
   //Funcion para codigo de sala random
   randomInt() {
@@ -39,30 +84,39 @@ export class SalaService {
   crearSala(){
     if(this.contenedor.propuesta != ''){
       this.contenedor.codigoSala = this.randomInt();
-      console.log(this.contenedor.codigoSala);
-      this.seleccionarTarjetas();
+      this.contenedor.tarjetasSala = this.seleccionarTarjetas();
+      this.socket.emit('crearSala', {'crearSala': this.contenedor});
       this.router.navigate(['../sala']);
+      this.socket.emit('navegar');
     }
     else{
       alert('El juego debe tener un tema');
     }
-}
+  }
+
+  inicializarSala(){
+    this.juegoActivo = false;
+    this.socket.emit('navegar', (data: any) =>{});
+  }
+
+  confirmarNav(){
+    
+  }
+
   
 unirseAJuego() {
-  if (this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1) {
+  if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
     // Falta ver cómo se manejan los usuarios
-    this.socket.emit('entrarSala', 'token');
+    this.http.get(this.url);
+    this.socket.emit('entrarSala', this.nickname);
+
     this.router.navigate(['../sala']);
   } else {
-    const modalElement = document.getElementById('modalCodigoInvalido');
-      if (modalElement) {
-        modalElement.classList.add('show');
-        modalElement.style.display = 'block';
-  }
+    alert("codigo invalido");
   }
 }
 
-seleccionarTarjetas(){
+seleccionarTarjetas(): tarjeta[]{
   let tema = this.contenedor.propuesta;
     for(let tarjeta of this.tarjS.TARJETAS){
       if(tarjeta.tema == tema){
@@ -76,6 +130,7 @@ seleccionarTarjetas(){
         this.tarjS.tarjetasSeleccionadas.push(tarj);
       } 
     }
+    return this.tarjS.tarjetasSeleccionadas;
   }
 
   //algoritmo para elegir tarjetas de forma random
@@ -86,6 +141,24 @@ seleccionarTarjetas(){
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements at i and j
     }
     return newArray;
+  }
+
+ // SOCKETS //
+  sendMessage(message: string) {
+    this.socket.emit('message', { nickname: this.nickname , message: message });
+  }
+
+  setUser(nickname: string) {
+    this.nickname = nickname; 
+  }
+
+  chatMessages: { nickname: string; message: string }[] = [];
+
+  confirmarUsuario(): void {
+    this.socket.on('confirmar', (data: string[]) => {
+      console.log(data);
+      this.contenedor.jugadores = data;
+    });
   }
 
 }

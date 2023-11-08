@@ -4,7 +4,6 @@ const userSchema = require('../models/users');
 const jwt = require('jsonwebtoken');
 
 
-
 const router = express.Router();
 // Metodo Post // //Crear usuario // Sign up //
 router.post('/user', (req, res)=> {

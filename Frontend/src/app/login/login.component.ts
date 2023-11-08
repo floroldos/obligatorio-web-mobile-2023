@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { sala } from '../sala';
 import { SalaService } from '../sala.service';
 import  { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { LoginService } from '../login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username: string = '';
   activeTab: string = 'unirse-juego';
 
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService) {}
