@@ -78,7 +78,7 @@
         <h2 class="heading">Código de sala inválido</h2>
       </div>
       <div class="modal-footer justify-content-center">
-        <button class="btn btn-primary btn-danger" data-dismiss="modal">Ok</button>
+        <button id="okButton" class="btn btn-primary btn-danger" data-bs-dismiss="modal" (click)="this.salaService.cerrarModalCodigo()">Ok</button>
       </div>
     </div>
   </div>

@@ -22,7 +22,7 @@ export class TemaComponent {
   }
 
   addTema(tema: string) {
-    this.listaTemas.addTema(tema);
+      this.listaTemas.addTema(tema);
   }
 
   delTema(tema: string) { 

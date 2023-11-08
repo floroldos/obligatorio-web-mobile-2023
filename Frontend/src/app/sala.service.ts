@@ -92,31 +92,25 @@ export class SalaService {
     else{
       alert('El juego debe tener un tema');
     }
-  }
+}
 
-  inicializarSala(){
-    this.juegoActivo = false;
-    this.socket.emit('navegar', (data: any) =>{});
-  }
-
-  confirmarNav(){
-    
-  }
-
-  
 unirseAJuego() {
-  if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
+  if (this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1) {
     // Falta ver cómo se manejan los usuarios
     this.http.get(this.url);
     this.socket.emit('entrarSala', this.nickname);
 
     this.router.navigate(['../sala']);
   } else {
-    alert("codigo invalido");
+    const modalElement = document.getElementById('modalCodigoInvalido');
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+  }
   }
 }
 
-seleccionarTarjetas(): tarjeta[]{
+seleccionarTarjetas(){
   let tema = this.contenedor.propuesta;
     for(let tarjeta of this.tarjS.TARJETAS){
       if(tarjeta.tema == tema){
