@@ -44,12 +44,18 @@ export class SalaService {
       this.router.navigate(['../sala']);
     }
     else{
-      alert('El juego debe tener un tema');
+      const modalElement = document.getElementById('modalFaltaTema');
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+      }
     }
 }
   
 unirseAJuego() {
-  if (this.codigoSalaUsuario == this.contenedor.codigoSala && this.codigoSalaUsuario != -1) {
+  const input = document.getElementById("game-code") as HTMLInputElement;
+  const valor = parseInt(input.value);
+  if (valor == this.contenedor.codigoSala && this.contenedor.codigoSala != -1) {
     // Falta ver cómo se manejan los usuarios
     this.socket.emit('entrarSala', 'token');
     this.router.navigate(['../sala']);
@@ -59,6 +65,30 @@ unirseAJuego() {
         modalElement.classList.add('show');
         modalElement.style.display = 'block';
   }
+  }
+}
+
+cerrarModalCodigo(){
+  const modalElement = document.getElementById('modalCodigoInvalido');
+  if (modalElement) {
+    modalElement.classList.remove('show');
+    modalElement.style.display = 'none';
+  }
+}
+
+cerrarModalFaltaTema(){
+  const modalElement = document.getElementById('modalFaltaTema');
+  if (modalElement) {
+    modalElement.classList.remove('show');
+    modalElement.style.display = 'none';
+  }
+}
+
+cerrarModalTemaExiste(){
+  const modalElement = document.getElementById('modalTemaExiste');
+  if (modalElement) {
+    modalElement.classList.remove('show');
+    modalElement.style.display = 'none';
   }
 }
 
