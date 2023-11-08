@@ -15,8 +15,8 @@ import { io, Socket } from 'socket.io-client';
 
 export class SalaService {
   constructor(private router: Router, private http: HttpClient) { 
-    this.socket = io('ws://10.13.230.206:3001/game', { transports: ['websocket'] });
-    this.socket.emit('navegar');
+    console.log("Sala service constructor");
+    this.socketConnection();
   }
 
   SALAS: sala[] = [];
@@ -27,7 +27,7 @@ export class SalaService {
   url = 'http://localhost:3000/api/juego';
 
   sala: sala = {
-        codigoSala: -1,
+        codigoSala: -2,
         propuesta: '',
         tarjetasSala: [],
         tarjetaActualSala: {},
@@ -35,30 +35,30 @@ export class SalaService {
         jugadores: []  
   }
 
-  ngOnInit(): void {
-    this.socket = io('ws://10.13.230.206:3001/game', {
-       transports: ['websocket']
+  socketConnection() {
+    console.log("Conectando a la basura de websocket");
+
+    this.socket = io('ws://localhost:3000', {
+      transports: ['websocket']
     });
-
-    this.socket.on('message', (data: any) => {
-      console.log(data);
-      this.chatMessages.push(data); 
-    });
-
-    this.socket.on('navegar', (data: { [key: string]: any }) => {
-      console.log("CONFIRMO NAVEGAR");
-      console.log(data);
-
-      /*
-      this.sala = {
-        codigoSala: data.codigoSala,
-        propuesta: data.propuesta,
-        tarjetasSala: data.tarjetasSala,
-        tarjetaActualSala: data.tarjetaActualSala,
-        estadoActual: data.estadoActual,
-        jugadores: data.jugadores
-      }
-      */
+  
+    this.socket.on('connection', () => {
+      console.log('Conectado al websocket');
+  
+      this.socket.on('message', (data: any) => {
+        console.log(data);
+        this.chatMessages.push(data); 
+      });
+    
+      this.socket.on('navegar', (data: { [key: string]: any }) => {
+        this.sala = data as sala;
+      });
+    
+      this.socket.on('confirmar', (data: string[]) => {
+        console.log(data);
+        this.contenedor.jugadores = data;
+      });
+      
     });
   }
 
@@ -99,22 +99,18 @@ export class SalaService {
     this.socket.emit('navegar', (data: any) =>{});
   }
 
-  confirmarNav(){
-    
-  }
-
   
-unirseAJuego() {
-  if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
-    // Falta ver cómo se manejan los usuarios
-    this.http.get(this.url);
-    this.socket.emit('entrarSala', this.nickname);
+  unirseAJuego() {
+    if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
+      // Falta ver cómo se manejan los usuarios
+      this.http.get(this.url);
+      this.socket.emit('entrarSala', this.nickname);
 
-    this.router.navigate(['../sala']);
-  } else {
-    alert("codigo invalido");
+      this.router.navigate(['../sala']);
+    } else {
+      alert("codigo invalido");
+    }
   }
-}
 
 seleccionarTarjetas(): tarjeta[]{
   let tema = this.contenedor.propuesta;
@@ -153,12 +149,5 @@ seleccionarTarjetas(): tarjeta[]{
   }
 
   chatMessages: { nickname: string; message: string }[] = [];
-
-  confirmarUsuario(): void {
-    this.socket.on('confirmar', (data: string[]) => {
-      console.log(data);
-      this.contenedor.jugadores = data;
-    });
-  }
-
 }
+

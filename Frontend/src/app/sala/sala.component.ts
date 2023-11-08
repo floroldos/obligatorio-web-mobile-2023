@@ -18,6 +18,10 @@ export class SalaComponent {
     
   }
 
+  ngOnInit(): void {
+    
+  }
+
   tarjS: TarjetaService = new TarjetaService(this.http);
 
   sendMessage(message: string) {

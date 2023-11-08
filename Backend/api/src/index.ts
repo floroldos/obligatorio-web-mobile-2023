@@ -3,9 +3,10 @@ import juegosRouter from './routes/juegos'
 import temasRouter from './routes/temas'
 import actividadesRouter from './routes/actividades'
 import userRouter from './routes/users'
-import mongoose from 'mongoose'
-import { uri } from './enviorment'
+// import mongoose from 'mongoose'
+// import { uri } from './enviorment'
 import { sala } from '../../../Frontend/src/app/sala'
+import { createServer } from "http";
 
 
 //const jwt = require('jsonwebtoken');
@@ -19,37 +20,45 @@ app.use('/api', juegosRouter, temasRouter, userRouter, actividadesRouter);
 
 const PORT = 3000;
 
+const httpServer = createServer(app);
+
+
+let ws = require('socket.io')(httpServer, {
+  cors: {origin : '*'}
+});
+
+
 /* --------------- SOCKET.IO --------------- */
 
 //Crea un servidor de socket.io
-const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
 
 //Crea un namespace de socket.io para el juego
-const gameNamespace = io.of("/game");
-
 //Event handler para cuando un usuario se conecta
-gameNamespace.on('connection', (socket: any) => {
-  console.log('User connected');
+ws.on("connection", (socket: any) => {
+  console.log("Se conecto un usuario");
+  ws.emit('connection');
+  //ACA YO PONDRIA UN CHECK DE QUE SI LA PARTIDA YA EMPEZO Y ALGUIEN SE CONECTA LE EMITA UN socket.emit('navegar', sala);
+  //PORQUE SI RECARGA LA PAGINA PIERDE EL CONTENIDO ;)
+
   socket.emit('confirmar', jugadores);
 
   socket.on('disconnection', (socket : any) => {
-    jugadores.splice(gameNamespace.id, -1);
-    gameNamespace.emit('confirmar', jugadores);
+    jugadores.splice(socket.id, -1);
+    ws.emit('confirmar', jugadores);
   });
 
   socket.on('entrarSala', (data: string) => {
-    jugadores[gameNamespace.id] = data;
-    gameNamespace.emit('confirmar', jugadores);
-  }
+    jugadores[socket.id] = data;
+    ws.emit('confirmar', jugadores);
+  });
 
-  );
-
-  socket.on('message', (data: any) => {
-    gameNamespace.emit('message', data);
+  socket.on('message', (data: { [key: string]: any }) => {
+    console.log(`Mensaje recibido: ${data}`);
+    ws.broadcast.emit('message', data);
   });
 
   socket.on('crearSala', (data: { [key: string]: any }) =>{
-      sala = {
+    sala = {
       codigoSala: data['crearSala'].codigoSala,
       propuesta: data['crearSala'].propuesta,
       tarjetasSala: data['crearSala'].tarjetasSala,
@@ -60,12 +69,7 @@ gameNamespace.on('connection', (socket: any) => {
   });
 
   socket.on('navegar', (data : any) => {
-    console.log("ME navegaron");
-    
-    setTimeout(() => {
-      console.log("CONFIRMO NAVEGAR");
       socket.emit('navegar', sala);
-    }, 5000);
   });
 });
 
@@ -78,20 +82,21 @@ let sala = {
     jugadores: []
 }
 
-
 // --------------- Conexion a la base de datos --------------- //
 
+/*
 mongoose
   .connect(uri)
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error));
+*/
 
 app.get('/', (req, res) => {
     console.log("Api corriendo")
     res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-});
+httpServer.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
 
