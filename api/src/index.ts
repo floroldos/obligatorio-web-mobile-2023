@@ -1,18 +1,20 @@
 import express from 'express'
-import juegosRouter from './routes/juegos'
-import temasRouter from './routes/temas'
-import actividadesRouter from './routes/actividades'
-import userRouter from './routes/users'
+import juegosRouter from './routes/juegos.router'
+import temasRouter from './routes/temas.router'
+import actividadesRouter from './routes/actividades.router'
+import userRouter from './routes/users.router'
 import mongoose from 'mongoose'
 import { uri } from './enviorment'
 
-//const jwt = require('jsonwebtoken');
 const app = express();
 
 
 // Middleware //
 app.use(express.json())
-app.use('/api', juegosRouter, temasRouter, userRouter, actividadesRouter);
+app.use('/api/user', userRouter);
+app.use('/api/juegos', juegosRouter);
+app.use('/api/tema', temasRouter);
+app.use('/api/actividad', actividadesRouter);
 
 const PORT = 3000;
 
@@ -46,8 +48,8 @@ app.get('/', (req, res) => {
     res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
 });
 
+// --------------- Inicia el servidor --------------- //
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });
-
-

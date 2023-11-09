@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const actividadSchema = new mongoose.Schema({
+
   nombre: {
     type: String,
     required: true
