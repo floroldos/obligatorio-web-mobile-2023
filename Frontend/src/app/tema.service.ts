@@ -8,7 +8,7 @@ export class TemaService {
 
   constructor() { }
 
-  TEMAS: string[] = [];
+  TEMAS: string[] = ['1'];
   @Input() temaContenedor: string = '';
 
   getTemas(): string[] {

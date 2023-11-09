@@ -26,13 +26,20 @@ export class SalaService {
   socket!: Socket;
   url = 'http://localhost:3000/api/juego';
 
-  sala: sala = {
-        codigoSala: -2,
+  private static contenedor: sala;
+
+  public static getSala(): sala {
+    if (!this.contenedor) {
+      this.contenedor = {
+        codigoSala: -1,
         propuesta: '',
         tarjetasSala: [],
-        tarjetaActualSala: {},
+        tarjetaActualSala: 0,
         estadoActual: false,
-        jugadores: []  
+        jugadores: []
+      };
+    }
+    return this.contenedor;
   }
 
   socketConnection() {
@@ -51,7 +58,7 @@ export class SalaService {
       });
     
       this.socket.on('navegar', (data: { [key: string]: any }) => {
-        this.sala = data as sala;
+        this.contenedor = data as sala;
       });
     
       this.socket.on('confirmar', (data: string[]) => {
@@ -66,14 +73,7 @@ export class SalaService {
 
   usuarios: string[] = [];
 
-  @Input() contenedor: sala = {
-    codigoSala: -1,
-    propuesta: '',
-    tarjetasSala: [],
-    tarjetaActualSala: 0,
-    estadoActual: false,
-    jugadores: []
-  };
+  @Input() contenedor: sala = SalaService.getSala();
 
 
   //Funcion para codigo de sala random
