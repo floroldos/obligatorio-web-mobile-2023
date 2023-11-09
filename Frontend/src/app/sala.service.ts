@@ -8,6 +8,7 @@ import { LobbyComponent } from './lobby/lobby.component';
 import { HttpClient } from '@angular/common/http';
 import { SalaComponent } from './sala/sala.component';
 import { io, Socket } from 'socket.io-client';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class SalaService {
   juegoActivo: boolean = false;
   codigoSalaUsuario: number = -1;
   tarjS = new TarjetaService(this.http);
+  loginS = new LoginService(this.router);
   socket!: Socket;
   url = 'http://localhost:3000/api/juego';
 
@@ -69,8 +71,6 @@ export class SalaService {
     });
   }
 
-  @Input() nickname: string = 'mati';
-
   usuarios: string[] = [];
 
   @Input() contenedor: sala = SalaService.getSala();
@@ -104,7 +104,7 @@ export class SalaService {
     if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
       // Falta ver cómo se manejan los usuarios
       this.http.get(this.url);
-      this.socket.emit('entrarSala', this.nickname);
+      this.socket.emit('entrarSala', this.loginS.userName);
 
       this.router.navigate(['../sala']);
     } else {
@@ -141,11 +141,11 @@ seleccionarTarjetas(): tarjeta[]{
 
  // SOCKETS //
   sendMessage(message: string) {
-    this.socket.emit('message', { nickname: this.nickname , message: message });
+    this.socket.emit('message', { nickname: this.loginS.userName , message: message });
   }
 
   setUser(nickname: string) {
-    this.nickname = nickname; 
+    this.loginS.userName = nickname; 
   }
 
   chatMessages: { nickname: string; message: string }[] = [];
