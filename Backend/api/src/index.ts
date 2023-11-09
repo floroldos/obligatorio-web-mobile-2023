@@ -37,9 +37,6 @@ let ws = require('socket.io')(httpServer, {
 ws.on("connection", (socket: any) => {
   console.log("Se conecto un usuario");
   ws.emit('connection');
-  //ACA YO PONDRIA UN CHECK DE QUE SI LA PARTIDA YA EMPEZO Y ALGUIEN SE CONECTA LE EMITA UN socket.emit('navegar', sala);
-  //PORQUE SI RECARGA LA PAGINA PIERDE EL CONTENIDO ;)
-
   socket.emit('confirmar', jugadores);
 
   socket.on('disconnection', (socket : any) => {
@@ -53,7 +50,7 @@ ws.on("connection", (socket: any) => {
   });
 
   socket.on('message', (data: { [key: string]: any }) => {
-    console.log(`Mensaje recibido: ${data}`);
+    console.log('Mensaje recibido: ${data}');
     ws.broadcast.emit('message', data);
   });
 
@@ -68,9 +65,7 @@ ws.on("connection", (socket: any) => {
     }
   });
 
-  socket.on('navegar', (data : any) => {
-      socket.emit('navegar', sala);
-  });
+  socket.emit('salaCreada', sala);
 });
 
 let sala = {
