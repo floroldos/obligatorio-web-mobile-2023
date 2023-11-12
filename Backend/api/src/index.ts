@@ -1,12 +1,12 @@
-import express from 'express'
-import juegosRouter from './routes/juegos'
-import temasRouter from './routes/temas'
-import actividadesRouter from './routes/actividades'
-import userRouter from './routes/users'
-// import mongoose from 'mongoose'
-// import { uri } from './enviorment'
-import { sala } from '../../../Frontend/src/app/sala'
+import express from 'express';
+import juegosRouter from './routes/juegos';
+import temasRouter from './routes/temas';
+import actividadesRouter from './routes/actividades';
+import userRouter from './routes/users';
+import { sala } from '../../../Frontend/src/app/sala';
 import { createServer } from "http";
+import mongoose from 'mongoose';
+import { uri } from './enviorment';
 
 
 //const jwt = require('jsonwebtoken');
@@ -31,7 +31,6 @@ let ws = require('socket.io')(httpServer, {
 /* --------------- SOCKET.IO --------------- */
 
 //Crea un servidor de socket.io
-
 //Crea un namespace de socket.io para el juego
 //Event handler para cuando un usuario se conecta
 ws.on("connection", (socket: any) => {
@@ -79,12 +78,12 @@ let sala = {
 
 // --------------- Conexion a la base de datos --------------- //
 
-/*
+
 mongoose
   .connect(uri)
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error));
-*/
+
 
 app.get('/', (req, res) => {
     console.log("Api corriendo")
