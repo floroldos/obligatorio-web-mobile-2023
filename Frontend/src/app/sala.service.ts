@@ -47,7 +47,7 @@ export class SalaService {
   socketConnection() {
     console.log("Conectando a la basura de websocket");
 
-    this.socket = io('ws://localhost:3000', {
+    this.socket = io('ws://10.13.202.4:3000', {
       transports: ['websocket']
     });
   
@@ -58,7 +58,13 @@ export class SalaService {
         console.log(data);
         this.chatMessages.push(data); 
       });
-    
+
+      this.socket.on('salaCreada', (data:any) => {
+        if(data.codigoSala != -1 ){
+          this.contenedor = data as sala;
+        }
+      });
+
       this.socket.on('confirmar', (data: string[]) => {
         console.log(data);
         this.contenedor.jugadores = data;
@@ -83,7 +89,6 @@ export class SalaService {
       this.contenedor.tarjetasSala = this.seleccionarTarjetas();
       this.socket.emit('crearSala', {'crearSala': this.contenedor});
       this.router.navigate(['../sala']);
-      this.socket.emit('navegar');
     }
     else{
       alert('El juego debe tener un tema');
@@ -93,14 +98,13 @@ export class SalaService {
   inicializarSala(){
     this.juegoActivo = false;
   }
-
   
   unirseAJuego() {
-    if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
+    console.log(this.codigoSalaUsuario);
+    console.log(this.contenedor.codigoSala);
+    if ((this.codigoSalaUsuario === this.contenedor.codigoSala) && (this.codigoSalaUsuario !== -1)) {
       // Falta ver cómo se manejan los usuarios
-      this.http.get(this.url);
-      this.socket.emit('entrarSala', this.loginS.username);
-
+      this.socket.emit('entrarSala', {'entrarSala': this.loginS.username});
       this.router.navigate(['../sala']);
     } else {
       alert("codigo invalido");

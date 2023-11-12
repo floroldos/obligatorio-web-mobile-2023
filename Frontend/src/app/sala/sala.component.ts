@@ -33,9 +33,9 @@ export class SalaComponent {
   }
 
   iniciarJuego() {
-    //Muestra la primera actividad cuando empieza el juego
+  //Muestra la primera actividad cuando empieza el juego
     this.salaService.inicializarSala();
-  }
-
-
+    this.salaService.juegoActivo = true;
+    console.log(this.salaService.contenedor.codigoSala);
+}
 }
