@@ -34,7 +34,7 @@ export class SalaComponent {
 
   iniciarJuego() {
     //Muestra la primera actividad cuando empieza el juego
-    this.salaService.crearSala();
+    this.salaService.inicializarSala();
   }
 
 

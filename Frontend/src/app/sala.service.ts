@@ -24,9 +24,9 @@ export class SalaService {
   juegoActivo: boolean = false;
   codigoSalaUsuario: number = -1;
   tarjS = new TarjetaService(this.http);
-  loginS = new LoginService(this.router);
+  loginS = new LoginService(this.router, this.http);
   socket!: Socket;
-  url = 'http://localhost:3000/api/juego';
+  url = 'http:// 192.168.1.5:3000/api';
 
   private static contenedor: sala;
 
@@ -57,10 +57,6 @@ export class SalaService {
       this.socket.on('message', (data: any) => {
         console.log(data);
         this.chatMessages.push(data); 
-      });
-    
-      this.socket.on('navegar', (data: { [key: string]: any }) => {
-        this.contenedor = data as sala;
       });
     
       this.socket.on('confirmar', (data: string[]) => {
@@ -96,7 +92,6 @@ export class SalaService {
 
   inicializarSala(){
     this.juegoActivo = false;
-    this.socket.emit('navegar', (data: any) =>{});
   }
 
   
@@ -104,7 +99,7 @@ export class SalaService {
     if (this.codigoSalaUsuario == this.contenedor.codigoSala) {
       // Falta ver cómo se manejan los usuarios
       this.http.get(this.url);
-      this.socket.emit('entrarSala', this.loginS.userName);
+      this.socket.emit('entrarSala', this.loginS.username);
 
       this.router.navigate(['../sala']);
     } else {
@@ -141,11 +136,11 @@ seleccionarTarjetas(): tarjeta[]{
 
  // SOCKETS //
   sendMessage(message: string) {
-    this.socket.emit('message', { nickname: this.loginS.userName , message: message });
+    this.socket.emit('message', { nickname: this.loginS.username , message: message });
   }
 
   setUser(nickname: string) {
-    this.loginS.userName = nickname; 
+    this.loginS.username = nickname; 
   }
 
   chatMessages: { nickname: string; message: string }[] = [];
