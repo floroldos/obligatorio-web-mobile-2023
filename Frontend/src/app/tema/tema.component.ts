@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TemaService } from '../tema.service';
+import { SalaService } from '../sala.service';
 import { io, Socket } from 'socket.io-client';
 
 @Component({
@@ -10,8 +11,9 @@ import { io, Socket } from 'socket.io-client';
 
 export class TemaComponent {
   temas: string[] = [];
-  constructor(private listaTemas: TemaService ) { }
+  constructor(private listaTemas: TemaService) { }
 
+  sala = SalaService.getSala();
 
   ngOnInit() : void{
     this.getTemas();
@@ -22,7 +24,7 @@ export class TemaComponent {
   }
 
   addTema(tema: string) {
-    this.listaTemas.addTema(tema);
+      this.listaTemas.addTema(tema);
   }
 
   delTema(tema: string) { 

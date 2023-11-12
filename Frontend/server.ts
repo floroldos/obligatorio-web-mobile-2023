@@ -1,13 +1,13 @@
-import {express} from '../express';
+import * as express from 'express';
 import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-
+import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 const app = express();
+
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/your-database-name', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/your-database-name', { useNewUrlParser: true, useUnifiedTopology: true } as any);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
@@ -26,9 +26,10 @@ app.get('/api/items', async (req, res) => {
     const items = await Item.find({});
     res.json(items);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error as Error).message });
   }
 });
+
 
 app.post('/api/items', async (req, res) => {
   try {
@@ -36,10 +37,12 @@ app.post('/api/items', async (req, res) => {
     const savedItem = await newItem.save();
     res.json(savedItem);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error as Error).message });
   }
 });
 
 const PORT = 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});

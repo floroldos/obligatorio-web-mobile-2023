@@ -67,3 +67,48 @@
   </div>
  </div>
 </section>
+
+<!--modal de aviso - Código inválido -->
+
+<div class="modal" id="modalCodigoInvalido" tabindex="-1" role="dialog" aria-labelledby="modalCodigoInvalidoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+        <h2 class="heading">Código de sala inválido</h2>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button id="okButton" class="btn btn-primary btn-danger" data-bs-dismiss="modal" (click)="this.salaService">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--modal de aviso - Tema ya existe -->
+
+<div class="modal" id="modalTemaExiste" tabindex="-1" role="dialog" aria-labelledby="modalCodigoInvalidoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+        <h2 class="heading">Este tema ya existe</h2>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button id="okButton" class="btn btn-primary btn-danger" data-bs-dismiss="modal" (click)="this.salaService">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--modal de aviso - El juego debe tener un tema -->
+
+<div class="modal" id="modalFaltaTema" tabindex="-1" role="dialog" aria-labelledby="modalCodigoInvalidoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+        <h2 class="heading">El juego debe tener un tema</h2>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button id="okButton" class="btn btn-primary btn-danger" data-bs-dismiss="modal" (click)="this.salaService">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>

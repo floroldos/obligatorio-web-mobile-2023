@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { sala } from '../sala';
 import { SalaService } from '../sala.service';
 import { Router } from '@angular/router';
@@ -13,36 +13,29 @@ import { io, Socket } from 'socket.io-client';
 })
 export class SalaComponent {
   listaSalas: sala[] = [];
-  juegoActivo: false;
-  socket!: Socket;
-  chatMessages: { username: string; message: string }[] = [];
-  username: string = '';
-
+  juegoActivo = false;
   constructor(public salaService: SalaService, private router: Router, private http: HttpClient) {
-    this.juegoActivo = false;
+    
+  }
+
+  ngOnInit(): void {
+    
   }
 
   tarjS: TarjetaService = new TarjetaService(this.http);
 
-ngOnInit(): void {
-  this.socket = io('ws://192.168.1.2:3001/game', { transports: ['websocket'] });
-
-  this.socket.on('message', (data: any) => {
-    console.log(data);
-    this.chatMessages.push(data); 
-  });
-}
-
   sendMessage(message: string) {
-    this.socket.emit('message', { username: this.username, message: message });
+    this.salaService.sendMessage(message);
   }
 
-  setUser(username: string) {
-    this.username = username; 
+  setUser(nickname: string) {
+    this.salaService.setUser(nickname);
   }
 
   iniciarJuego() {
-    //Muestra la primera actividad cuando empieza el juego
-    this.salaService.crearSala();
-  }
+  //Muestra la primera actividad cuando empieza el juego
+    this.salaService.inicializarSala();
+    this.salaService.juegoActivo = true;
+    console.log(this.salaService.contenedor.codigoSala);
+}
 }

@@ -3,7 +3,7 @@
     <div class="sala-content">
       <h1 class="sala-header">¡Bienvenidos a la sala de Mati!</h1>
       <app-tema></app-tema>
-      <h2 class="sala-code">Código de la sala: {{ salaService.contenedor.codigoSala }}</h2>
+      <h2 class="sala-code">Código de la sala: {{ this.salaService.contenedor.codigoSala }}</h2>
       <p class="sala-players">Esperando a los jugadores...</p>
     </div>
     <!-- Botón para admins -->
@@ -14,8 +14,8 @@
     <div class="chat-container">
       <div class="chat-messages">
         <div class="chat-messages">
-          <div class="message" *ngFor="let message of chatMessages">
-            <span class="message-username">{{ message.username }}:</span>
+          <div class="message" *ngFor="let message of this.salaService.chatMessages">
+            <span class="message-username">{{ message.nickname }}:</span>
             <span class="message-text">{{ message.message }}</span>
           </div>
         </div>

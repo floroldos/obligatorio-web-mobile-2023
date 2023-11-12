@@ -4,4 +4,5 @@ export interface sala {
     tarjetasSala: any[];
     tarjetaActualSala: any;
     estadoActual: boolean;
+    jugadores: string[];
 }

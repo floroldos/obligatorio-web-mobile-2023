@@ -8,7 +8,7 @@ export class TemaService {
 
   constructor() { }
 
-  TEMAS: string[] = [];
+  TEMAS: string[] = ['1'];
   @Input() temaContenedor: string = '';
 
   getTemas(): string[] {
@@ -17,10 +17,19 @@ export class TemaService {
   }
 
   addTema(tema: string) {
-    console.log(tema);
-    this.TEMAS.push(tema);
-    this.resetContenedor();
-    //push a webapi
+    if (this.TEMAS.includes(tema)) {
+      const modalElement = document.getElementById('modalTemaExiste');
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+      }
+    }else{
+      console.log(tema);
+      this.TEMAS.push(tema);
+      this.resetContenedor();
+      //push a webapi
+    }
+    
   }
 
   delTema(tema: string) {
