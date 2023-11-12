@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { url } from './enviorment';
 import { Observable } from 'rxjs/internal/Observable';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class LoginService {
   username: string = '';
   email: string = '';
   password: string = '';
-  url = 'http://192.168.1.5:3000/api';
+  url = `${url}/api/user`
 
   constructor(public router: Router, public http: HttpClient) {}
 
