@@ -3,6 +3,7 @@ import { sala } from '../sala';
 import { SalaService } from '../sala.service';
 import  { Router } from '@angular/router';
 import { LoginService } from '../login.service';
+import { SalaComponent } from '../sala/sala.component';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -18,21 +19,22 @@ export class LoginComponent {
 
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService) {}
 
-  login(): void {
-    this.router.navigate(['/lobby']);
+  ngOnInit() : void{
+    
+    this.salaService.updateSala();
   }
 
-  /* login() {
-  const user = { email: this.email, password: this.password };
-  this.userService.login(user).subscribe(
-    data => {
-      this.userService.setToken(data.token);
-      this.router.navigateByUrl('/');
-    },
-    error => {
-      console.log(error);
-    });
-} */
+  login(): void {
+    this.loginService.login(this.username, this.password).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigate(['../lobby']);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
   changeTab(tab: string) {
     this.activeTab = tab;

@@ -9,7 +9,7 @@
     <!-- Botón para admins -->
     <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
 
-    <!-- Chat  -->
+    <!-- Chat -->
     <div class = "chat-main-container">
     <div class="chat-container">
       <div class="chat-messages">
@@ -24,10 +24,11 @@
     </div>
     <div class="chat-input">
       <input type="text" #input placeholder="Escribe un mensaje">
-      <button class="btn btn-primary" (click)="sendMessage(input.value)">Enviar</button>
+      <button class="btn btn-primary" (click)="this.salaService.sendMessage(input.value)">Enviar</button>
     </div>
   </div>
 </div>
+
 <section>
   <div class="voting-time" *ngIf="juegoActivo"> 
     <h2>Voting Time!</h2>

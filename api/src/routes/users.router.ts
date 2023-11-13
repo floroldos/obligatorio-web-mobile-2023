@@ -4,10 +4,9 @@ import { validateToken } from "../utils";
 
 const router = express.Router();
 
-console.log(validateToken, getUsers)
 router.get('/getUsers', validateToken, getUsers );
-router.post('/singUp', validateToken, singUp);
-router.post('/login', validateToken, login);
+router.post('/singUp', singUp);
+router.post('/login', login);
 router.put('/updateUser/:token', validateToken, updateUser);
 router.delete('/deleteUser/:token', validateToken, deleteUser);
 

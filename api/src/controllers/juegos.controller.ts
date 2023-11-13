@@ -25,9 +25,9 @@ const createJuego = async (req: any, res: any) => {
 
 const updateJuego = async (req: any, res: any) => {
     const { id } = req.params;
-    const { propuesta, codigo, estaJugando } = req.body;
+    const { propuesta, codigoSala } = req.body;
     await juegoShema
-        .updateOne({ _id: id }, { $set: { propuesta, codigo, estaJugando } })
+        .updateOne({ _id: id }, { $set: { propuesta, codigoSala } })
         .then((juego: any) => res.json(juego))
         .catch((err: any) => res.json('Error: ' + err));
 }
@@ -40,10 +40,19 @@ const deleteJuego = async (req: any, res: any) => {
         .catch((err: any) => res.json('Error: ' + err));
 }
 
+const deleteAll = async (req: any, res: any) => {
+    await juegoShema
+        .deleteMany({})
+        .then((juego: any) => res.json(juego))
+        .catch((err: any) => res.json('Error: ' + err));
+
+}
+
 export {
     getJuegos,
     getJuegoById,
     createJuego,
     updateJuego,
-    deleteJuego
+    deleteJuego,
+    deleteAll
 }
