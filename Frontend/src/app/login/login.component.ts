@@ -22,6 +22,18 @@ export class LoginComponent {
     this.router.navigate(['/lobby']);
   }
 
+  /* login() {
+  const user = { email: this.email, password: this.password };
+  this.userService.login(user).subscribe(
+    data => {
+      this.userService.setToken(data.token);
+      this.router.navigateByUrl('/');
+    },
+    error => {
+      console.log(error);
+    });
+} */
+
   changeTab(tab: string) {
     this.activeTab = tab;
   }

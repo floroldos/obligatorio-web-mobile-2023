@@ -52,14 +52,14 @@
                   <label class="form-label" for="salacode">Login solo para administradores</label>
                   <hr>
                   <div class="form-outline form-white mb-4">
-                    <input type="name" class="form-control form-control-lg" [(ngModel)]="username"/>
+                    <input type="username" class="form-control form-control-lg" [(ngModel)]="username" required="required"/>
                     <label class="form-label">Usuario</label>
                   </div>
                   <div class="form-outline form-white mb-4">
-                    <input type="password" id="typePassword" class="form-control form-control-lg" [(ngModel)]="password" />
+                    <input type="password" id="typePassword" class="form-control form-control-lg" [(ngModel)]="password" required="required"/>
                     <label class="form-label">Contraseña</label>
                   </div>
-                  <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="this.login()">Iniciar sesión</button>
+                  <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="login()">Iniciar sesión</button>
               </div>
             </div>
           </div>

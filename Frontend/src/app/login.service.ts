@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
+import { url } from './enviorment'; 
 
 
 @Injectable({
@@ -12,11 +13,21 @@ export class LoginService {
   username: string = '';
   email: string = '';
   password: string = '';
-  //url = '${url}/api/user';
+  private url = `${url}/api/login`
+  private authToken: string | null = null;
 
   constructor(public router: Router, public http: HttpClient) {}
 
-  login(username: string, password: string){
-    //HAY QYE AGREGAR EL ENDPOINT EN LA API
+  login(user: string): Observable<any> {
+    return this.http.post(this.url, user);
   }
+
+  setToken(token: string): void {
+    this.authToken = token;
+  }
+
+  getToken(): string | null {
+    return this.authToken;
+  }
+
 }
