@@ -9,12 +9,16 @@ import { HttpClient } from '@angular/common/http';
 import { SalaComponent } from './sala/sala.component';
 import { io, Socket } from 'socket.io-client';
 import { LoginService } from './login.service';
+import { Observable } from 'rxjs';
+import { url } from './enviorment'; 
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class SalaService {
+
+  private url = `${url}/api/juego`; 
   constructor(private router: Router, private http: HttpClient) { 
     console.log("Sala service constructor");
     this.socketConnection();
@@ -26,7 +30,6 @@ export class SalaService {
   tarjS = new TarjetaService(this.http);
   loginS = new LoginService(this.router, this.http);
   socket!: Socket;
-  url = 'http:// 192.168.1.5:3000/api';
 
   private static contenedor: sala;
 
@@ -48,7 +51,7 @@ export class SalaService {
     console.log("Conectando a la basura de websocket");
 
     this.socket = io('ws://10.13.202.4:3000', {
-      transports: ['websocket']
+      transports: ['websocket'] 
     });
   
     this.socket.on('connection', () => {
@@ -58,22 +61,9 @@ export class SalaService {
         console.log(data);
         this.chatMessages.push(data); 
       });
-
-      this.socket.on('salaCreada', (data:any) => {
-        if(data.codigoSala != -1 ){
-          this.contenedor = data as sala;
-        }
-      });
-
-      this.socket.on('confirmar', (data: string[]) => {
-        console.log(data);
-        this.contenedor.jugadores = data;
-      });
       
     });
   }
-
-  usuarios: string[] = [];
 
   @Input() contenedor: sala = SalaService.getSala();
 
@@ -87,12 +77,25 @@ export class SalaService {
     if(this.contenedor.propuesta != ''){
       this.contenedor.codigoSala = this.randomInt();
       this.contenedor.tarjetasSala = this.seleccionarTarjetas();
-      this.socket.emit('crearSala', {'crearSala': this.contenedor});
+      this.http.post(this.url, this.contenedor)  
+      .subscribe(
+        response => {
+          console.log('Respuesta:', response);
+        },
+        error => {
+          console.error('Error creando la sala:', error);
+        }
+      );
+
       this.router.navigate(['../sala']);
     }
     else{
       alert('El juego debe tener un tema');
     }
+  }
+
+  getSala(): Observable<any>{
+    return this.http.get<any>(this.url); 
   }
 
   inicializarSala(){

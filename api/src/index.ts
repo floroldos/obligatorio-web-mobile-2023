@@ -7,12 +7,14 @@ import mongoose from 'mongoose'
 import { uri } from './enviorment'
 
 const app = express();
+const cors = require('cors');
 
 
 // Middleware //
 app.use(express.json())
+app.use(cors());
 app.use('/api/user', userRouter);
-app.use('/api/juegos', juegosRouter);
+app.use('/api/juego', juegosRouter);
 app.use('/api/tema', temasRouter);
 app.use('/api/actividad', actividadesRouter);
 
@@ -41,7 +43,7 @@ socket.on('message', (data: any) => {
 mongoose
   .connect(uri)
   .then(() => console.log('Conectado a MongoDB'))
-  .catch((error: any) => console.error(error));
+  .catch((error: any) => console.error(error)); 
 
 app.get('/', (req, res) => {
     console.log("Api corriendo")

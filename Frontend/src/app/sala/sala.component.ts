@@ -14,12 +14,23 @@ import { io, Socket } from 'socket.io-client';
 export class SalaComponent {
   listaSalas: sala[] = [];
   juegoActivo = false;
-  constructor(public salaService: SalaService, private router: Router, private http: HttpClient) {
-    
+
+  constructor(public salaService: SalaService, private router: Router, private http: HttpClient) {  }
+
+  updateSala(){
+    this.salaService.getSala().subscribe(
+      (data) => {
+        this.salaService.contenedor = data.variable;
+        console.log(this.salaService.contenedor);
+      },
+      (error) => {
+        console.error('Error obteniendo la sala: ', error);
+      }
+    );
   }
 
   ngOnInit(): void {
-    
+    this.updateSala();
   }
 
   tarjS: TarjetaService = new TarjetaService(this.http);
