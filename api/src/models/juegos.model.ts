@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const juegoSchema = new mongoose.Schema({
-  nombre: {
+  propuesta: {
     type: String,
     required: true
   },

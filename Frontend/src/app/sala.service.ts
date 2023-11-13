@@ -18,7 +18,7 @@ import { url } from './enviorment';
 
 export class SalaService {
 
-  private url = `${url}/api/juego`; 
+  private url = `${url}/api/crearJuego`; 
   constructor(private router: Router, private http: HttpClient) { 
     console.log("Sala service constructor");
     this.socketConnection();
@@ -38,10 +38,8 @@ export class SalaService {
       this.contenedor = {
         codigoSala: -1,
         propuesta: '',
-        tarjetasSala: [],
-        tarjetaActualSala: 0,
         estadoActual: false,
-        jugadores: []
+        tarjetasSala: []
       };
     }
     return this.contenedor;
@@ -50,7 +48,7 @@ export class SalaService {
   socketConnection() {
     console.log("Conectando a la basura de websocket");
 
-    this.socket = io('ws://10.13.202.4:3000', {
+    this.socket = io('ws://192.168.1.5:3000', {
       transports: ['websocket'] 
     });
   
@@ -74,18 +72,13 @@ export class SalaService {
   }
 
   crearSala(){
-    if(this.contenedor.propuesta != ''){
+    if(this.contenedor.propuesta !== ''){
       this.contenedor.codigoSala = this.randomInt();
       this.contenedor.tarjetasSala = this.seleccionarTarjetas();
       this.http.post(this.url, this.contenedor)  
-      .subscribe(
-        response => {
-          console.log('Respuesta:', response);
-        },
-        error => {
-          console.error('Error creando la sala:', error);
-        }
-      );
+      .subscribe((data: { [key: string]: any }) => {
+        data['nombre']
+      });
 
       this.router.navigate(['../sala']);
     }
@@ -94,8 +87,16 @@ export class SalaService {
     }
   }
 
-  getSala(): Observable<any>{
-    return this.http.get<any>(this.url); 
+  /* response => {
+          console.log('Respuesta:', response);
+        },
+        error => {
+          console.error('Error creando la sala:', error);
+        
+        } */
+
+  getSala(){
+    return this.http.get(this.url); 
   }
 
   inicializarSala(){
@@ -122,8 +123,8 @@ seleccionarTarjetas(): tarjeta[]{
       }
     }
 
-    let tarjDesordenadaws = this.shuffleArray(this.tarjS.tarjetasPorTema);
-    for(let tarj of tarjDesordenadaws){
+    let tarjDesordenadas = this.shuffleArray(this.tarjS.tarjetasPorTema);
+    for(let tarj of tarjDesordenadas){
       if(this.tarjS.tarjetasSeleccionadas.length < 10){
         this.tarjS.tarjetasSeleccionadas.push(tarj);
       } 

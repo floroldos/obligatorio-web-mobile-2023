@@ -25,9 +25,9 @@ const createJuego = async (req: any, res: any) => {
 
 const updateJuego = async (req: any, res: any) => {
     const { id } = req.params;
-    const { nombre, codigo, estaJugando } = req.body;
+    const { propuesta, codigo, estaJugando } = req.body;
     await juegoShema
-        .updateOne({ _id: id }, { $set: { nombre, codigo, estaJugando } })
+        .updateOne({ _id: id }, { $set: { propuesta, codigo, estaJugando } })
         .then((juego: any) => res.json(juego))
         .catch((err: any) => res.json('Error: ' + err));
 }

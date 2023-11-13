@@ -14,6 +14,10 @@ const actividadSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  puntos: {
+    type: Number,
+    required: true
+  },
   temaId: {
     type: Number,
     required: true

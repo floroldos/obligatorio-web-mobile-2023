@@ -18,15 +18,7 @@ export class SalaComponent {
   constructor(public salaService: SalaService, private router: Router, private http: HttpClient) {  }
 
   updateSala(){
-    this.salaService.getSala().subscribe(
-      (data) => {
-        this.salaService.contenedor = data.variable;
-        console.log(this.salaService.contenedor);
-      },
-      (error) => {
-        console.error('Error obteniendo la sala: ', error);
-      }
-    );
+    this.salaService.getSala();
   }
 
   ngOnInit(): void {

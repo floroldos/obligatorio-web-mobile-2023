@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { tarjeta } from './tarjeta';
 import { Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { url } from './enviorment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 export class TarjetaService {
 
   constructor(private http: HttpClient) { }
+
+  private url_tarjetas = `${url}/api/tarjetas`;
   
   TARJETAS: tarjeta[] = [
     {id: -1,
@@ -59,7 +62,7 @@ export class TarjetaService {
   //Get para obtener las tarjetas de la webapi
   getTarjetas() {
     //get a la webapi
-    const url = 'http://localhost:3000/api/tarjetas';	
+    this.url_tarjetas = `http://${url}:3000/api/tarjetas`;	
     return this.http.get(url);
   }
 

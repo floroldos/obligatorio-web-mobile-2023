@@ -1,12 +1,12 @@
 import express from 'express'
 import { getJuegos, getJuegoById, createJuego, updateJuego, deleteJuego} from "../controllers/juegos.controller";
 
-const router = express.Router()
+const router = express.Router();
 
 // Juego -- -nombre -codigo -estaJugando
 
 // Metodo Post // //Crear juego //
-router.post('/juego', createJuego);
+router.post('/crearJuego', createJuego);
 
 // Metodo Get // // Obtener todos los juegos //
 router.get('/juego', getJuegos);
@@ -20,4 +20,4 @@ router.put('/juego/:id', updateJuego);
 // Metodo Delete // // Eliminar juego //
 router.delete('/juego/:id', deleteJuego);
 
-export default router
+export default router;

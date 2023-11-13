@@ -16,8 +16,7 @@ export class LoginService {
 
   constructor(public router: Router, public http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    console.log('Intentando iniciar sesión para el usuario', username);
-    return this.http.post('${this.url}/login', { username, password }); //HAY QYE AGREGAR EL ENDPOINT EN LA API
+  login(username: string, password: string){
+    //HAY QYE AGREGAR EL ENDPOINT EN LA API
   }
 }
