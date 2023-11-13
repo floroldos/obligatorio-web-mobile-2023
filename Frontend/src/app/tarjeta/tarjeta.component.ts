@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TarjetaService } from '../tarjeta.service';
 import { tarjeta } from '../tarjeta';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tarjeta',
@@ -10,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TarjetaComponent{
 
-  listaTarjetas: any;
+  listaTarjetas: tarjeta[] = this.tarjetaService.TARJETAS;
 
 //la_mama_de_ana_she
   tarjeta: tarjeta = {
@@ -24,10 +23,8 @@ export class TarjetaComponent{
   constructor(public tarjetaService: TarjetaService) { }
 
   ngOnInit() : void{
-    this.tarjetaService.getTarjetas().subscribe((data) => {
-      this.listaTarjetas = data;
-      console.log(this.listaTarjetas);
-    });
+    this.tarjetaService.tarjetaActual = 0;
+    this.tarjetaService.cambiarTarjeta();
     this.tarjetaTemporizador();
   }
 
@@ -61,7 +58,7 @@ export class TarjetaComponent{
     this.tarjetaService.cambiarTarjeta(); // Inicia el primer cambio de tarjeta
   }
 
-cambiarTarjeta() {
+  cambiarTarjeta() {
     this.tarjetaService.cambiarTarjeta();
   }
   

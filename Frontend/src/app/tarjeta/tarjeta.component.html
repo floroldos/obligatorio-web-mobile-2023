@@ -1,5 +1,5 @@
 <div class="card-card">
-    <h3 class="card-title">{{ listaTarjetas[this.tarjetaService.tarjetaActual].nombre }}</h3>
+    <h2 class="card-title">{{ listaTarjetas[this.tarjetaService.tarjetaActual].nombre }}</h2>
     <p class="card-description">{{ listaTarjetas[this.tarjetaService.tarjetaActual].descripcion }}</p>
     <img class="card-image" src="{{ listaTarjetas[this.tarjetaService.tarjetaActual].imagen }}" alt="Imagen de la tarjeta">
     <div class="vote-buttons" *ngIf="!this.tarjetaService.votoEnviado && !this.tarjetaService.mostrarPuntaje">
@@ -25,5 +25,6 @@
     </div>
 </div>
 
-
 <router-outlet> </router-outlet>
+
+

@@ -8,10 +8,6 @@ const juegoSchema = new mongoose.Schema({
   codigo: {
     type: Number,
     required: true
-  },
-  estaJugando: {
-    type: Boolean,
-    required: true
   }
 });
 

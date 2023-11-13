@@ -14,19 +14,23 @@ export class TarjetaService {
   private url_tarjetas = `${url}/api/tarjetas`;
   
   TARJETAS: tarjeta[] = [
-    {id: -1,
+    {
+      id: -1,
       nombre: 'miamsi',
       descripcion: 'aaa',
       imagen: 'assets/img.png',
       puntos: 0,
-      tema: 'el pepe'},
-
-    {id: -1,
+      tema: 'el pepe'
+    },
+    {
+      id: 1,
       nombre: 'pepe',
       descripcion: 'asdasdasd',
       imagen: 'assets/img.png',
       puntos: 0,
-      tema: 'el pepe'},
+      tema: 'el pepe'
+    }
+
   ];
 
   tarjetasPorTema: tarjeta[] = [];
@@ -47,10 +51,10 @@ export class TarjetaService {
     descripcion: '',
     imagen: '',
     puntos: 0,
-    tema: ''};
+    tema: ''}
+    ;
 
   ngOnInit() : void{
-    this.getTarjetas();
     this.tarjetaTemporizador();
   }
   
@@ -59,16 +63,9 @@ export class TarjetaService {
     clearTimeout(this.cambio);
   }
    
-  //Get para obtener las tarjetas de la webapi
-  getTarjetas() {
-    //get a la webapi
-    this.url_tarjetas = `http://${url}:3000/api/tarjetas`;	
-    return this.http.get(url);
-  }
-
   //Para agregar tarjetas a la lista de tarjetas existentes
   agregarTarjeta(tarj: tarjeta){
-    console.log(tarj.nombre)
+    console.log(tarj.nombre);
     tarj.id = this.id;
     this.id ++;
     this.TARJETAS.push(tarj);
@@ -102,7 +99,7 @@ export class TarjetaService {
   //Función para cambiar la tarjeta cada 20 segundos
   cambiarTarjeta() {
     this.cambio = setTimeout(() => {
-      if(this.tarjetaActual < this.tarjetasSeleccionadas.length - 1){
+      if(this.tarjetaActual < this.TARJETAS.length - 1){
         this.tarjetaActual++;
       } else {
         this.finalizarVotacion(); // Llama a finalizarVotacion al final de las tarjetas
