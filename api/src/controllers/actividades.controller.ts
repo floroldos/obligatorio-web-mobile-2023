@@ -27,7 +27,7 @@ const updateActividad = async (req: any, res: any) => {
     const {id} = req.params;
     const {nombre, descripcion, imagen, temaId, puntos} = req.body;
     await actividadSchema
-        .updateOne({_id: id}, {$set: {nombre, descripcion, imagen, temaId, puntos}})
+        .updateOne({_id: id}, {$set: {nombre, descripcion, imagen, puntos, temaId}})
         .then((actividad: any) => res.json(actividad))
         .catch((err: any) => res.json('Error: ' + err));
 }

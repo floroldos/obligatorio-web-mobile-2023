@@ -1,5 +1,5 @@
 import express from 'express'
-import { getJuegos, getJuegoById, createJuego, updateJuego, deleteJuego} from "../controllers/juegos.controller";
+import { getJuegos, getJuegoById, createJuego, updateJuego, deleteJuego, deleteAll} from "../controllers/juegos.controller";
 
 const router = express.Router();
 
@@ -19,5 +19,7 @@ router.put('/juego/:id', updateJuego);
 
 // Metodo Delete // // Eliminar juego //
 router.delete('/juego/:id', deleteJuego);
+
+router.delete('/juego', deleteAll)
 
 export default router;

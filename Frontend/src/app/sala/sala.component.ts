@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
 import { io, Socket } from 'socket.io-client';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-sala',
@@ -15,10 +16,10 @@ export class SalaComponent {
   listaSalas: sala[] = [];
   juegoActivo = false;
 
-  constructor(public salaService: SalaService, private router: Router, private http: HttpClient) {  }
+  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService) {  }
 
   updateSala(){
-    this.salaService.getSala();
+    this.salaService.updateSala();
   }
 
   ngOnInit(): void {
@@ -26,10 +27,6 @@ export class SalaComponent {
   }
 
   tarjS: TarjetaService = new TarjetaService(this.http);
-
-  sendMessage(message: string) {
-    this.salaService.sendMessage(message);
-  }
 
   setUser(nickname: string) {
     this.salaService.setUser(nickname);

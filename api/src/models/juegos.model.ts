@@ -5,7 +5,7 @@ const juegoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  codigo: {
+  codigoSala: {
     type: Number,
     required: true
   }

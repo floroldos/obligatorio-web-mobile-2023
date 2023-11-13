@@ -11,9 +11,7 @@ import { io, Socket } from 'socket.io-client';
 
 export class TemaComponent {
   temas: string[] = [];
-  constructor(private listaTemas: TemaService) { }
-
-  sala = SalaService.getSala();
+  constructor(private listaTemas: TemaService, public salaService: SalaService) { }
 
   ngOnInit() : void{
     this.getTemas();

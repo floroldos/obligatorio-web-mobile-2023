@@ -14,9 +14,9 @@ const cors = require('cors');
 app.use(express.json())
 app.use(cors());
 app.use('/api/user', userRouter);
-app.use('/api/juego', juegosRouter);
-app.use('/api/tema', temasRouter);
-app.use('/api/actividad', actividadesRouter);
+app.use('/api', juegosRouter);
+app.use('/api', temasRouter);
+app.use('/api', actividadesRouter);
 
 const PORT = 3000;
 
@@ -45,6 +45,8 @@ mongoose
   .then(() => console.log('Conectado a MongoDB'))
   .catch((error: any) => console.error(error)); 
 
+
+// --------------- Info de la api --------------- //
 app.get('/', (req, res) => {
     console.log("Api corriendo")
     res.send('Api Obligatorio Desarrollo Web y Mobile 2023')
