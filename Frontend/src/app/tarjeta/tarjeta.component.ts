@@ -25,7 +25,6 @@ export class TarjetaComponent{
   ngOnInit() : void{
     this.tarjetaService.tarjetaActual = 0;
     this.tarjetaService.cambiarTarjeta();
-    this.tarjetaTemporizador();
   }
 
   ngOnDestroy() {
@@ -54,19 +53,17 @@ export class TarjetaComponent{
     this.tarjetaService.restarPuntos(tarj);
   }
 
-  tarjetaTemporizador() {
-    this.tarjetaService.cambiarTarjeta(); // Inicia el primer cambio de tarjeta
-  }
-
   cambiarTarjeta() {
     this.tarjetaService.cambiarTarjeta();
   }
   
-calcularTarjetaMasVotada() {
- this.tarjetaService.calcularTarjetaMasVotada();
-}
+  calcularTarjetaMasVotada() {
+  this.tarjetaService.calcularTarjetaMasVotada();
+  }
 
-finalizarVotacion() {
-  this.tarjetaService.finalizarVotacion();
-}
+  finalizarVotacion() {
+    this.tarjetaService.finalizarVotacion();
+  }
+
+  
 }

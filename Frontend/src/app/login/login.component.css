@@ -1,5 +1,4 @@
 .gradient-custom {    
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, rgb(63, 63, 88), rgb(26, 34, 55));
     min-height: 93vh;
 }
@@ -28,11 +27,65 @@
 #recuadro {
     border-radius: 0px 0px 10px 10px;
     height: 28em;
-    box-shadow: 0px 30px 98px 10px rgba(46,91,255,0.9);
+    box-shadow: 0px 10px 98px 1px rgba(46,91,255,0.9);
 }
 
 #recuadro-2 {
     border-radius: 0px 0px 10px 10px;
-    height: 30em;
-    box-shadow: 0px 30px 98px 10px rgba(46,91,255,0.9);
+    height: 31em;
+    box-shadow: 0px 10px 98px 1px rgba(46,91,255,0.9);
 }
+
+/*boton login*/
+.btnlogin-hover, .btnunirse-hover {
+    width: 160px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  .btnlogin-hover:hover, .btnunirse-hover:hover {
+    background-position: 100% 0;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  .btnlogin-hover:focus, .btnunirse-hover.bn25:focus {
+    outline: none;
+  }
+  
+  .btnlogin-hover.bn26 {
+    background-image: linear-gradient(
+      to right,
+      #268cb8,
+      #3768bc,
+      #0286b1,
+      #3065b4
+    );
+    box-shadow: 0 4px 15px 0 rgba(27, 97, 129, 0.75);
+  }
+
+  /*boton unirse*/
+  
+  .btnunirse-hover.bn25 {
+    background-image: linear-gradient(
+      to right,
+      rgb(116, 117, 141),
+      rgb(43, 73, 118),
+      #2b5876,
+      #4e4376
+    );
+    box-shadow: 0 4px 15px 0 rgba(64, 88, 117, 0.75);
+  }
+
+  /*css de botones tomado de https://cssbuttons.app*/

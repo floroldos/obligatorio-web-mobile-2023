@@ -26,7 +26,7 @@
                   <label id="codigo" class="form-label" for="salacode">Código único de la sala</label>
                   <input id="salacode" class="form-control form-control-lg" />
                 </div>
-                <button class="btn btn-outline-light btn-lg px-5" (click)="this.salaService.unirseAJuego()">Unirse</button>
+                <button class="btnunirse-hover bn25" (click)="this.salaService.unirseAJuego()">Unirse</button>
             </div>
           </div>
         </div>
@@ -52,20 +52,20 @@
                   <label class="form-label" for="salacode">Login solo para administradores</label>
                   <hr>
                   <div class="form-outline form-white mb-4">
-                    <input type="username" class="form-control form-control-lg" [(ngModel)]="username" required="required"/>
                     <label class="form-label">Usuario</label>
+                    <input type="username" class="form-control form-control-lg" [(ngModel)]="username" required="required"/>
                   </div>
                   <div class="form-outline form-white mb-4">
-                    <input type="password" id="typePassword" class="form-control form-control-lg" [(ngModel)]="password" required="required"/>
                     <label class="form-label">Contraseña</label>
+                    <input type="password" id="typePassword" class="form-control form-control-lg" [(ngModel)]="password" required="required"/>
                   </div>
-                  <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="login()">Iniciar sesión</button>
+                  <button class="btnlogin-hover bn26" id="boton-login" type="submit" (click)="login()">Iniciar sesión</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
+    </div>
   
   </section>
   

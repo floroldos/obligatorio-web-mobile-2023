@@ -16,7 +16,7 @@ export class SalaComponent {
   listaSalas: sala[] = [];
   juegoActivo = false;
 
-  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService) {  }
+  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) {  }
 
   updateSala(){
     this.salaService.updateSala();
@@ -25,8 +25,6 @@ export class SalaComponent {
   ngOnInit(): void {
     this.updateSala();
   }
-
-  tarjS: TarjetaService = new TarjetaService(this.http);
 
   setUser(nickname: string) {
     this.salaService.setUser(nickname);
@@ -37,5 +35,6 @@ export class SalaComponent {
     this.salaService.inicializarSala();
     this.salaService.juegoActivo = true;
     console.log(this.salaService.contenedor.codigoSala);
+    this.router.navigate(['../tarjeta']);
 }
 }

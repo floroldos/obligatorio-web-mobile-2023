@@ -4,7 +4,7 @@ import { getActividad, getActividadById, createActividad, updateActividad, delet
 const router = express.Router()
 
 // Metodo Post // //Crear actividad //
-router.post('/actividad', createActividad);
+router.post('/crearActividad', createActividad);
 
 // Metodo Get // // Obtener todas las actividades //
 router.get('/actividad', getActividad);
@@ -18,4 +18,4 @@ router.put('/actividad/:id', updateActividad);
 // Metodo Delete // // Eliminar actividad //
 router.delete('/actividad/:id', deleteActividad);
 
-export default router
+export default router;
