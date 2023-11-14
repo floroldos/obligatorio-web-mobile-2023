@@ -20,18 +20,22 @@ export class LoginComponent {
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService) {}
 
   ngOnInit() : void{
-    
+
     this.salaService.updateSala();
   }
 
   login(): void {
     this.loginService.login(this.username, this.password).subscribe(
-      (response) => {
-        console.log(response);
-        this.router.navigate(['../lobby']);
+      (loginSuccessful) => {
+        if (loginSuccessful) {
+          console.log('Inicio de sesión exitoso')
+          this.router.navigate(['../lobby']);
+        } else {
+          console.error('Inicio de sesión fallido. Verifica tus credenciales.');
+        }
       },
       (error) => {
-        console.error(error);
+        console.error('Error durante el inicio de sesión:', error);
       }
     );
   }
