@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 
 export class LobbyComponent {
   constructor(private router: Router, private http: HttpClient) { }
+  
   temaS = new TemaService();
   tarjS = new TarjetaService(this.http);
   salaService = new SalaService(this.router, this.http);
