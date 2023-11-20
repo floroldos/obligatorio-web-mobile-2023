@@ -32,6 +32,7 @@ export class SalaComponent implements OnInit {
   ngOnInit() {
     this.salaService.codigoSalaUsuario = this.salaService.contenedor.codigoSala;
     this.updateSala();
+    this.salaService.socket.emit('jugadores');
     this.updateJugadores();
     this.salaService.getMessages((message: { user: string, message: string }) => {
       this.messageList.push(`${message.user}: ${message.message}`);
@@ -52,6 +53,7 @@ export class SalaComponent implements OnInit {
     this.salaService.inicializarSala();
     this.salaService.juegoActivo = true;
     console.log(this.salaService.contenedor.codigoSala);
+    this.salaService.socket.emit('empezar');
     this.router.navigate(['../tarjeta']);
   }
 }

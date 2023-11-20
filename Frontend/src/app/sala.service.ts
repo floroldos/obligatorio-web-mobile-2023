@@ -121,6 +121,10 @@ export class SalaService {
         this.jugadores = data['jugadores'];
         console.log(this.jugadores);
       });
+
+      this.socket.on('empezar', () =>{
+        this.router.navigate(['../tarjeta']);
+      })
     });
   }
   
@@ -178,7 +182,6 @@ export class SalaService {
         this.tarjS.tarjetasPorTema.push(tarjeta);
       }
     }
-
     let tarjDesordenadas = this.shuffleArray(this.tarjS.tarjetasPorTema);
     for (let tarj of tarjDesordenadas) {
       if (this.tarjS.tarjetasSeleccionadas.length < 10) {
