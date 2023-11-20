@@ -8,6 +8,10 @@ const juegoSchema = new mongoose.Schema({
   codigoSala: {
     type: Number,
     required: true
+  },
+  jugadores: {
+    type: String,
+    required: true
   }
 });
 

@@ -6,7 +6,6 @@ import { tarjeta } from './tarjeta';
 import { HttpClient } from '@angular/common/http';
 import { io, Socket } from 'socket.io-client';
 import { LoginService } from './login.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { url } from './enviorment';
 
 
