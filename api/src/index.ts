@@ -27,16 +27,13 @@ const PORT = 3000;
 //Crea un servidor de socket.io
 const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
 
-//Crea un namespace de socket.io para el juego
-const gameNamespace = io.of("/game");
-
 //Event handler para cuando un usuario se conecta
-gameNamespace.on('connection', (socket: any) => {
+io.on('connection', (socket: any) => {
   console.log('User connected');
-
+  
 //Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
 socket.on('message', (data: any) => {
-    gameNamespace.emit('message', data);
+    io.emit('message', data);
   });
 });
 

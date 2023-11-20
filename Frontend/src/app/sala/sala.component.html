@@ -6,7 +6,8 @@
       <h2 class="sala-code">Código de la sala: {{ this.salaService.contenedor.codigoSala }}</h2>
       <p class="sala-players">Esperando a los jugadores...</p>
     </div>
-      <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
+      <button (click)="iniciarJuego()" class="btn-iniciar" >Iniciar Partida</button>
+      <!--*ngIf = "loginService.username === 'admin'"-->
     <div class = "sala-users">
      <div id="user-list" class="ol-12 col-md-8 col-lg-6 col-xl-5">
       <h3> Jugadores conectados: </h3>

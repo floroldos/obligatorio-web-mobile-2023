@@ -62,7 +62,6 @@ export class SalaService {
     this.socket.on('connect', () => {
       console.log('websocket conectado!');
     });
-
   }
 
   @Input() contenedor: sala = SalaService.getSala();
@@ -117,6 +116,7 @@ export class SalaService {
 
   updateJugadores() {
     this.socket.on('connect', () => {
+      console.log('se conecto alguien!');
       this.getJugadores().subscribe((data: any) => {
         this.jugadores = data['jugadores'];
         console.log(this.jugadores);
