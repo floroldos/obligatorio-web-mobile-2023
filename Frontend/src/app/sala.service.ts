@@ -67,7 +67,6 @@ export class SalaService {
 
   @Input() contenedor: sala = SalaService.getSala();
 
-
   //Funcion para codigo de sala random
   randomInt() {
     return Math.floor(Math.random() * (1001));
@@ -116,15 +115,15 @@ export class SalaService {
     return this.http.get(this.urlGetJugadores);
   }
 
-  updateJugadores(){
-    this.socket.on('jugadores', () => {
-      let observable = this.getJugadores();
-      observable.subscribe((data:any) => {
+  updateJugadores() {
+    this.socket.on('connect', () => {
+      this.getJugadores().subscribe((data: any) => {
         this.jugadores = data['jugadores'];
         console.log(this.jugadores);
-      })
-    }); 
+      });
+    });
   }
+  
   
   updateSala() {
     let observable = this.getJuego();
