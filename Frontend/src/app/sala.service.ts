@@ -121,10 +121,6 @@ export class SalaService {
         this.jugadores = data['jugadores'];
         console.log(this.jugadores);
       });
-
-      this.socket.on('empezar', () =>{
-        this.router.navigate(['../tarjeta']);
-      })
     });
   }
   
@@ -214,6 +210,12 @@ export class SalaService {
 
 
   // SOCKETS //
+  navegar(){
+    this.socket.on('navegar', (data: any) =>{
+      this.router.navigate([data]);
+    });
+  }
+  
  
   sendMessageSocket(message: string) {
     this.socket.emit('send-message', { user: this.loginS.username, message: message });

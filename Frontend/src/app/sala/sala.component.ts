@@ -32,11 +32,17 @@ export class SalaComponent implements OnInit {
   ngOnInit() {
     this.salaService.codigoSalaUsuario = this.salaService.contenedor.codigoSala;
     this.updateSala();
-    this.salaService.socket.emit('jugadores');
     this.updateJugadores();
+    this.salaService.socket.emit('jugadores');
     this.salaService.getMessages((message: { user: string, message: string }) => {
       this.messageList.push(`${message.user}: ${message.message}`);
     });
+
+    this.salaService.socket.on('empezar', () =>{
+      console.log('Empieza');
+      this.salaService.socket.emit('navegar', '../tarjeta');
+      this.router.navigate(['../tarjeta']);
+    })
   }
 
   sendMessage() {
