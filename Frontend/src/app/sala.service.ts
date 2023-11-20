@@ -149,26 +149,32 @@ export class SalaService {
     this.juegoActivo = false;
   }
 
- async unirseAJuego() {
+  async unirseAJuego() {
     let element = document.getElementById('salacode') as HTMLInputElement;
     let nicknameInput = document.getElementById('nickname') as HTMLInputElement;
-    if(element){
-      this.nickname = nicknameInput.value;
+  
+    if (element && nicknameInput) {
       let codigo = parseInt(element.value);
-      if(typeof(codigo) === 'number'){
+  
+      if (isNaN(codigo) || codigo <= 0) {
+        alert("El código de sala debe ser un número positivo");
+      } else {
+        this.nickname = nicknameInput.value;
         this.codigoSalaUsuario = codigo;
+  
         await this.updateSala();
-        console.log('pepe');
-        await this.agregarJugador();
+  
+        if (this.contenedor.codigoSala === codigo) {
+          await this.agregarJugador();
+        } else {
+          alert("La sala con el código proporcionado no existe");
+        }
       }
-      else{
-        alert("El codigo debe ser un numero");
-      }
-    }
-    else{
+    } else {
       alert("Ingrese un código y un nickname");
     }
   }
+  
 
   seleccionarTarjetas(): tarjeta[] {
     let tema = this.contenedor.propuesta;
