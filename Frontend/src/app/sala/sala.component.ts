@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { sala } from '../sala';
 import { SalaService } from '../sala.service';
 import { Router } from '@angular/router';
 import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
-import { io, Socket } from 'socket.io-client';
+import * as io from 'socket.io-client';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -12,18 +12,29 @@ import { LoginService } from '../login.service';
   templateUrl: './sala.component.html',
   styleUrls: ['./sala.component.css']
 })
-export class SalaComponent {
+
+export class SalaComponent implements OnInit {
   listaSalas: sala[] = [];
   juegoActivo = false;
+  newMessage = '';
+  messageList: string[] = [];
 
   constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) {  }
 
   updateSala(){
     this.salaService.updateSala();
   }
+  
+  ngOnInit() {
+    this.updateSala();  
+    this.salaService.getMessages((message: { user: string, message: string }) => {
+      this.messageList.push(`${message.user}: ${message.message}`);
+    });
+  }
 
-  ngOnInit(): void {
-    this.updateSala();
+  sendMessage() {
+    this.salaService.sendMessage(this.newMessage);
+    this.newMessage = '';
   }
 
   setUser(nickname: string) {

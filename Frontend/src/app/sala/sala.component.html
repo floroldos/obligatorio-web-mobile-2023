@@ -9,23 +9,23 @@
     <!-- Botón para admins -->
     <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
 
-    <!-- Chat -->
-    <div class = "chat-main-container">
-    <div class="chat-container">
-      <div class="chat-messages">
-        <div class="chat-messages">
-          <div class="message" *ngFor="let message of this.salaService.chatMessages">
-            <span class="message-username">{{ message.nickname }}:</span>
-            <span class="message-text">{{ message.message }}</span>
-          </div>
-        </div>
-      </div>
-      <hr>
+  <!-- Chat -->
+<div class="chat-main-container">
+  <div class="chat-container">
+    <div class="chat-messages">
+      <ul>
+        <li>pepe</li>
+        <li *ngFor="let newMessage of messageList"> {{ newMessage }}</li>
+      </ul>
     </div>
+    <hr>
     <div class="chat-input">
-      <input type="text" #input placeholder="Escribe un mensaje">
-      <button class="btn btn-primary" (click)="this.salaService.sendMessage(input.value)">Enviar</button>
+      <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje">
+      <button class="btn btn-primary" (click)="sendMessage()">Enviar</button>
     </div>
   </div>
+</div>
+<!-- Fin Chat -->
+
 </div>
 </main>

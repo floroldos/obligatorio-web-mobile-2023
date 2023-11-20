@@ -1,16 +1,14 @@
 import { Injectable, Input, ViewChild } from '@angular/core';
 import { sala } from './sala';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { TarjetaService } from './tarjeta.service';
 import { tarjeta } from './tarjeta';
-import { TarjetaComponent } from './tarjeta/tarjeta.component';
-import { LobbyComponent } from './lobby/lobby.component';
 import { HttpClient } from '@angular/common/http';
-import { SalaComponent } from './sala/sala.component';
 import { io, Socket } from 'socket.io-client';
 import { LoginService } from './login.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { url } from './enviorment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -47,21 +45,18 @@ export class SalaService {
   }
 
   socketConnection() {
-    console.log("Conectando a los websocket");
-
-    this.socket = io('ws://192.168.63:3000', {
+    console.log("Conectando websocket");
+  
+    const socketUrl = `ws://127.0.0.1:3001`;
+  
+    this.socket = io(socketUrl, {
       transports: ['websocket']
     });
-
-    this.socket.on('connection', () => {
-      console.log('Conectado al websocket');
-
-      this.socket.on('message', (data: any) => {
-        console.log(data);
-        this.chatMessages.push(data);
-      });
-
+  
+    this.socket.on('connect', () => {
+      console.log('websocket conectado!');
     });
+
   }
 
   @Input() contenedor: sala = SalaService.getSala();
@@ -84,7 +79,7 @@ export class SalaService {
   }
 
   resetSala(id: string){
-    this.http.delete('${this.urlGet}+/${id}');
+    this.http.delete(`${this.urlGet}+/${id}`);
   }
 
   crearSala() {
@@ -107,31 +102,26 @@ export class SalaService {
     }
   }
 
-  /* response => {
-          console.log('Respuesta:', response);
-        },
-        error => {
-          console.error('Error creando la sala:', error);
-        
-        } */
-
   getJuego() {
     return this.http.get<sala>(this.urlGet);
   }
 
-
   updateSala() {
     let observable = this.getJuego();
     observable.subscribe((data: any) => {
-      this.contenedor = data[0];
-      console.log(this.codigoSalaUsuario);
-      console.log(this.contenedor.codigoSala);
-      if (this.codigoSalaUsuario === this.contenedor.codigoSala) {
-        // Falta ver cómo se manejan los usuarios
-        this.socket.emit('entrarSala', { 'entrarSala': this.loginS.username });
-        this.router.navigate(['../sala']);
+      if (data && data.length > 0) {
+        this.contenedor = data[0];
+        console.log(this.codigoSalaUsuario);
+        console.log(this.contenedor.codigoSala);
+        if (this.codigoSalaUsuario === this.contenedor.codigoSala) {
+          // Falta ver cómo se manejan los usuarios
+          this.socket.emit('entrarSala', { 'entrarSala': this.loginS.username });
+          this.router.navigate(['../sala']);
+        } else {
+          alert("codigo invalido");
+        }
       } else {
-        alert("codigo invalido");
+        console.error("No se recibieron datos");
       }
     });
   }
@@ -186,14 +176,24 @@ export class SalaService {
   }
 
   // SOCKETS //
+ 
   sendMessage(message: string) {
-    this.socket.emit('message', { nickname: this.loginS.username, message: message });
+    this.socket.emit('send-message', { user: this.loginS.username, message: message });
+  }
+  
+  getMessages(callback: (data: { user: string, message: string }) => void) {
+    this.socket.on('receive-message', (data) => {
+      callback(data);
+    });
+  
+    return () => {
+      this.socket.disconnect();
+    };
   }
 
   setUser(nickname: string) {
     this.loginS.username = nickname;
   }
 
-  chatMessages: { nickname: string; message: string }[] = [];
 }
 
