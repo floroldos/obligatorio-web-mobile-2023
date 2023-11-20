@@ -1,34 +1,37 @@
 <main>
   <div class="sala-body">
-    <div class="sala-content">
-      <h1 class="sala-header">¡Bienvenidos a la sala de Mati!</h1>
+    <div class="container sala-content">
+      <h1 class="sala-header">¡Bienvenido, {{this.salaService.getUsername()}}, a la sala de Mati!</h1>
       <app-tema></app-tema>
       <h2 class="sala-code">Código de la sala: {{ this.salaService.contenedor.codigoSala }}</h2>
       <p class="sala-players">Esperando a los jugadores...</p>
-    </div>
-      <button (click)="iniciarJuego()" class="btn-iniciar" >Iniciar Partida</button>
-      <!--*ngIf = "loginService.username === 'admin'"-->
-    <div class = "sala-users">
-     <div id="user-list" class="ol-12 col-md-8 col-lg-6 col-xl-5">
-      <h3> Jugadores conectados: </h3>
-      <p *ngFor="let jugador of salaService.jugadores">{{ jugador }}</p>
-  <!-- Chat -->
-        <div class="chat-main-container">
-          <div class="chat-container">
-            <div class="chat-messages">
-              <ul>
-                <label *ngFor="let m of messageList"> {{ m }}</label>
-              </ul>
+      <button (click)="iniciarJuego()" class="btn btn-iniciar">Iniciar Partida</button>
+      <!-- *ngIf="loginService.username === 'admin'" -->
+      <div class="sala-users">
+        <div class="col-xl-3 col-3 mx-auto" id="titulo">
+          <span class = "conectados">Jugadores conectados:</span>
+            <div id="user-list" >
+              <p *ngFor="let jugador of salaService.jugadores">{{ jugador }}</p>
             </div>
-            <hr>
-            <div class="chat-input" id="chat-input">
-              <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje">
-              <button class="btn btn-primary" (click)="sendMessage()" id="message-input">Enviar</button>
-            </div>
+        </div>
+      </div>
+
+      <!-- Chat -->
+      <div class="chat-main-container">
+        <div class="chat-container">
+          <div class="chat-messages">
+            <ul>
+              <li *ngFor="let m of messageList">{{ m }}</li>
+            </ul>
+          </div>
+          <hr>
+          <div class="chat-input" id="chat-input">
+            <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje">
+            <button class="btn btn-primary" (click)="sendMessage()" id="message-input">Enviar</button>
           </div>
         </div>
+      </div>
       <!-- Fin Chat -->
     </div>
   </div>
-</div>
 </main>

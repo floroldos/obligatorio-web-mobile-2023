@@ -18,7 +18,7 @@ const deleteJugador = (req: any, res: any) => {
 }
 
 const deleteAllJugadores = async (req: any, res: any) => {
-    await jugadores.splice(0, jugadores.length);
+    jugadores.splice(0, jugadores.length);
 }
 
 const postJugadores = async (req: any, res: any) => {

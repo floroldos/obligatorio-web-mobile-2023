@@ -33,8 +33,8 @@ export class SalaService {
   tarjS = new TarjetaService(this.http);
   loginS = new LoginService(this.router, this.http);
   socket!: Socket;
-  nickname: string = '';
   jugadores: string[] = [];
+  nickname: any;
 
   private static contenedor: sala;
 
@@ -123,7 +123,6 @@ export class SalaService {
       });
     });
   }
-  
   
   updateSala() {
     let observable = this.getJuego();
@@ -216,7 +215,6 @@ export class SalaService {
     });
   }
   
- 
   sendMessageSocket(message: string) {
     this.socket.emit('send-message', { user: this.loginS.username, message: message });
   }
@@ -232,8 +230,12 @@ export class SalaService {
   }
 
   setUser(nickname: string) {
-    this.loginS.username = nickname;
+    localStorage.setItem('username', nickname);
   }
+
+  getUsername(): string | null {
+    return localStorage.getItem('username');
+  }  
 
 }
 

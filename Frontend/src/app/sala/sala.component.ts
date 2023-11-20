@@ -18,6 +18,8 @@ export class SalaComponent implements OnInit {
   juegoActivo = false;
   newMessage = '';
   messageList: string[] = [];
+  countdown = 0;
+
 
   constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) {  }
 
@@ -42,7 +44,7 @@ export class SalaComponent implements OnInit {
       console.log('Empieza');
       this.salaService.socket.emit('navegar', '../tarjeta');
       this.router.navigate(['../tarjeta']);
-    })
+    });
   }
 
   sendMessage() {
@@ -60,6 +62,15 @@ export class SalaComponent implements OnInit {
     this.salaService.juegoActivo = true;
     console.log(this.salaService.contenedor.codigoSala);
     this.salaService.socket.emit('empezar');
-    this.router.navigate(['../tarjeta']);
+    let countdown = 5; 
+    const countdownInterval = setInterval(() => {
+      console.log(countdown); 
+      countdown--;
+
+      if (countdown === 0) {
+        clearInterval(countdownInterval); 
+        this.router.navigate(['../tarjeta']); 
+      }
+    }, 1000);
   }
 }
