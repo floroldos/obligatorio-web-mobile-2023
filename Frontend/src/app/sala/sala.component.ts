@@ -24,16 +24,22 @@ export class SalaComponent implements OnInit {
   updateSala(){
     this.salaService.updateSala();
   }
+
+  updateJugadores(){
+      this.salaService.updateJugadores();
+  }
   
   ngOnInit() {
-    this.updateSala();  
+    this.salaService.codigoSalaUsuario = this.salaService.contenedor.codigoSala;
+    this.updateSala();
+    this.updateJugadores();
     this.salaService.getMessages((message: { user: string, message: string }) => {
       this.messageList.push(`${message.user}: ${message.message}`);
     });
   }
 
   sendMessage() {
-    this.salaService.sendMessage(this.newMessage);
+    //this.salaService.sendMessage(this.newMessage);
     this.newMessage = '';
   }
 
@@ -47,5 +53,5 @@ export class SalaComponent implements OnInit {
     this.salaService.juegoActivo = true;
     console.log(this.salaService.contenedor.codigoSala);
     this.router.navigate(['../tarjeta']);
-}
+  }
 }

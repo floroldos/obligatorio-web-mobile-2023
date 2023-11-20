@@ -48,20 +48,11 @@ const deleteAll = async (req: any, res: any) => {
 
 }
 
-const getJugadores = async (req: any, res: any) => {
-    await juegoShema
-        .find()
-        .then((juego: any) => res.json(juego))
-        .catch((err: any) => res.json('Error: ' + err));
-
-}
-
 export {
     getJuegos,
     getJuegoById,
     createJuego,
     updateJuego,
     deleteJuego,
-    deleteAll,
-    getJugadores
+    deleteAll
 }

@@ -6,26 +6,28 @@
       <h2 class="sala-code">Código de la sala: {{ this.salaService.contenedor.codigoSala }}</h2>
       <p class="sala-players">Esperando a los jugadores...</p>
     </div>
-    <!-- Botón para admins -->
-    <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
-
+      <button (click)="iniciarJuego()" class="btn-iniciar">Iniciar Partida</button>
+    <div class = "sala-users">
+     <div id="user-list" class="ol-12 col-md-8 col-lg-6 col-xl-5">
+      <h3> Jugadores conectados: </h3>
+      <p *ngFor="let jugador of this.salaService.jugadores">{{ jugador }}</p>
   <!-- Chat -->
-<div class="chat-main-container">
-  <div class="chat-container">
-    <div class="chat-messages">
-      <ul>
-        <li>pepe</li>
-        <li *ngFor="let newMessage of messageList"> {{ newMessage }}</li>
-      </ul>
-    </div>
-    <hr>
-    <div class="chat-input">
-      <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje">
-      <button class="btn btn-primary" (click)="sendMessage()">Enviar</button>
+        <div class="chat-main-container">
+          <div class="chat-container">
+            <div class="chat-messages">
+              <ul>
+                <label *ngFor="let m of messageList"> {{ m }}</label>
+              </ul>
+            </div>
+            <hr>
+            <div class="chat-input" id="chat-input">
+              <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje">
+              <button class="btn btn-primary" (click)="sendMessage()" id="message-input">Enviar</button>
+            </div>
+          </div>
+        </div>
+      <!-- Fin Chat -->
     </div>
   </div>
-</div>
-<!-- Fin Chat -->
-
 </div>
 </main>

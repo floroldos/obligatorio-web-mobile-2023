@@ -17,10 +17,15 @@ export class SalaService {
 
   private urlPost = `${url}/api/crearJuego`;
   private urlGet = `${url}/api/juego`;
+  private urlGetJugadores = `${url}/api/jugadores`;
+  private urlPostUser = `${url}/api/jugador`;
   constructor(private router: Router, private http: HttpClient) {
     console.log("Sala service constructor");
     this.socketConnection();
   }
+
+  messageInput = document.getElementById('message-input');
+  chatInput = document.getElementById('chat-input');
 
   SALAS: sala[] = [];
   juegoActivo: boolean = false;
@@ -28,6 +33,8 @@ export class SalaService {
   tarjS = new TarjetaService(this.http);
   loginS = new LoginService(this.router, this.http);
   socket!: Socket;
+  nickname: string = '';
+  jugadores: string[] = [];
 
   private static contenedor: sala;
 
@@ -105,46 +112,64 @@ export class SalaService {
     return this.http.get<sala>(this.urlGet);
   }
 
+  getJugadores() {
+    return this.http.get(this.urlGetJugadores);
+  }
+
+  updateJugadores(){
+    this.socket.on('jugadores', () => {
+      let observable = this.getJugadores();
+      observable.subscribe((data:any) => {
+        this.jugadores = data['jugadores'];
+        console.log(this.jugadores);
+      })
+    }); 
+  }
+  
   updateSala() {
     let observable = this.getJuego();
     observable.subscribe((data: any) => {
       if (data && data.length > 0) {
-        this.contenedor = data[0];
+        this.contenedor = data[0]; // sala
         console.log(this.codigoSalaUsuario);
         console.log(this.contenedor.codigoSala);
-        if (this.codigoSalaUsuario === this.contenedor.codigoSala) {
-          // Falta ver cómo se manejan los usuarios
-          this.socket.emit('entrarSala', { 'entrarSala': this.loginS.username });
-          this.router.navigate(['../sala']);
-        } else {
-          alert("codigo invalido");
-        }
-      } else {
-        console.error("No se recibieron datos");
       }
     });
+  }
+
+  agregarJugador(){
+    console.log('Agregar jugador: ', this.nickname);
+    console.log(this.urlPostUser);
+    this.http.post(this.urlPostUser, {nickname: this.nickname}).subscribe(()=>{
+      this.socket.emit('jugadores');
+    });
+    
+    this.router.navigate(['../sala']);
   }
 
   inicializarSala() {
     this.juegoActivo = false;
   }
 
-  unirseAJuego() {
+ async unirseAJuego() {
     let element = document.getElementById('salacode') as HTMLInputElement;
+    let nicknameInput = document.getElementById('nickname') as HTMLInputElement;
     if(element){
+      this.nickname = nicknameInput.value;
       let codigo = parseInt(element.value);
-      if(typeof(codigo) == 'number'){
+      if(typeof(codigo) === 'number'){
         this.codigoSalaUsuario = codigo;
+        await this.updateSala();
+        console.log('pepe');
+        await this.agregarJugador();
       }
       else{
         alert("El codigo debe ser un numero");
       }
     }
     else{
-      alert("Ingrese un código");
+      alert("Ingrese un código y un nickname");
     }
-    this.updateSala();
-
   }
 
   seleccionarTarjetas(): tarjeta[] {
@@ -174,9 +199,21 @@ export class SalaService {
     return newArray;
   }
 
+  displayMessage(message: string) {
+    const div = document.createElement('div');
+    div.textContent = message;
+    const chatMessagesDiv = document.getElementById("chat-messages");
+    if (chatMessagesDiv) {
+      chatMessagesDiv.appendChild(div);
+    } else {
+      console.error("Element with ID 'chat-messages' not found");
+    }
+  }
+
+
   // SOCKETS //
  
-  sendMessage(message: string) {
+  sendMessageSocket(message: string) {
     this.socket.emit('send-message', { user: this.loginS.username, message: message });
   }
   

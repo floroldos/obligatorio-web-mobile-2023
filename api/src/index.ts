@@ -3,6 +3,7 @@ import juegosRouter from './routes/juegos.router'
 import temasRouter from './routes/temas.router'
 import actividadesRouter from './routes/actividades.router'
 import userRouter from './routes/users.router'
+import jugadorRouter from './routes/jugadores.router'
 import mongoose from 'mongoose'
 import { uri } from './enviorment'
 
@@ -11,12 +12,13 @@ const cors = require('cors');
 
 
 // Middleware //
-app.use(express.json());
+app.use(express.json())
 app.use(cors());
 app.use('/api/user', userRouter);
 app.use('/api', juegosRouter);
 app.use('/api', temasRouter);
 app.use('/api', actividadesRouter);
+app.use('/api', jugadorRouter)
 
 const PORT = 3000;
 
