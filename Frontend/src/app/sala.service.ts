@@ -80,7 +80,7 @@ export class SalaService {
   }
 
   resetSala(id: string){
-    this.http.delete(`${this.urlGet}+/${id}`);
+    this.http.delete(`${this.urlGet} + /${id}`);
   }
 
   crearSala() {

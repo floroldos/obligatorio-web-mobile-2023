@@ -6,6 +6,7 @@ import userRouter from './routes/users.router'
 import jugadorRouter from './routes/jugadores.router'
 import mongoose from 'mongoose'
 import { uri } from './enviorment'
+import { JuegoManager } from './juego.manager';
 
 const app = express();
 const cors = require('cors');
@@ -20,6 +21,23 @@ app.use('/api', actividadesRouter);
 app.use('/api', jugadorRouter);
 
 const PORT = 3000;
+
+ /* --------------- SOCKET.IO --------------- */
+        //Crea un servidor de socket.io
+        const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
+
+        //Event handler para cuando un usuario se conecta
+        io.on('connection', (socket: any) => {
+            console.log('User connected');
+
+            //Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
+            socket.on('message', (data: any) => {
+                io.emit('message', data);
+            });
+
+        });
+
+new JuegoManager(io);
 
 // --------------- Conexion a la base de datos --------------- //
 

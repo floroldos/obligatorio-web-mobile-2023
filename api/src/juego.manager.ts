@@ -2,25 +2,17 @@
 import { tarjeta } from "./tarjeta";
 
 export class JuegoManager {
-    constructor() {
-        /* --------------- SOCKET.IO --------------- */
-        //Crea un servidor de socket.io
-        const io = require('socket.io')(3001, { cors: { origin: '*' } });
-
-        //Event handler para cuando un usuario se conecta
-        io.on('connection', (socket: any) => {
-            console.log('User connected');
-
-            //Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
-            socket.on('message', (data: any) => {
-                io.emit('message', data);
-            });
-
-            socket.on('jugadores', (data: any) => {
-                io.emit('actualizarJugadores', data);
-            });
+    jugadores: any[];
+    socket: any;
+    constructor(socket: any) {
+        this.socket = socket;
+        this.jugadores = [];
+        socket.on('jugadores', (data: any) => {
+            socket.emit('actualizarJugadores', { 'jugadores': this.jugadores });
         });
+        
     }
+    
     TARJETAS: tarjeta[] = [
         {
             id: 1,

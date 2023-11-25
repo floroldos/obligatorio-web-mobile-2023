@@ -40,8 +40,9 @@ export class SalaComponent implements OnInit {
   }
 
   connectSocket() {
+
     this.socket.on('actualizarJugadores', (data: { [key: string]: any}) => {
-      this.jugadores = this.salaService.jugadores;
+      this.jugadores = data['jugadores'];
       console.log(this.jugadores);
 
     });
