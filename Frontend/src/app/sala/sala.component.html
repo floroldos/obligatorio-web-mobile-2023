@@ -11,7 +11,7 @@
         <div class="col-xl-3 col-3 mx-auto" id="titulo">
           <span class = "conectados">Jugadores conectados:</span>
             <div id="user-list" >
-              <p *ngFor="let jugador of salaService.jugadores">{{ jugador }}</p>
+              <p *ngFor="let jugador of this.jugadores">{{ jugador }}</p>
             </div>
         </div>
       </div>

@@ -20,50 +20,44 @@ export class TarjetaComponent{
     puntos: 0,
     tema: ''
   };
+
+    id: number = 0;
+    puntos: number = 0;
+    votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
+    tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
+    cambio: any; //variable para el timeout, para que cambie la tarjeta cada 30 segundos
+    mostrarPuntaje: boolean = false; //para mostrar el puntaje si ya pasaron todas las tarjetas
+    puntajes: { [tarjetaId: number]: number } = {}; //para guardar los puntajes de cada tarjeta
+    tarjetaMasVotada: tarjeta | null = null;
+    estadoVotacion: boolean = true;
+    
   constructor(public tarjetaService: TarjetaService) { }
 
   ngOnInit() : void{
-    this.tarjetaService.tarjetaActual = 0;
-    this.tarjetaService.cambiarTarjeta();
+    
   }
 
   ngOnDestroy() {
     // Detiene el timer cuando el componente se destruye
-    clearTimeout(this.tarjetaService.cambio);
-  }
-
-  agregarTarjeta(tarj: tarjeta){
-    this.tarjetaService.agregarTarjeta(tarj);
-  }
-
-  quitarTarjeta(tarj: tarjeta){
-    tarj.puntos = 0;
-    this.tarjetaService.quitarTarjeta(tarj);
   }
 
   enviarVoto() {
-    this.tarjetaService.enviarVoto();
    }
 
   sumarPuntos(tarj: tarjeta) {
-    this.tarjetaService.sumarPuntos(tarj);
   }
 
   restarPuntos(tarj: tarjeta) {
-    this.tarjetaService.restarPuntos(tarj);
   }
 
   cambiarTarjeta() {
-    this.tarjetaService.cambiarTarjeta();
   }
   
   calcularTarjetaMasVotada() {
-  this.tarjetaService.calcularTarjetaMasVotada();
   }
 
   finalizarVotacion() {
-    this.tarjetaService.finalizarVotacion();
-  }
+  } 
 
   
 }

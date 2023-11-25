@@ -3,8 +3,6 @@ import { getJuegos, getJuegoById, createJuego, updateJuego, deleteJuego, deleteA
 
 const router = express.Router();
 
-// Juego -- -nombre -codigo -estaJugando
-
 // Metodo Post // //Crear juego //
 router.post('/crearJuego', createJuego);
 

@@ -1,5 +1,7 @@
 const juegoShema = require('../Models/juegos.model');
 
+// juego == sala
+
 const getJuegos = async (req: any, res: any) => {
     await juegoShema
         .find()
@@ -16,10 +18,9 @@ const getJuegoById = async (req: any, res: any) => {
 }
 
 const createJuego = async (req: any, res: any) => {
-    const juego = juegoShema(req.body)
+    const juego = juegoShema(req.body);
     await juego
         .save()
-        .then((juego: any) => res.json(juego))
         .catch((err: any) => res.json('Error: ' + err));
 }
 

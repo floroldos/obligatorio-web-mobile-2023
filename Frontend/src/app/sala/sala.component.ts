@@ -4,8 +4,9 @@ import { SalaService } from '../sala.service';
 import { Router } from '@angular/router';
 import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
-import * as io from 'socket.io-client';
 import { LoginService } from '../login.service';
+import { Socket } from 'socket.io-client';
+
 
 @Component({
   selector: 'app-sala',
@@ -19,31 +20,30 @@ export class SalaComponent implements OnInit {
   newMessage = '';
   messageList: string[] = [];
   countdown = 0;
+  socket!: Socket;
+  jugadores: string[] = [];
 
-
-  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) {  }
+  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) { 
+    this.socket = salaService.socket;
+  }
 
   updateSala(){
     this.salaService.updateSala();
   }
 
-  updateJugadores(){
-      this.salaService.updateJugadores();
-  }
-  
   ngOnInit() {
-    this.salaService.codigoSalaUsuario = this.salaService.contenedor.codigoSala;
-    this.updateSala();
-    this.updateJugadores();
-    this.salaService.socket.emit('jugadores');
+    this.jugadores = this.salaService.jugadores; 
     this.salaService.getMessages((message: { user: string, message: string }) => {
       this.messageList.push(`${message.user}: ${message.message}`);
     });
+    this.connectSocket();
+  }
 
-    this.salaService.socket.on('empezar', () =>{
-      console.log('Empieza');
-      this.salaService.socket.emit('navegar', '../tarjeta');
-      this.router.navigate(['../tarjeta']);
+  connectSocket() {
+    this.socket.on('actualizarJugadores', (data: { [key: string]: any}) => {
+      this.jugadores = this.salaService.jugadores;
+      console.log(this.jugadores);
+
     });
   }
 
@@ -57,20 +57,17 @@ export class SalaComponent implements OnInit {
   }
 
   iniciarJuego() {
-  //Muestra la primera actividad cuando empieza el juego
     this.salaService.inicializarSala();
-    this.salaService.juegoActivo = true;
     console.log(this.salaService.contenedor.codigoSala);
-    this.salaService.socket.emit('empezar');
-    let countdown = 5; 
-    const countdownInterval = setInterval(() => {
-      console.log(countdown); 
-      countdown--;
-
-      if (countdown === 0) {
-        clearInterval(countdownInterval); 
-        this.router.navigate(['../tarjeta']); 
-      }
-    }, 1000);
+    this.socket.emit('empezar');
+  
+    setTimeout(() => {
+      this.router.navigate(['../tarjeta']);
+    }, 3000);  // Espera 5 segundos
   }
+
+  empezarPartida(){
+    this.salaService.empezarPartida();
+  }
+  
 }

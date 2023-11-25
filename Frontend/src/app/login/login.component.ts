@@ -20,7 +20,6 @@ export class LoginComponent {
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService) {}
 
   ngOnInit() : void{
-    this.salaService.codigoSalaUsuario = -1;
     this.salaService.updateSala();
   }
 

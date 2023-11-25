@@ -18,7 +18,6 @@ export class SalaService {
   private urlPost = `${url}/api/crearJuego`;
   private urlGet = `${url}/api/juego`;
   private urlGetJugadores = `${url}/api/jugadores`;
-  private urlPostUser = `${url}/api/jugador`;
   constructor(private router: Router, private http: HttpClient) {
     console.log("Sala service constructor");
     this.socketConnection();
@@ -27,14 +26,11 @@ export class SalaService {
   messageInput = document.getElementById('message-input');
   chatInput = document.getElementById('chat-input');
 
-  SALAS: sala[] = [];
   juegoActivo: boolean = false;
-  codigoSalaUsuario: number | null | undefined = -1;
   tarjS = new TarjetaService(this.http);
   loginS = new LoginService(this.router, this.http);
-  socket!: Socket;
+  public socket!: Socket;
   jugadores: string[] = [];
-  nickname: any;
 
   private static contenedor: sala;
 
@@ -62,6 +58,7 @@ export class SalaService {
     this.socket.on('connect', () => {
       console.log('websocket conectado!');
     });
+
   }
 
   @Input() contenedor: sala = SalaService.getSala();
@@ -90,15 +87,8 @@ export class SalaService {
     if (this.contenedor.propuesta !== '' && !this.haySala) {
       this.contenedor.codigoSala = this.randomInt();
       console.log(this.contenedor);
-      this.contenedor.tarjetasSala = this.seleccionarTarjetas();
-      this.http.post(this.urlPost, this.contenedor)
-        .subscribe((data: any) => {
-          data['nombre']
-          console.log("Juego creado");
-          this.haySala = true;
-          let idSala = data['_id'];
-        });
-
+      //this.contenedor.tarjetasSala = this.seleccionarTarjetas();
+      this.http.post(this.urlPost, this.contenedor);
       this.router.navigate(['../sala']);
     }
     else {
@@ -110,46 +100,33 @@ export class SalaService {
     return this.http.get<sala>(this.urlGet);
   }
 
-  getJugadores() {
-    return this.http.get(this.urlGetJugadores);
-  }
-
-  updateJugadores() {
-    this.socket.on('connect', () => {
-      console.log('se conecto alguien!');
-      this.getJugadores().subscribe((data: any) => {
-        this.jugadores = data['jugadores'];
-        console.log(this.jugadores);
-      });
-    });
-  }
+  // esto no anda hay que poner un emit del connect
   
   updateSala() {
     let observable = this.getJuego();
     observable.subscribe((data: any) => {
       if (data && data.length > 0) {
         this.contenedor = data[0]; // sala
-        console.log(this.codigoSalaUsuario);
-        console.log(this.contenedor.codigoSala);
       }
     });
   }
 
-  agregarJugador(){
-    console.log('Agregar jugador: ', this.nickname);
-    console.log(this.urlPostUser);
-    this.http.post(this.urlPostUser, {nickname: this.nickname}).subscribe(()=>{
-      this.socket.emit('jugadores');
-    });
-    
+  agregarJugador(nickname : string){
+    this.jugadores.push(nickname);
+    this.socket.emit('jugadores');
     this.router.navigate(['../sala']);
   }
 
   inicializarSala() {
-    this.juegoActivo = false;
+    this.juegoActivo = true;
   }
 
-  async unirseAJuego() {
+  empezarPartida(){
+    this.socket.emit('empezar', {'tarjetas' : this.contenedor.tarjetasSala});
+  }
+
+  unirseAJuego() {
+    //sacarlo de aca y poner q ingrese como parametro en el login component
     let element = document.getElementById('salacode') as HTMLInputElement;
     let nicknameInput = document.getElementById('nickname') as HTMLInputElement;
   
@@ -159,13 +136,8 @@ export class SalaService {
       if (isNaN(codigo) || codigo <= 0) {
         alert("El código de sala debe ser un número positivo");
       } else {
-        this.nickname = nicknameInput.value;
-        this.codigoSalaUsuario = codigo;
-  
-        await this.updateSala();
-  
         if (this.contenedor.codigoSala === codigo) {
-          await this.agregarJugador();
+          this.agregarJugador(nicknameInput.value);
         } else {
           alert("La sala con el código proporcionado no existe");
         }
@@ -175,8 +147,7 @@ export class SalaService {
     }
   }
   
-
-  seleccionarTarjetas(): tarjeta[] {
+/*  seleccionarTarjetas(): tarjeta[] {
     let tema = this.contenedor.propuesta;
     for (let tarjeta of this.tarjS.TARJETAS) {
       if (tarjeta.tema == tema) {
@@ -190,7 +161,7 @@ export class SalaService {
       }
     }
     return this.tarjS.tarjetasSeleccionadas;
-  }
+  }  */
 
   //algoritmo para elegir tarjetas de forma random
   shuffleArray<T>(array: T[]): T[] {
@@ -212,7 +183,6 @@ export class SalaService {
       console.error("Element with ID 'chat-messages' not found");
     }
   }
-
 
   // SOCKETS //
   navegar(){

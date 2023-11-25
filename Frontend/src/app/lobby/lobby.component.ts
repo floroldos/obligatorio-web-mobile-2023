@@ -40,6 +40,15 @@ export class LobbyComponent {
     this.salaService.crearSala();
  }
 
+  agregarTarjeta(tarj: tarjeta){
+    this.agregarTarjeta(tarj);
+  }
+
+  quitarTarjeta(tarj: tarjeta){
+    tarj.puntos = 0;
+    this.quitarTarjeta(tarj);
+  }
+
  /* es para que carguen las imagenes de las tarjetas */
  
  cargarImagen(event: any) {
