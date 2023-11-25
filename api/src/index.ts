@@ -23,19 +23,13 @@ app.use('/api', jugadorRouter);
 const PORT = 3000;
 
  /* --------------- SOCKET.IO --------------- */
-        //Crea un servidor de socket.io
-        const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
+//Crea un servidor de socket.io
+const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
 
-        //Event handler para cuando un usuario se conecta
-        io.on('connection', (socket: any) => {
-            console.log('User connected');
-
-            //Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
-            socket.on('message', (data: any) => {
-                io.emit('message', data);
-            });
-
-        });
+//Event handler para cuando un usuario se conecta
+io.on('connection', (socket: any) => {
+        console.log('User connected');
+    });
 
 new JuegoManager(io);
 

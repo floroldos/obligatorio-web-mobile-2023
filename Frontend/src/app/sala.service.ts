@@ -2,9 +2,7 @@ import { Injectable, Input, ViewChild } from '@angular/core';
 import { sala } from './sala';
 import { Router } from '@angular/router';
 import { TarjetaService } from './tarjeta.service';
-import { tarjeta } from './tarjeta';
 import { HttpClient } from '@angular/common/http';
-import { io, Socket } from 'socket.io-client';
 import { LoginService } from './login.service';
 import { url } from './enviorment';
 
@@ -20,16 +18,14 @@ export class SalaService {
   private urlGetJugadores = `${url}/api/jugadores`;
   constructor(private router: Router, private http: HttpClient) {
     console.log("Sala service constructor");
-    this.socketConnection();
   }
 
   messageInput = document.getElementById('message-input');
   chatInput = document.getElementById('chat-input');
-
+  nickname: string = '';
   juegoActivo: boolean = false;
   tarjS = new TarjetaService(this.http);
   loginS = new LoginService(this.router, this.http);
-  public socket!: Socket;
   jugadores: string[] = [];
 
   private static contenedor: sala;
@@ -44,21 +40,6 @@ export class SalaService {
       };
     }
     return this.contenedor;
-  }
-
-  socketConnection() {
-    console.log("Conectando websocket");
-  
-    const socketUrl = `ws://127.0.0.1:3001`;
-  
-    this.socket = io(socketUrl, {
-      transports: ['websocket']
-    });
-  
-    this.socket.on('connect', () => {
-      console.log('websocket conectado!');
-    });
-
   }
 
   @Input() contenedor: sala = SalaService.getSala();
@@ -113,7 +94,6 @@ export class SalaService {
 
   agregarJugador(nickname : string){
     this.jugadores.push(nickname);
-    this.socket.emit('jugadores');
     this.router.navigate(['../sala']);
   }
 
@@ -122,22 +102,21 @@ export class SalaService {
   }
 
   empezarPartida(){
-    this.socket.emit('empezar', {'tarjetas' : this.contenedor.tarjetasSala});
   }
 
   unirseAJuego() {
     //sacarlo de aca y poner q ingrese como parametro en el login component
     let element = document.getElementById('salacode') as HTMLInputElement;
     let nicknameInput = document.getElementById('nickname') as HTMLInputElement;
-  
+    this.nickname = nicknameInput.value;
+    
     if (element && nicknameInput) {
-      let codigo = parseInt(element.value);
-  
+      let codigo = parseInt(element.value);  
       if (isNaN(codigo) || codigo <= 0) {
         alert("El código de sala debe ser un número positivo");
       } else {
         if (this.contenedor.codigoSala === codigo) {
-          this.agregarJugador(nicknameInput.value);
+          this.agregarJugador(this.nickname);
         } else {
           alert("La sala con el código proporcionado no existe");
         }
@@ -184,27 +163,6 @@ export class SalaService {
     }
   }
 
-  // SOCKETS //
-  navegar(){
-    this.socket.on('navegar', (data: any) =>{
-      this.router.navigate([data]);
-    });
-  }
-  
-  sendMessageSocket(message: string) {
-    this.socket.emit('send-message', { user: this.loginS.username, message: message });
-  }
-  
-  getMessages(callback: (data: { user: string, message: string }) => void) {
-    this.socket.on('receive-message', (data) => {
-      callback(data);
-    });
-  
-    return () => {
-      this.socket.disconnect();
-    };
-  }
-
   setUser(nickname: string) {
     localStorage.setItem('username', nickname);
   }
@@ -212,6 +170,5 @@ export class SalaService {
   getUsername(): string | null {
     return localStorage.getItem('username');
   }  
-
 }
 

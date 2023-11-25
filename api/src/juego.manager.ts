@@ -10,7 +10,11 @@ export class JuegoManager {
         socket.on('jugadores', (data: any) => {
             socket.emit('actualizarJugadores', { 'jugadores': this.jugadores });
         });
-        
+        socket.on('nuevoJugador', (data: any) => {
+            this.jugadores.push(data['jugador']);
+            console.log(this.jugadores);
+            socket.emit('actualizarJugadores', { 'jugadores': this.jugadores });
+        });
     }
     
     TARJETAS: tarjeta[] = [

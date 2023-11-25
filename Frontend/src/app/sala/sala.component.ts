@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login.service';
-import { Socket } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 
 
 @Component({
@@ -24,27 +24,33 @@ export class SalaComponent implements OnInit {
   jugadores: string[] = [];
 
   constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) { 
-    this.socket = salaService.socket;
+    this.socket = this.socket;
+  }
+
+  ngOnInit() {
+    this.updateSala();
+    this.connectSocket();
+    this.jugadores = this.salaService.jugadores; 
   }
 
   updateSala(){
     this.salaService.updateSala();
   }
 
-  ngOnInit() {
-    this.jugadores = this.salaService.jugadores; 
-    this.salaService.getMessages((message: { user: string, message: string }) => {
-      this.messageList.push(`${message.user}: ${message.message}`);
-    });
-    this.connectSocket();
-  }
-
   connectSocket() {
+    console.log("Conectando websocket");
+    const socketUrl = `ws://127.0.0.1:3001`;
 
+    this.socket = io(socketUrl, { 
+      transports: ['websocket'] 
+    });
+    
+    this.socket.on('connect', () => {
+      console.log('Conectado al servidor');
+    });
     this.socket.on('actualizarJugadores', (data: { [key: string]: any}) => {
       this.jugadores = data['jugadores'];
       console.log(this.jugadores);
-
     });
   }
 
