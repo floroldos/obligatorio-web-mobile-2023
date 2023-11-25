@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { LoginService } from './login.service';
 import { url } from './enviorment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -60,17 +59,22 @@ export class SalaService {
     }
   }
 
-  resetSala(id: string){
-    this.http.delete(`${this.urlGet} + /${id}`);
-  }
-
-  crearSala() {
+  async crearSala() {
     if (this.contenedor.propuesta !== '' && !this.haySala) {
       this.contenedor.codigoSala = this.randomInt();
+      this.contenedor.estadoActual = true;
       console.log(this.contenedor);
       //this.contenedor.tarjetasSala = this.seleccionarTarjetas();
-      this.http.post(this.urlPost, this.contenedor);
-      this.router.navigate(['../sala']);
+
+      await this.http.post(this.urlPost, this.contenedor).subscribe((data: any) => {
+        console.log(data);
+        if(data['status'] === "created"){
+          let codigo: string = data['code'];
+          this.unirseAJuego(codigo, "admin");
+        }else{
+          alert('No se pudo crear la sala');
+        }
+      });
     }
     else {
       alert('El juego debe tener un tema');
@@ -83,11 +87,16 @@ export class SalaService {
 
   // esto no anda hay que poner un emit del connect
   
-  updateSala() {
+  updateSala(): any {
     let observable = this.getJuego();
+
     observable.subscribe((data: any) => {
-      if (data && data.length > 0) {
-        this.contenedor = data[0]; // sala
+      if(data['codigoSala'] != -1){
+        this.contenedor.codigoSala = data['codigoSala'];
+        this.contenedor.propuesta = data['propuesta'];
+        this.contenedor.estadoActual = data['estadoActual'];
+        this.contenedor.tarjetasSala = data['tarjetasSala'];
+        //this.haySala = true;
       }
     });
   }
@@ -104,24 +113,29 @@ export class SalaService {
   empezarPartida(){
   }
 
-  unirseAJuego() {
-    //sacarlo de aca y poner q ingrese como parametro en el login component
-    let element = document.getElementById('salacode') as HTMLInputElement;
-    let nicknameInput = document.getElementById('nickname') as HTMLInputElement;
-    this.nickname = nicknameInput.value;
-    
-    if (element && nicknameInput) {
-      let codigo = parseInt(element.value);  
+  async unirseAJuego(salaCode: string, nname: string) {
+    //sala code es un string, lo quiero pasar a number or
+    let codigo: number = parseInt(salaCode);
+    this.nickname = nname;
+    if (salaCode && this.nickname != '') {
       if (isNaN(codigo) || codigo <= 0) {
         alert("El código de sala debe ser un número positivo");
       } else {
-        if (this.contenedor.codigoSala === codigo) {
-          this.agregarJugador(this.nickname);
-        } else {
-          alert("La sala con el código proporcionado no existe");
-        }
+        await this.http.get(this.urlGet).subscribe((data: any) => {
+
+          this.contenedor.codigoSala = data['codigoSala'];
+          this.contenedor.propuesta = data['propuesta'];
+          this.contenedor.estadoActual = data['estadoActual'];
+          this.contenedor.tarjetasSala = data['tarjetasSala'];
+
+          if (this.contenedor.codigoSala === codigo) {
+            this.agregarJugador(this.nickname);
+          } else {
+            alert("La sala con el código proporcionado no existe : " + this.contenedor.codigoSala);
+          }
+        });
       }
-    } else {
+    }else {
       alert("Ingrese un código y un nickname");
     }
   }

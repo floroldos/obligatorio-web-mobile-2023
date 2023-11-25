@@ -11,7 +11,6 @@ import { JuegoManager } from './juego.manager';
 const app = express();
 const cors = require('cors');
 
-// Middleware //
 app.use(express.json())
 app.use(cors());
 app.use('/api/user', userRouter);
@@ -24,12 +23,7 @@ const PORT = 3000;
 
  /* --------------- SOCKET.IO --------------- */
 //Crea un servidor de socket.io
-const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
-
-//Event handler para cuando un usuario se conecta
-io.on('connection', (socket: any) => {
-        console.log('User connected');
-    });
+const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } }).of("/game");
 
 new JuegoManager(io);
 

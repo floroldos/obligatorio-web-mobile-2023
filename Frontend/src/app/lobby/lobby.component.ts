@@ -31,11 +31,7 @@ export class LobbyComponent {
     puntos: 0,
     tema: ''
   };
-
-  unirseSala() {
-    this.salaService.unirseAJuego();
-  }
-
+  
  crearSala(){
     this.salaService.crearSala();
  }

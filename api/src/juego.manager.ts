@@ -3,17 +3,33 @@ import { tarjeta } from "./tarjeta";
 
 export class JuegoManager {
     jugadores: any[];
-    socket: any;
+    
     constructor(socket: any) {
-        this.socket = socket;
         this.jugadores = [];
-        socket.on('jugadores', (data: any) => {
-            socket.emit('actualizarJugadores', { 'jugadores': this.jugadores });
-        });
-        socket.on('nuevoJugador', (data: any) => {
-            this.jugadores.push(data['jugador']);
-            console.log(this.jugadores);
-            socket.emit('actualizarJugadores', { 'jugadores': this.jugadores });
+
+        this.webSocketConn(socket);
+    }
+
+    webSocketConn(ws: any) {
+        ws.on('connection', (conn: any) => {
+            conn.emit('connected', { "ok": "ok"});
+            ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });
+    
+            // -------------------------------------------------------------------------------- //
+
+            conn.on('addUser', (data: { [key: string]: any }) => {
+                let user = data['user'];
+                if(user != '') {
+                    console.log('nuevo jugador: ' + user);
+                    this.jugadores.push(user);
+                    console.log(this.jugadores);
+                    ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });
+                }else{
+                    console.log('no se pudo agregar el jugador');
+                }
+            });
+
+
         });
     }
     

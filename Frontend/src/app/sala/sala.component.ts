@@ -20,12 +20,10 @@ export class SalaComponent implements OnInit {
   newMessage = '';
   messageList: string[] = [];
   countdown = 0;
-  socket!: Socket;
+  wSocket!: Socket;
   jugadores: string[] = [];
 
-  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) { 
-    this.socket = this.socket;
-  }
+  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) { }
 
   ngOnInit() {
     this.updateSala();
@@ -38,25 +36,24 @@ export class SalaComponent implements OnInit {
   }
 
   connectSocket() {
-    console.log("Conectando websocket");
-    const socketUrl = `ws://127.0.0.1:3001`;
-
-    this.socket = io(socketUrl, { 
-      transports: ['websocket'] 
+    this.wSocket = io("ws://localhost:3001/game", { 
+      transports: ['websocket']
     });
     
-    this.socket.on('connect', () => {
-      console.log('Conectado al servidor');
+    this.wSocket.on('connected', (data: { [key: string]: any}) => {
+      if(data['ok'] == 'ok'){
+        console.log("Conectado al servidor");
+        console.log("emitiendo : " + this.salaService.nickname);
+        this.wSocket.emit('addUser', {"user": this.salaService.nickname});
+      }
     });
-    this.socket.on('actualizarJugadores', (data: { [key: string]: any}) => {
+
+    this.wSocket.on('actualizarJugadores', (data: { [key: string]: any}) => {
       this.jugadores = data['jugadores'];
       console.log(this.jugadores);
     });
-  }
 
-  sendMessage() {
-    //this.salaService.sendMessage(this.newMessage);
-    this.newMessage = '';
+
   }
 
   setUser(nickname: string) {
@@ -66,7 +63,7 @@ export class SalaComponent implements OnInit {
   iniciarJuego() {
     this.salaService.inicializarSala();
     console.log(this.salaService.contenedor.codigoSala);
-    this.socket.emit('empezar');
+    this.wSocket.emit('empezar');
   
     setTimeout(() => {
       this.router.navigate(['../tarjeta']);

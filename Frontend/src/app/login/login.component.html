@@ -20,13 +20,13 @@
                 <hr>
                 <div class="form-outline form-white mb-4">
                   <label class="form-label" for="nickname">Nickname</label>
-                  <input id="nickname" class="form-control form-control-lg" />
+                  <input id="nickname" class="form-control form-control-lg" #nickNameInput/>
                 </div>
                 <div class="form-outline form-white mb-4">
                   <label id="codigo" class="form-label" for="salacode">Código único de la sala</label>
-                  <input id="salacode" class="form-control form-control-lg" />
+                  <input id="salacode" class="form-control form-control-lg" #salaInput />
                 </div>
-                <button id= "unirme" class="btnunirse-hover bn25" (click)="this.salaService.unirseAJuego()">Unirse</button>
+                <button id= "unirme" class="btnunirse-hover bn25" (click)="this.salaService.unirseAJuego(salaInput.value, nickNameInput.value)">Unirse</button>
             </div>
           </div>
         </div>
