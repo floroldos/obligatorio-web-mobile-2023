@@ -69,11 +69,14 @@ export class TarjetaService {
 
   //Para agregar tarjetas a la lista de tarjetas existentes
   agregarTarjeta(tarj: tarjeta){
-    console.log(tarj.nombre);
+    let tema = document.getElementById('option') as HTMLInputElement;
+    console.log(tema);
+    tarj.tema = (tema.value).toString();
+    console.log(tarj.tema);
     tarj.id = this.id;
-    this.id ++;
-    this.TARJETAS.push(tarj);
-    this.http.post(
+    this.id ++; 
+    this.TARJETAS.push(tarj); // 
+    this.http.post( 
       this.urlPost, {
         tarjetaNueva: tarj,
       }).subscribe((data: { [key: string]: any }) => {

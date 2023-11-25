@@ -1,4 +1,5 @@
 const actividadSchema = require('../models/actividades.model');
+import { tarjeta } from '../../../Frontend/src/app/tarjeta';
 
 const getActividad = async (req: any, res: any) => {
     await actividadSchema
@@ -16,12 +17,13 @@ const getActividadById = async (req: any, res: any) => {
 }
 
 const createActividad = async (req: any, res: any) => {
-    const actividad = actividadSchema(req.body)
+    const tarjeta: tarjeta = req.body["tarjetaNueva"];
+    const actividad = actividadSchema(tarjeta)
     await actividad
         .save()
         .then((actividad: any) => res.json(actividad))
         .catch((err: any) => res.json('Error: ' + err));
-}
+    }
 
 const updateActividad = async (req: any, res: any) => {
     const {id} = req.params;

@@ -11,6 +11,7 @@ export class AppComponent {
 
   constructor (private router:Router) {}
 
+
   irInicio() {
     this.router.navigate(['../login']);
   }
