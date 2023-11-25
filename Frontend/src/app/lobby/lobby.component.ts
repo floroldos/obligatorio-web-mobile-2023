@@ -24,12 +24,13 @@ export class LobbyComponent {
   ngOnInit(): void {  
     console.log("Lobby init");
     this.temaS.getTemas();
+    this.tarjS.getTarjetas();
   }
 
   @Input() temaContenedor: string = '';
   
   @Input() tarjContenedor: tarjeta = {
-    id: -1,
+    id_tarjeta: -1, 
     nombre: '',
     descripcion: '',
     imagen: '',
