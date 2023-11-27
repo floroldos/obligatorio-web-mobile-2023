@@ -21,16 +21,14 @@
         <div class="chat-container">
           <div class="chat-messages">
             <ul>
-              <li *ngFor="let m of messageList">{{ m }}</li>
+              <li *ngFor="let m of messageList">{{ m }}</li> <!--messageList es la ista de los mensajes-->
             </ul>
           </div>
           <hr>
-          <!--
             <div class="chat-input" id="chat-input">
-            <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje">
-            <button class="btn btn-primary" (click)="sendMessage()" id="message-input">Enviar</button>
+            <input [(ngModel)]="newMessage"  type="text" placeholder="Escribe un mensaje"> <!--para darle con el enter: (keydown.enter)="function()"-->
+            <button class="btn btn-primary"  id="message-input">Enviar</button> <!-- para mandar (click)="sendMessage()" -->
           </div>
-          -->
         </div>
       </div>
       <!-- Fin Chat -->
