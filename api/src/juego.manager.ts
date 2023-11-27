@@ -6,10 +6,12 @@ export class JuegoManager {
     
     constructor(socket: any) {
         this.jugadores = [];
+        
 
         this.webSocketConn(socket);
     }
 
+    pingInterval: number = 5000;
     wsc: any;
 
     webSocketConn(ws: any) {
@@ -26,6 +28,7 @@ export class JuegoManager {
                     if(!this.jugadores.includes(user)) {
                         console.log('nuevo jugador: ' + user);
                         this.jugadores.push(user);
+                        conn.user = user;
                         console.log(this.jugadores);
                     }
                     ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });
@@ -64,53 +67,24 @@ export class JuegoManager {
 
             conn.on('mensajeEnviado', (data: { [key: string]: any }) => {
                 let message = data['message'];
+                let user = data['user'];
                 if(message != '') {
-                    console.log('mensaje enviado: ' + message);
-                    ws.emit('mensajeNuevo', { 'message': message });
+                    ws.emit('mensajeNuevo', { 'message': message ,  'user': user});
                 }else{
                     console.log('no se pudo enviar el mensaje');
                 }
             });
 
-            /* conn.on('desconectar', (data: { [key: string]: any }) => {
-                let user = data['user'];
-                if(user != '') {
-                    if(this.jugadores.includes(user)) {
-                        console.log('jugador desconectado: ' + user);
-                        this.jugadores.splice(this.jugadores.indexOf(user), 1);
-                        console.log(this.jugadores);
-                    }
-                    ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });
-                }else{
-                    console.log('no se pudo desconectar el jugador');
+            conn.on('disconnect', () => {
+                console.log('Client disconnected');
+
+                const index = this.jugadores.indexOf(conn.user);
+                if (index > -1) {
+                    this.jugadores.splice(index, 1);
                 }
+                
+                ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });
             });
- */
-            
-            /* const enviarPing = () => {
-                // Enviar Ping al cliente
-                ws.emit('ping');
-                console.log('Enviando Ping al cliente');
-                // Establecer un temporizador para recibir Pong del cliente
-                ws.temporizadorPong = setTimeout(() => {
-                    console.log('Cliente no respondió al Ping');
-                    // Cerrar la conexión con el cliente
-                    ws.terminate();
-                }, 4000);
-            };
-
-            enviarPing();
-
-            setInterval(enviarPing, 5000);
-
-            ws.on('pong', () => {
-                console.log('Cliente respondió al Ping');
-                // Limpiar el temporizador si se recibe un Pong
-                clearTimeout(ws.temporizadorPong);
-            }); */
-
-
-
         });
     }
     
@@ -144,7 +118,7 @@ export class JuegoManager {
     cambio: any; //variable para el timeout, para que cambie la tarjeta cada 30 segundos
     tarjetaMasVotada: tarjeta | null = null;
     votosHechos: { [user: string]: boolean } = {}; //para guardar los votos hechos por cada jugador
-    
+
     empezarPartida(){
         this.traerTarjetas();
         this.shuffleArray(this.TARJETAS);

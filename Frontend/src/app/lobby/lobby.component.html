@@ -14,8 +14,8 @@
       <h2>Agregar tema</h2>
                  
           <label for="game-link">Nombre tema:</label>
-          <input [(ngModel)]="this.temaContenedor" type="text" id="game-link" name="game-link"> 
-          <button type="submit" (click)="this.temaS.addTema(this.temaContenedor)" >Crear tema</button>
+          <input [(ngModel)]="this.temaS.temaContenedor" type="text" id="game-link" name="game-link"> 
+          <button type="submit" (click)="this.crearTema(this.temaS.temaContenedor)" >Crear tema</button>
   </section>
  <!-- TARJETA -->
   <section id="create-card">
@@ -29,7 +29,7 @@
         <label for="card-theme">Tema:</label>
 
         <select name="topic" id="topic">
-          <option *ngFor="let tema of this.temaS.TEMAS" value="{{tema}}">{{tema}}</option>
+          <option id="option" *ngFor="let tema of this.temaS.TEMAS" value="{{tema}}">{{tema}}</option>
         </select>
         
         <br>
@@ -43,8 +43,10 @@
   <section id="join-game">
       <h2>Unirse a un juego</h2>
         <label for="game-code">Código único:</label>
+
         <input id="salacode" placeholder="" id="game-code" name="game-code" #codigo>
         <button type="submit" (click)="salaService.unirseAJuego(codigo.value, 'admin')">Unirse al juego</button>
+
   </section>
 </main>
 

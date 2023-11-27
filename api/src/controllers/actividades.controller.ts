@@ -1,10 +1,12 @@
 const actividadSchema = require('../models/actividades.model');
+import { tarjeta } from '../../../Frontend/src/app/tarjeta';
 
 const getActividad = async (req: any, res: any) => {
-    await actividadSchema
+
+    await actividadSchema 
         .find()
-        .then((actividad: any) => res.status(200).json(actividad))
-        .catch((err: any) => res.status(500).json('Error: ' + err));
+        .then((actividad: any) => res.json(actividad))
+        .catch((err: any) => res.json('Error: ' + err));
 }
 
 const getActividadById = async (req: any, res: any) => {
@@ -16,12 +18,14 @@ const getActividadById = async (req: any, res: any) => {
 }
 
 const createActividad = async (req: any, res: any) => {
-    const actividad = actividadSchema(req.body);
-    await actividad
+
+    const tarjeta: tarjeta = req.body["tarjetaNueva"]; //anda al tarjeta service
+    const actividad = actividadSchema(tarjeta)
+    await actividad // no anda el get en /actividad
         .save()
-        .then((actividad: any) => res.status(201).json(actividad))
-        .catch((err: any) => res.status(500).json('Error: ' + err));
-}
+        .then((actividad: any) => res.json(actividad))
+        .catch((err: any) => res.json('Error: ' + err));
+    }
 
 const updateActividad = async (req: any, res: any) => {
     const {id} = req.params;

@@ -4,10 +4,6 @@ const temaSchema = new mongoose.Schema({
   nombre:{
     type: String,
     required: true
-  },
-  descripccion:{
-    type: String,
-    required: true
   }
 });
 

@@ -24,6 +24,7 @@ export class SalaComponent implements OnInit {
   countdown = 0;
   wSocket!: Socket;
   jugadores: string[] = [];
+  private timeoutId: number | null = null;
 
   constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) { }
 
@@ -38,7 +39,7 @@ export class SalaComponent implements OnInit {
   }
 
   connectSocket() {
-    this.wSocket = io("ws://localhost:3001/game", { 
+    this.wSocket = io("ws://localhost:3001/game", {
       transports: ['websocket']
     });
     
@@ -61,24 +62,17 @@ export class SalaComponent implements OnInit {
       console.log("empezar");
     });
 
-    this.wSocket.on('ping', () => {
-      console.log('Recibido Ping del servidor');
-      // Responder con Pong al servidor
-      this.wSocket.emit('pong');
-  });
-
     this.wSocket.on('mensajeNuevo', (data: { [key: string]: any}) => {
-      console.log("mensaje recibido: " + data['message']);
-      this.messageList.push(data['message']);
+      if (data['user'] == this.salaService.nickname) {
+        this.messageList.push("(YOU): " + data['message']);
+      }else{
+        this.messageList.push(data['user'] + ": " + data['message']);
+      }
     });
 
-    const comprobarConexion = () => {
-      const timer = setTimeout(() => {
-          
-      }, 4000);
-    };
-
-    setInterval(comprobarConexion, 5000);
+    this.wSocket.on('comprobarJugadores', (data: { [key: string]: any}) => {
+      this.wSocket.emit('addUser', { 'user': this.salaService.nickname });
+    });
 
   }
 
@@ -93,13 +87,14 @@ export class SalaComponent implements OnInit {
   iniciarJuego() {
     setTimeout(() => {
       this.router.navigate(['../tarjeta']);
-    }, 1000);  // Espera 5 segundos
+    }, 1000);  // Espera 1 segundo
 
   }
 
   sendMessage() {
-    this.newMessage = this.salaService.nickname + ': ' + this.newMessage;
-    this.wSocket.emit('mensajeEnviado', { message: this.newMessage });
+    this.newMessage = this.newMessage;
+    var usuario = this.salaService.nickname;
+    this.wSocket.emit('mensajeEnviado', { "message": this.newMessage , "user": usuario });
     this.newMessage = '';
   }
 

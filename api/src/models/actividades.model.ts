@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const actividadSchema = new mongoose.Schema({
-
   nombre: {
     type: String,
     required: true
@@ -12,14 +11,14 @@ const actividadSchema = new mongoose.Schema({
   },
   imagen: {
     type: String,
-    required: true
+    required: false
   },
   puntos: {
     type: Number,
     required: true
   },
-  temaId: {
-    type: Number,
+  tema: {
+    type: String,
     required: true
   }
 });

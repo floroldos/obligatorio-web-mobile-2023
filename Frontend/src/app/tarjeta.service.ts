@@ -27,9 +27,11 @@ export class TarjetaService {
 
   id: number = 0;  
 
+  private urlGet = `${url}/api/actividad`;
+
   TARJETAS: tarjeta[] = [
     {
-      id: 1,
+      id_tarjeta: 1,
       nombre: 'miamsi',
       descripcion: 'aaa',
       imagen: 'assets/img.png',
@@ -37,7 +39,7 @@ export class TarjetaService {
       tema: 'el pepe'
     },
     {
-      id: 1,
+      id_tarjeta: 1,
       nombre: 'pepe',
       descripcion: 'asdasdasd',
       imagen: 'assets/img.png',
@@ -46,18 +48,51 @@ export class TarjetaService {
     }
   ];
 
+  tarjetasPorTema: tarjeta[] = [];
+  tarjetasSeleccionadas: tarjeta[] = [];
+
+  id: number = 0;
+  puntos: number = 0;
+  votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
+  tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
+  cambio: any; //variable para el timeout, para que cambie la tarjeta cada 30 segundos
+  mostrarPuntaje: boolean = false; //para mostrar el puntaje si ya pasaron todas las tarjetas
+  puntajes: { [tarjetaId: number]: number } = {}; //para guardar los puntajes de cada tarjeta
+  tarjetaMasVotada: tarjeta | null = null;
+  estadoVotacion: boolean = true;
+
+  @Input() contenedor: tarjeta = { 
+    id_tarjeta: -1,
+    nombre: '',
+    descripcion: '', // no se
+    imagen: '',
+    puntos: 0,
+    tema: ''}
+    ;
+
   //Para agregar tarjetas a la lista de tarjetas existentes
   agregarTarjeta(tarj: tarjeta){
-    console.log(tarj.nombre);
-    tarj.id = this.id;
-    this.id ++;
-    this.TARJETAS.push(tarj);
-    this.http.post(
+    let tema = document.getElementById('option') as HTMLInputElement;
+    console.log(tema);
+    tarj.tema = (tema.value).toString();
+    console.log(tarj.tema);
+    tarj.id_tarjeta = this.id; // es auto inncremental, ni idea algo asi, lo borramos?
+    this.id ++; 
+    this.TARJETAS.push(tarj); // pero
+    this.http.post( 
       this.urlPost, {
         tarjetaNueva: tarj,
       }).subscribe((data: { [key: string]: any }) => {
         console.log(data);
       });
+  }
+
+  getTarjetas(){
+    this.http.get(this.urlGet).subscribe((data : any) => {
+      console.log(data);
+      this.TARJETAS = data;
+    });
+
   }
 
   quitarTarjeta(tarj: tarjeta){

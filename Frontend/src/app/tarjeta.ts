@@ -1,6 +1,6 @@
 export interface tarjeta {
-    id: number;
-    nombre: string;
+    id_tarjeta: number; // 
+    nombre: string; // ta  la 
     descripcion: string;
     imagen: string;
     tema: string;
