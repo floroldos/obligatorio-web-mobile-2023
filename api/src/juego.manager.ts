@@ -62,6 +62,16 @@ export class JuegoManager {
                 }
             });
 
+            conn.on('mensajeEnviado', (data: { [key: string]: any }) => {
+                let message = data['message'];
+                if(message != '') {
+                    console.log('mensaje enviado: ' + message);
+                    ws.emit('mensajeNuevo', { 'message': message });
+                }else{
+                    console.log('no se pudo enviar el mensaje');
+                }
+            });
+
             /* conn.on('desconectar', (data: { [key: string]: any }) => {
                 let user = data['user'];
                 if(user != '') {

@@ -67,6 +67,10 @@ export class SalaComponent implements OnInit {
       this.wSocket.emit('pong');
   });
 
+    this.wSocket.on('mensajeNuevo', (data: { [key: string]: any}) => {
+      console.log("mensaje recibido: " + data['message']);
+      this.messageList.push(data['message']);
+    });
 
     const comprobarConexion = () => {
       const timer = setTimeout(() => {
@@ -90,7 +94,13 @@ export class SalaComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['../tarjeta']);
     }, 1000);  // Espera 5 segundos
-    
+
   }
-  
+
+  sendMessage() {
+    this.newMessage = this.salaService.nickname + ': ' + this.newMessage;
+    this.wSocket.emit('mensajeEnviado', { message: this.newMessage });
+    this.newMessage = '';
+  }
+
 }

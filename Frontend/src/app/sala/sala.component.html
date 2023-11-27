@@ -26,8 +26,8 @@
           </div>
           <hr>
             <div class="chat-input" id="chat-input">
-            <input [(ngModel)]="newMessage"  type="text" placeholder="Escribe un mensaje"> <!--para darle con el enter: (keydown.enter)="function()"-->
-            <button class="btn btn-primary"  id="message-input">Enviar</button> <!-- para mandar (click)="sendMessage()" -->
+              <input [(ngModel)]="newMessage"  type="text" placeholder="Escribe un mensaje"> <!--para darle con el enter: (keydown.enter)="function()"-->
+            <button class="btn btn-primary"  id="message-input" (click)="sendMessage()">Enviar</button> <!-- para mandar (click)="sendMessage()" -->
           </div>
         </div>
       </div>
