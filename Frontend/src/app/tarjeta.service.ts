@@ -10,19 +10,6 @@ import { url } from './enviorment';
 export class TarjetaService {
   constructor(private http: HttpClient) {}
 
-  // ALMACENAR TARJETAS EN WEBAPI: NECESITAMOS QUE EL ARRAY DE TODAS LAS TARJETAS SE GUARDE AHÍ
-  // EN EL ANGULAR: TRAER DE LA API TODAS LAS TARJETAS Y GUARDARLAS EN EL ARRAY DE TARJETAS PARA MOSTRARLAS (ver el get)
-  // NO GUARDAR TARJETAS EN EL ANGULAR pq no hay persistencia :3
-
-  //el componente tarjet llama a la lista del service y el service la trae de la webapi godeto
-
-  // ELTEMA VOTOS: TIENE QUE IR A LA WEBAPI, NO AL ANGULAR, Y RELACIONARSE CON CADA USUARIO (post)
-  // LOGICA VOTOS: A LA API (porque no suma los votos de un usuario con los del otro)
-  // se traen tarjetas cuando incie, se vota, se suman votos en api
-  // la webapi tiene q devolver las tarjetas con más votos (podio) o la mas votada :v
-
-  // y  todo esto mismo con los temas
-
   private urlPost = `${url}/api/crearActividad`;
 
   id: number = 0;  
@@ -51,7 +38,6 @@ export class TarjetaService {
   tarjetasPorTema: tarjeta[] = [];
   tarjetasSeleccionadas: tarjeta[] = [];
 
-  id: number = 0;
   puntos: number = 0;
   votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
   tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout

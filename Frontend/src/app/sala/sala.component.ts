@@ -39,7 +39,7 @@ export class SalaComponent implements OnInit {
   }
 
   connectSocket() {
-    this.wSocket = io("ws://localhost:3001/game", {
+    this.wSocket = io(`ws://localhost:3001/game`, {
       transports: ['websocket']
     });
     
