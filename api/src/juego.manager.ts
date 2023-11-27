@@ -1,5 +1,6 @@
 // ----- Logica tarjetas ----- //
 import { tarjeta } from "./tarjeta";
+const actividadSchema = require('./models/actividades.model');
 
 export class JuegoManager {
     jugadores: any[];
@@ -13,6 +14,7 @@ export class JuegoManager {
 
     pingInterval: number = 5000;
     wsc: any;
+
 
     webSocketConn(ws: any) {
         this.wsc = ws;
@@ -39,7 +41,8 @@ export class JuegoManager {
 
             conn.on('empezar', (data: { [key: string]: any }) => {
                 console.log('empezar');
-                ws.emit('empezarPartida');
+                console.log(this.tema);
+                this.tema = data['tema'];
                 this.empezarPartida();
             });
 
@@ -85,28 +88,19 @@ export class JuegoManager {
                 
                 ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });
             });
+
+            conn.on('pedidoTarjetas', () => {
+                console.log("pedido de tarjetas");
+                this.wsc.emit('listaTarjetas' , { 'tarjetas': this.tarjetasSeleccionadas });
+            });
         });
     }
     
     TARJETAS: tarjeta[] = [
-        {
-            id: 1,
-            nombre: 'miamsi',
-            descripcion: 'aaa',
-            imagen: 'assets/img.png',
-            puntos: 0,
-            tema: 'el pepe'
-        },
-        {
-            id: 1,
-            nombre: 'pepe',
-            descripcion: 'asdasdasd',
-            imagen: 'assets/img.png',
-            puntos: 0,
-            tema: 'el pepe'
-        }
 
     ];
+
+    
 
     tarjetasPorTema: tarjeta[] = [];
     tarjetasSeleccionadas: tarjeta[] = [];
@@ -117,12 +111,18 @@ export class JuegoManager {
     tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
     cambio: any; //variable para el timeout, para que cambie la tarjeta cada 30 segundos
     tarjetaMasVotada: tarjeta | null = null;
+    tema: string = '';
     votosHechos: { [user: string]: boolean } = {}; //para guardar los votos hechos por cada jugador
 
-    empezarPartida(){
-        this.traerTarjetas();
-        this.shuffleArray(this.TARJETAS);
+    async empezarPartida(){
+        this.tarjetaActual = 0;
+        await actividadSchema.find().then((data: any) => {
+            this.TARJETAS = data;
+        })
+        this.seleccionarTarjetas();
+        this.wsc.emit('empezarPartida');
         this.cambiarTarjeta();
+        
     }
 
     sumarPuntos(tarj: tarjeta, user: string) {
@@ -132,9 +132,13 @@ export class JuegoManager {
         }else{
             this.votosHechos[user] = true;
             console.log("voto enviado");
-            let index = this.TARJETAS.findIndex(obj => obj.id === tarj.id);
+            let index = 0;
+            this.TARJETAS.forEach(element => {
+                if(element.id === tarj.id){
+                    index = this.TARJETAS.indexOf(element);
+                }
+            });
             this.TARJETAS[index].puntos++;
-            console.log(tarj.puntos);
         }
         
     }
@@ -146,7 +150,13 @@ export class JuegoManager {
         }else{
             this.votosHechos[user] = true;
             console.log("voto enviado");
-            let index = this.TARJETAS.findIndex(obj => obj.id === tarj.id);
+            let index = 0;
+            this.TARJETAS.forEach(element => {
+                if(element.id === tarj.id){
+                    index = this.TARJETAS.indexOf(element);
+                }
+            });
+            console.log(index);
             this.TARJETAS[index].puntos--;
             console.log(tarj.puntos);
         }
@@ -155,11 +165,15 @@ export class JuegoManager {
     //Función para cambiar la tarjeta cada 20 segundos
     cambiarTarjeta() {
         this.cambio = setTimeout(() => {
-            if (this.tarjetaActual < this.TARJETAS.length - 1) {
+            console.log("TARJETA: ", this.tarjetaActual);
+            console.log("TARJETAS SELECCIONADAS: ", this.tarjetasSeleccionadas.length);
+            if (this.tarjetaActual < this.tarjetasSeleccionadas.length - 1) {
                 this.tarjetaActual++;
                 this.votosHechos = {};
+                console.log("tarjeta actual: ", this.tarjetaActual);
                 this.wsc.emit('cambiarTarjeta', { 'tarjeta': this.tarjetaActual });
             } else {
+                console.log("Se acabaron las tarjetas");
                 this.calcularTarjetaMasVotada();
                 return; //Para no seguir cambiando tarjetas
             }
@@ -181,12 +195,25 @@ export class JuegoManager {
             console.log("No hay tarjetas seleccionadas");
         }
         this.wsc.emit('finalizarVotacion', { 'tarjetaMasVotada': this.tarjetaMasVotada });
+        for (let tarjeta of this.TARJETAS) {
+            tarjeta.puntos = 0;
+        }
         return;
     }
 
-    //funcion para traer las tarjetas desde un endpoint del cliente
-    traerTarjetas() {
+    seleccionarTarjetas(){
         
+
+        this.TARJETAS.forEach(element => {
+            if(element.tema === this.tema){
+                this.tarjetasPorTema.push(element);
+            }
+        });
+        
+
+        this.shuffleArray(this.tarjetasPorTema);
+        this.tarjetasSeleccionadas = this.tarjetasPorTema.slice(0, 5);
+        return this.tarjetasSeleccionadas;
     }
     
     //algoritmo para elegir tarjetas de forma random
@@ -198,7 +225,7 @@ export class JuegoManager {
         }
         return newArray;
     }
-    
+
 }
 
 

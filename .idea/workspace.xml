@@ -6,12 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="839fc00b-34e9-4873-8fbd-f6da9b53ae60" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/enviorment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/enviorment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/login.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/user.service.spec.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/login.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/tarjeta.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/tarjeta.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/controllers/users.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/controllers/users.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/juego.manager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/juego.manager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/routes/users.router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/routes/users.router.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +57,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\Usuario\\Desktop\\Web_y_Mobile\\obligatorio-web-mobile-2023\\api\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\Usuario\\Desktop\\Web_y_Mobile\\obligatorio-web-mobile-2023\\Frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -88,6 +91,7 @@
       <workItem from="1699875437443" duration="14000" />
       <workItem from="1699961005850" duration="3175000" />
       <workItem from="1699964374836" duration="184000" />
+      <workItem from="1701085865804" duration="3710000" />
     </task>
     <servers />
   </component>

@@ -6,7 +6,7 @@ import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login.service';
 import { Socket, io } from 'socket.io-client';
-import { url } from '../enviorment';
+import { urlPersona } from '../enviorment';
 //import { clear } from 'console';
 //import { timer } from 'rxjs';
 
@@ -40,7 +40,7 @@ export class SalaComponent implements OnInit {
   }
 
   connectSocket() {
-    this.wSocket = io("ws://10.13.230.45:3001/game", {
+    this.wSocket = io("ws://"+urlPersona+":3001/game", {
       transports: ['websocket']
     });
     
@@ -54,7 +54,6 @@ export class SalaComponent implements OnInit {
 
     this.wSocket.on('actualizarJugadores', (data: { [key: string]: any}) => {
       this.jugadores = data['jugadores'];
-      console.log(this.jugadores);
     });
 
     this.wSocket.on('empezarPartida', (data: { [key: string]: any}) => {
@@ -82,14 +81,13 @@ export class SalaComponent implements OnInit {
   }
 
   empezarPartida() {
-    this.wSocket.emit('empezar');
+    console.log(this.salaService.contenedor.propuesta);
+    console.log("empezar: ", this.salaService.contenedor.propuesta);
+    this.wSocket.emit('empezar', { 'tema' : this.salaService.contenedor.propuesta});
   }
 
   iniciarJuego() {
-    setTimeout(() => {
       this.router.navigate(['../tarjeta']);
-    }, 1000);  // Espera 1 segundo
-
   }
 
   sendMessage() {
