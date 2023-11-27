@@ -13,11 +13,11 @@ const cors = require('cors');
 
 app.use(express.json())
 app.use(cors());
-app.use('/api/user', userRouter, authenticate);
-app.use('/api', juegosRouter, authenticate);
-app.use('/api', temasRouter, authenticate);
-app.use('/api', actividadesRouter, authenticate);
-app.use('/api', jugadorRouter, authenticate);
+app.use('/api/user', userRouter);
+app.use('/api', juegosRouter);
+app.use('/api', temasRouter);
+app.use('/api', actividadesRouter);
+app.use('/api', jugadorRouter);
 
 const PORT = 3000;
 

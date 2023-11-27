@@ -6,6 +6,7 @@ import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login.service';
 import { Socket, io } from 'socket.io-client';
+import { url } from '../enviorment';
 //import { clear } from 'console';
 //import { timer } from 'rxjs';
 
@@ -39,7 +40,7 @@ export class SalaComponent implements OnInit {
   }
 
   connectSocket() {
-    this.wSocket = io("ws://localhost:3001/game", {
+    this.wSocket = io("ws://10.13.230.45:3001/game", {
       transports: ['websocket']
     });
     

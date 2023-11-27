@@ -25,8 +25,6 @@ export class TarjetaService {
 
   private urlPost = `${url}/api/crearActividad`;
 
-  id: number = 0;  
-
   private urlGet = `${url}/api/actividad`;
 
   TARJETAS: tarjeta[] = [

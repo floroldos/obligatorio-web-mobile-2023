@@ -19,12 +19,6 @@ export class LoginComponent {
 
   constructor(public salaService: SalaService, public router: Router, public loginService: LoginService, private temaService: TemaService) {}
 
-  ngOnInit() : void{
-    console.log("Init login");
-    this.salaService.codigoSalaUsuario = -1;
-    this.salaService.updateSala();
-  }
-
   login(): void {
     this.loginService.login(this.username, this.password).subscribe(
       (loginSuccessful) => {
