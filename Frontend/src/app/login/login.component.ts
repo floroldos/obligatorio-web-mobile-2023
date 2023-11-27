@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { sala } from '../sala';
 import { SalaService } from '../sala.service';
 import  { Router } from '@angular/router';
 import { LoginService } from '../login.service';

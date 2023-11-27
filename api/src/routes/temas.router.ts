@@ -10,7 +10,7 @@ router.post('/tema', createTema);
 router.get('/tema', getTemas);
 
 // Metodo Get // // Obtener tema por id //
-router.get('/tema/:id', getTemaById)
+router.get('/tema/:id', getTemaById);
 
 // Metodo Put // // Actualizar tema //
 router.put('/tema/:id', updateTema);

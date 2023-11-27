@@ -2,6 +2,7 @@ const actividadSchema = require('../models/actividades.model');
 import { tarjeta } from '../../../Frontend/src/app/tarjeta';
 
 const getActividad = async (req: any, res: any) => {
+
     await actividadSchema 
         .find()
         .then((actividad: any) => res.json(actividad))
@@ -17,6 +18,7 @@ const getActividadById = async (req: any, res: any) => {
 }
 
 const createActividad = async (req: any, res: any) => {
+
     const tarjeta: tarjeta = req.body["tarjetaNueva"]; //anda al tarjeta service
     const actividad = actividadSchema(tarjeta)
     await actividad // no anda el get en /actividad

@@ -1,4 +1,5 @@
 <main>
+  <!--JUEGO-->
   <section id="create-game">
       <h2>Crear juego</h2>
           <label for="proposal">Tema:</label>
@@ -42,8 +43,10 @@
   <section id="join-game">
       <h2>Unirse a un juego</h2>
         <label for="game-code">Código único:</label>
-        <input id="salacode" placeholder="" id="game-code" name="game-code">
-        <button type="submit" (click)="unirseSala()">Unirse al juego</button> 
+
+        <input id="salacode" placeholder="" id="game-code" name="game-code" #codigo>
+        <button type="submit" (click)="salaService.unirseAJuego(codigo.value, 'admin')">Unirse al juego</button>
+
   </section>
 </main>
 

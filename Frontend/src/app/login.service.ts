@@ -24,7 +24,7 @@ export class LoginService {
     return this.http.post<any>(`${this.urlLogin}/login`, payload).pipe(
       map(response => {
         if (response && response.token) {
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('token', response.token); 
           return true;
         } else {
           return false;

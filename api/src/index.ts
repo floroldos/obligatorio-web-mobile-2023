@@ -6,36 +6,26 @@ import userRouter from './routes/users.router'
 import jugadorRouter from './routes/jugadores.router'
 import mongoose from 'mongoose'
 import { uri } from './enviorment'
+import { JuegoManager } from './juego.manager';
 
 const app = express();
 const cors = require('cors');
 
-
-// Middleware //
 app.use(express.json())
 app.use(cors());
-app.use('/api/user', userRouter);
-app.use('/api', juegosRouter);
-app.use('/api', temasRouter);
-app.use('/api', actividadesRouter);
-app.use('/api', jugadorRouter)
+app.use('/api/user', userRouter, authenticate);
+app.use('/api', juegosRouter, authenticate);
+app.use('/api', temasRouter, authenticate);
+app.use('/api', actividadesRouter, authenticate);
+app.use('/api', jugadorRouter, authenticate);
 
 const PORT = 3000;
 
-/* --------------- SOCKET.IO --------------- */
-
+ /* --------------- SOCKET.IO --------------- */
 //Crea un servidor de socket.io
-const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } });
+const io = require('socket.io')(PORT + 1, { cors: { origin: '*' } }).of("/game");
 
-//Event handler para cuando un usuario se conecta
-io.on('connection', (socket: any) => {
-  console.log('User connected');
-  
-//Listener de eventos de 'message' de los clientes con broadcast para que a todos les llegue
-socket.on('message', (data: any) => {
-    io.emit('message', data);
-  });
-});
+new JuegoManager(io);
 
 // --------------- Conexion a la base de datos --------------- //
 
@@ -56,3 +46,27 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });
+
+// --------------- Middleware --------------- //
+
+const jwt = require('jsonwebtoken');
+
+export function authenticate(req: any, res: any, next: any) {
+  const authorizationHeader = req.headers.authorization;
+  if (!authorizationHeader) {
+      return res.status(401).send({ message: "Unauthorized" });
+  } else {
+      const token: string = authorizationHeader.split(' ')[1];
+      try {
+          jwt.verify(token, 'PW2023');
+          next();
+      } catch (err: any) {
+          if (err.name === 'TokenExpiredError') {
+              res.status(401).send({ message: "TokenExpiredError" });
+          } else {
+              const error = new Error("Error! Something went wrong.");
+              return next(error);
+          }
+      }
+  }
+}

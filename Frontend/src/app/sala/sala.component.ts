@@ -4,8 +4,11 @@ import { SalaService } from '../sala.service';
 import { Router } from '@angular/router';
 import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
-import * as io from 'socket.io-client';
 import { LoginService } from '../login.service';
+import { Socket, io } from 'socket.io-client';
+//import { clear } from 'console';
+//import { timer } from 'rxjs';
+
 
 @Component({
   selector: 'app-sala',
@@ -19,58 +22,80 @@ export class SalaComponent implements OnInit {
   newMessage = '';
   messageList: string[] = [];
   countdown = 0;
+  wSocket!: Socket;
+  jugadores: string[] = [];
+  private timeoutId: number | null = null;
 
+  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) { }
 
-  constructor(public salaService: SalaService, private router: Router, private http: HttpClient, public loginService: LoginService, public tarjS: TarjetaService) {  }
+  ngOnInit() {
+    this.updateSala();
+    this.connectSocket();
+    this.jugadores = this.salaService.jugadores; 
+  }
 
   updateSala(){
     this.salaService.updateSala();
   }
 
-  updateJugadores(){
-      this.salaService.updateJugadores();
-  }
-  
-  ngOnInit() {
-    this.salaService.codigoSalaUsuario = this.salaService.contenedor.codigoSala;
-    this.updateSala();
-    this.updateJugadores();
-    this.salaService.socket.emit('jugadores');
-    this.salaService.getMessages((message: { user: string, message: string }) => {
-      this.messageList.push(`${message.user}: ${message.message}`);
+  connectSocket() {
+    this.wSocket = io("ws://localhost:3001/game", {
+      transports: ['websocket']
+    });
+    
+    this.wSocket.on('connected', (data: { [key: string]: any}) => {
+      if(data['ok'] == 'ok'){
+        console.log("Conectado al servidor");
+        console.log("emitiendo : " + this.salaService.nickname);
+        this.wSocket.emit('addUser', {"user": this.salaService.nickname});
+      }
     });
 
-    this.salaService.socket.on('empezar', () =>{
-      console.log('Empieza');
-      this.salaService.socket.emit('navegar', '../tarjeta');
-      this.router.navigate(['../tarjeta']);
+    this.wSocket.on('actualizarJugadores', (data: { [key: string]: any}) => {
+      this.jugadores = data['jugadores'];
+      console.log(this.jugadores);
     });
-  }
 
-  sendMessage() {
-    //this.salaService.sendMessage(this.newMessage);
-    this.newMessage = '';
+    this.wSocket.on('empezarPartida', (data: { [key: string]: any}) => {
+      this.juegoActivo = true;
+      this.iniciarJuego();
+      console.log("empezar");
+    });
+
+    this.wSocket.on('mensajeNuevo', (data: { [key: string]: any}) => {
+      if (data['user'] == this.salaService.nickname) {
+        this.messageList.push("(YOU): " + data['message']);
+      }else{
+        this.messageList.push(data['user'] + ": " + data['message']);
+      }
+    });
+
+    this.wSocket.on('comprobarJugadores', (data: { [key: string]: any}) => {
+      this.wSocket.emit('addUser', { 'user': this.salaService.nickname });
+    });
+
   }
 
   setUser(nickname: string) {
     this.salaService.setUser(nickname);
   }
 
-  iniciarJuego() {
-  //Muestra la primera actividad cuando empieza el juego
-    this.salaService.inicializarSala();
-    this.salaService.juegoActivo = true;
-    console.log(this.salaService.contenedor.codigoSala);
-    this.salaService.socket.emit('empezar');
-    let countdown = 5; 
-    const countdownInterval = setInterval(() => {
-      console.log(countdown); 
-      countdown--;
-
-      if (countdown === 0) {
-        clearInterval(countdownInterval); 
-        this.router.navigate(['../tarjeta']); 
-      }
-    }, 1000);
+  empezarPartida() {
+    this.wSocket.emit('empezar');
   }
+
+  iniciarJuego() {
+    setTimeout(() => {
+      this.router.navigate(['../tarjeta']);
+    }, 1000);  // Espera 1 segundo
+
+  }
+
+  sendMessage() {
+    this.newMessage = this.newMessage;
+    var usuario = this.salaService.nickname;
+    this.wSocket.emit('mensajeEnviado', { "message": this.newMessage , "user": usuario });
+    this.newMessage = '';
+  }
+
 }

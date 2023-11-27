@@ -35,16 +35,22 @@ export class LobbyComponent {
     descripcion: '',
     imagen: '',
     puntos: 0,
-    tema: '' 
-  }; 
 
-  unirseSala() {
-    this.salaService.unirseAJuego();
-  }
-
+    tema: ''
+  };
+  
  crearSala(){
     this.salaService.crearSala();
  }
+
+  agregarTarjeta(tarj: tarjeta){
+    this.agregarTarjeta(tarj);
+  }
+
+  quitarTarjeta(tarj: tarjeta){
+    tarj.puntos = 0;
+    this.quitarTarjeta(tarj);
+  }
 
  crearTema(tema : string){
     console.log(tema);
