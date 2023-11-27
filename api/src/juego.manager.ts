@@ -202,6 +202,7 @@ export class JuegoManager {
     }
 
     seleccionarTarjetas(){
+        
 
         this.TARJETAS.forEach(element => {
             if(element.tema === this.tema){
@@ -225,9 +226,7 @@ export class JuegoManager {
         return newArray;
     }
 
-    
-    
-} 
+}
 
 
 

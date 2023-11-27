@@ -38,7 +38,7 @@ export class TarjetaService {
   tarjetaMasVotada: tarjeta | null = null;
   estadoVotacion: boolean = true;
 
-  @Input() contenedor: tarjeta = { 
+  @Input() contenedor: tarjeta = {
     id_tarjeta: -1,
     nombre: '',
     descripcion: '', // no se
@@ -54,6 +54,7 @@ export class TarjetaService {
     tarj.tema = (tema.value).toString();
     console.log(tarj.tema);
     tarj.id_tarjeta = this.id; // es auto inncremental, ni idea algo asi, lo borramos?
+
     this.id ++; 
     this.http.post( 
       this.urlPost, {
