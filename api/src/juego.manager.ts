@@ -187,9 +187,7 @@ export class JuegoManager {
     }
 
     //funcion para traer las tarjetas desde un endpoint del cliente
-    async traerTarjetas() {
-        
-    }
+
     seleccionarTarjetas(){
 
         this.TARJETAS.forEach(element => {
@@ -215,9 +213,7 @@ export class JuegoManager {
         return newArray;
     }
 
-    
-    
-} 
+}
 
 
 
