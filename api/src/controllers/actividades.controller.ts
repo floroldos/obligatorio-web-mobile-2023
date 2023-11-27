@@ -9,6 +9,7 @@ const getActividad = async (req: any, res: any) => {
         .catch((err: any) => res.json('Error: ' + err));
 }
 
+
 const getActividadById = async (req: any, res: any) => {
     const {id} = req.params;
     await actividadSchema

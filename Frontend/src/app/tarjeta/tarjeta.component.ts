@@ -11,7 +11,7 @@ import { Socket, io } from 'socket.io-client';
 })
 export class TarjetaComponent{
 
-  listaTarjetas: tarjeta[] = this.tarjetaService.TARJETAS;
+  listaTarjetas: tarjeta[] = [];
 
   tarjeta: tarjeta = {
     id_tarjeta: 1,
@@ -37,6 +37,7 @@ export class TarjetaComponent{
 
   ngOnInit() : void{
     this.connectSocket();
+    this.wSocket.emit('pedidoTarjetas');
   }
 
   ngOnDestroy() {
@@ -71,7 +72,14 @@ export class TarjetaComponent{
     
     this.wSocket.on('cambiarTarjeta', (data: { [key: string]: any}) => {
       this.tarjetaActual = data['tarjeta'];
+      console.log("tarjeta actual: ", this.tarjetaActual);
       this.startAnimation();
+    })
+
+    this.wSocket.on('listaTarjetas' , (data: { [key: string]: any}) => {
+      console.log("lista tarjetas recibida: ", data['tarjetas'] );
+      this.listaTarjetas = data['tarjetas'];
+      console.log("lista tarjetas: ", this.listaTarjetas);
     })
 
     this.wSocket.on('finalizarVotacion', (data: { [key: string]: any}) => { 
@@ -79,7 +87,5 @@ export class TarjetaComponent{
       this.tarjetaMasVotada = data['tarjetaMasVotada'];
     })
   }
-
-  
   
 }

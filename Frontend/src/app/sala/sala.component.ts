@@ -53,7 +53,6 @@ export class SalaComponent implements OnInit {
 
     this.wSocket.on('actualizarJugadores', (data: { [key: string]: any}) => {
       this.jugadores = data['jugadores'];
-      console.log(this.jugadores);
     });
 
     this.wSocket.on('empezarPartida', (data: { [key: string]: any}) => {
@@ -81,14 +80,13 @@ export class SalaComponent implements OnInit {
   }
 
   empezarPartida() {
-    this.wSocket.emit('empezar');
+    console.log(this.salaService.contenedor.propuesta);
+    console.log("empezar: ", this.salaService.contenedor.propuesta);
+    this.wSocket.emit('empezar', { 'tema' : this.salaService.contenedor.propuesta});
   }
 
   iniciarJuego() {
-    setTimeout(() => {
       this.router.navigate(['../tarjeta']);
-    }, 1000);  // Espera 1 segundo
-
   }
 
   sendMessage() {

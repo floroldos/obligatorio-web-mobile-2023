@@ -25,31 +25,8 @@ export class TarjetaService {
 
   private urlPost = `${url}/api/crearActividad`;
 
-  id: number = 0;  
-
   private urlGet = `${url}/api/actividad`;
 
-  TARJETAS: tarjeta[] = [
-    {
-      id_tarjeta: 1,
-      nombre: 'miamsi',
-      descripcion: 'aaa',
-      imagen: 'assets/img.png',
-      puntos: 0,
-      tema: 'el pepe'
-    },
-    {
-      id_tarjeta: 1,
-      nombre: 'pepe',
-      descripcion: 'asdasdasd',
-      imagen: 'assets/img.png',
-      puntos: 0,
-      tema: 'el pepe'
-    }
-  ];
-
-  tarjetasPorTema: tarjeta[] = [];
-  tarjetasSeleccionadas: tarjeta[] = [];
 
   id: number = 0;
   puntos: number = 0;
@@ -78,7 +55,6 @@ export class TarjetaService {
     console.log(tarj.tema);
     tarj.id_tarjeta = this.id; // es auto inncremental, ni idea algo asi, lo borramos?
     this.id ++; 
-    this.TARJETAS.push(tarj); // pero
     this.http.post( 
       this.urlPost, {
         tarjetaNueva: tarj,
@@ -87,15 +63,9 @@ export class TarjetaService {
       });
   }
 
-  getTarjetas(){
-    this.http.get(this.urlGet).subscribe((data : any) => {
-      console.log(data);
-      this.TARJETAS = data;
-    });
-
-  }
-
   quitarTarjeta(tarj: tarjeta){
-    this.TARJETAS.splice(this.TARJETAS.indexOf(tarj), 1);
+    this.http.delete(`${this.urlGet}/${tarj.id_tarjeta}`).subscribe((data: { [key: string]: any }) => {
+      console.log(data);
+    });
   }
 }
