@@ -3,6 +3,7 @@ import { TarjetaService } from '../tarjeta.service';
 import { tarjeta } from '../tarjeta';
 import { SalaService } from '../sala.service';
 import { Socket, io } from 'socket.io-client';
+import { set } from 'mongoose';
 
 @Component({
   selector: 'app-tarjeta',
@@ -38,12 +39,16 @@ export class TarjetaComponent{
   ngOnInit() : void{
     this.connectSocket();
     this.wSocket.emit('pedidoTarjetas');
+    setTimeout(() => {
+      this.startAnimation();
+    }, 1000);
   }
 
   ngOnDestroy() {
   }
 
   sumarPuntos(tarj: tarjeta) {
+    console.log(tarj);
     this.wSocket.emit('sumarPuntos', {"tarjeta": tarj}, {'user': this.salaService.nickname});
   }
 
@@ -72,8 +77,11 @@ export class TarjetaComponent{
     
     this.wSocket.on('cambiarTarjeta', (data: { [key: string]: any}) => {
       this.tarjetaActual = data['tarjeta'];
-      console.log("tarjeta actual: ", this.tarjetaActual);
-      this.startAnimation();
+      console.log("tarjeta actual: ", this.tarjetaActual);  
+      this.stopAnimation();
+      setTimeout(() => {
+        this.startAnimation();
+      }, 1000);
     })
 
     this.wSocket.on('listaTarjetas' , (data: { [key: string]: any}) => {

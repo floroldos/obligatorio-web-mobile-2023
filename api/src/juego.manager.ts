@@ -115,6 +115,7 @@ export class JuegoManager {
     votosHechos: { [user: string]: boolean } = {}; //para guardar los votos hechos por cada jugador
 
     async empezarPartida(){
+        this.tarjetaActual = 0;
         await actividadSchema.find().then((data: any) => {
             this.TARJETAS = data;
         })
@@ -131,9 +132,13 @@ export class JuegoManager {
         }else{
             this.votosHechos[user] = true;
             console.log("voto enviado");
-            let index = this.TARJETAS.findIndex(obj => obj.id === tarj.id);
+            let index = 0;
+            this.TARJETAS.forEach(element => {
+                if(element.id === tarj.id){
+                    index = this.TARJETAS.indexOf(element);
+                }
+            });
             this.TARJETAS[index].puntos++;
-            console.log(tarj.puntos);
         }
         
     }
@@ -145,7 +150,13 @@ export class JuegoManager {
         }else{
             this.votosHechos[user] = true;
             console.log("voto enviado");
-            let index = this.TARJETAS.findIndex(obj => obj.id === tarj.id);
+            let index = 0;
+            this.TARJETAS.forEach(element => {
+                if(element.id === tarj.id){
+                    index = this.TARJETAS.indexOf(element);
+                }
+            });
+            console.log(index);
             this.TARJETAS[index].puntos--;
             console.log(tarj.puntos);
         }
@@ -162,6 +173,7 @@ export class JuegoManager {
                 console.log("tarjeta actual: ", this.tarjetaActual);
                 this.wsc.emit('cambiarTarjeta', { 'tarjeta': this.tarjetaActual });
             } else {
+                console.log("Se acabaron las tarjetas");
                 this.calcularTarjetaMasVotada();
                 return; //Para no seguir cambiando tarjetas
             }
@@ -183,13 +195,12 @@ export class JuegoManager {
             console.log("No hay tarjetas seleccionadas");
         }
         this.wsc.emit('finalizarVotacion', { 'tarjetaMasVotada': this.tarjetaMasVotada });
+        for (let tarjeta of this.TARJETAS) {
+            tarjeta.puntos = 0;
+        }
         return;
     }
 
-    //funcion para traer las tarjetas desde un endpoint del cliente
-    async traerTarjetas() {
-        
-    }
     seleccionarTarjetas(){
 
         this.TARJETAS.forEach(element => {
@@ -201,7 +212,6 @@ export class JuegoManager {
 
         this.shuffleArray(this.tarjetasPorTema);
         this.tarjetasSeleccionadas = this.tarjetasPorTema.slice(0, 5);
-        console.log(this.tarjetasSeleccionadas);
         return this.tarjetasSeleccionadas;
     }
     
