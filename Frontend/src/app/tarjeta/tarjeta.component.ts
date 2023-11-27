@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { TarjetaService } from '../tarjeta.service';
 import { tarjeta } from '../tarjeta';
+import { SalaService } from '../sala.service';
+import { Socket, io } from 'socket.io-client';
 
 @Component({
   selector: 'app-tarjeta',
@@ -29,35 +31,56 @@ export class TarjetaComponent{
     mostrarPuntaje: boolean = false; //para mostrar el puntaje si ya pasaron todas las tarjetas
     puntajes: { [tarjetaId: number]: number } = {}; //para guardar los puntajes de cada tarjeta
     tarjetaMasVotada: tarjeta | null = null;
+    wSocket!: Socket;
     estadoVotacion: boolean = true;
     
-  constructor(public tarjetaService: TarjetaService) { }
+  constructor(public salaService: SalaService, public tarjetaService: TarjetaService) { }
 
   ngOnInit() : void{
-    
+    this.connectSocket();
   }
 
   ngOnDestroy() {
-    // Detiene el timer cuando el componente se destruye
   }
 
-  enviarVoto() {
-   }
-
   sumarPuntos(tarj: tarjeta) {
+    this.wSocket.emit('sumarPuntos', {"tarjeta": tarj}, {'user': this.salaService.nickname});
   }
 
   restarPuntos(tarj: tarjeta) {
+    this.wSocket.emit('restarPuntos', {"tarjeta": tarj}, {'user': this.salaService.nickname});
   }
 
-  cambiarTarjeta() {
+  startAnimation() {
+    var element = document.querySelector('.barra');
+    if (element) {
+      element.classList.add('start-animation');
+    }
   }
+
+  stopAnimation() {
+    var element = document.querySelector('.barra');
+    if (element) {
+      element.classList.remove('start-animation');
+    }
+  }
+
+  connectSocket() {
+    this.wSocket = io("ws://localhost:3001/game", { 
+      transports: ['websocket']
+    });
+    
+    this.wSocket.on('cambiarTarjeta', (data: { [key: string]: any}) => {
+      this.tarjetaActual = data['tarjeta'];
+      this.startAnimation();
+    })
+
+    this.wSocket.on('finalizarVotacion', (data: { [key: string]: any}) => { 
+      this.estadoVotacion = false;
+      this.tarjetaMasVotada = data['tarjetaMasVotada'];
+    })
+  }
+
   
-  calcularTarjetaMasVotada() {
-  }
-
-  finalizarVotacion() {
-  } 
-
   
 }

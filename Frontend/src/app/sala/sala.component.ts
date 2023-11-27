@@ -6,6 +6,8 @@ import { TarjetaService } from '../tarjeta.service';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login.service';
 import { Socket, io } from 'socket.io-client';
+//import { clear } from 'console';
+//import { timer } from 'rxjs';
 
 
 @Component({
@@ -53,6 +55,26 @@ export class SalaComponent implements OnInit {
       console.log(this.jugadores);
     });
 
+    this.wSocket.on('empezarPartida', (data: { [key: string]: any}) => {
+      this.juegoActivo = true;
+      this.iniciarJuego();
+      console.log("empezar");
+    });
+
+    this.wSocket.on('ping', () => {
+      console.log('Recibido Ping del servidor');
+      // Responder con Pong al servidor
+      this.wSocket.emit('pong');
+  });
+
+
+    const comprobarConexion = () => {
+      const timer = setTimeout(() => {
+          
+      }, 4000);
+    };
+
+    setInterval(comprobarConexion, 5000);
 
   }
 
@@ -60,18 +82,15 @@ export class SalaComponent implements OnInit {
     this.salaService.setUser(nickname);
   }
 
-  iniciarJuego() {
-    this.salaService.inicializarSala();
-    console.log(this.salaService.contenedor.codigoSala);
+  empezarPartida() {
     this.wSocket.emit('empezar');
-  
-    setTimeout(() => {
-      this.router.navigate(['../tarjeta']);
-    }, 3000);  // Espera 5 segundos
   }
 
-  empezarPartida(){
-    this.salaService.empezarPartida();
+  iniciarJuego() {
+    setTimeout(() => {
+      this.router.navigate(['../tarjeta']);
+    }, 1000);  // Espera 5 segundos
+    
   }
   
 }

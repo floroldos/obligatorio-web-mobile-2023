@@ -106,13 +106,6 @@ export class SalaService {
     this.router.navigate(['../sala']);
   }
 
-  inicializarSala() {
-    this.juegoActivo = true;
-  }
-
-  empezarPartida(){
-  }
-
   async unirseAJuego(salaCode: string, nname: string) {
     //sala code es un string, lo quiero pasar a number or
     let codigo: number = parseInt(salaCode);
@@ -156,15 +149,7 @@ export class SalaService {
     return this.tarjS.tarjetasSeleccionadas;
   }  */
 
-  //algoritmo para elegir tarjetas de forma random
-  shuffleArray<T>(array: T[]): T[] {
-    const newArray = array.slice(); // Create a copy of the original array to avoid modifying it directly
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)); // Generate a random index between 0 and i
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements at i and j
-    }
-    return newArray;
-  }
+  
 
   displayMessage(message: string) {
     const div = document.createElement('div');
