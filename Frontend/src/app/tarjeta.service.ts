@@ -25,7 +25,7 @@ export class TarjetaService {
 
   private urlPost = `${url}/api/crearActividad`;
 
-  id: number = 0;  
+  id: number = 0;
 
   private urlGet = `${url}/api/actividad`;
 
@@ -50,8 +50,6 @@ export class TarjetaService {
 
   tarjetasPorTema: tarjeta[] = [];
   tarjetasSeleccionadas: tarjeta[] = [];
-
-  id: number = 0;
   puntos: number = 0;
   votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
   tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
@@ -61,7 +59,7 @@ export class TarjetaService {
   tarjetaMasVotada: tarjeta | null = null;
   estadoVotacion: boolean = true;
 
-  @Input() contenedor: tarjeta = { 
+  @Input() contenedor: tarjeta = {
     id_tarjeta: -1,
     nombre: '',
     descripcion: '', // no se
@@ -77,9 +75,9 @@ export class TarjetaService {
     tarj.tema = (tema.value).toString();
     console.log(tarj.tema);
     tarj.id_tarjeta = this.id; // es auto inncremental, ni idea algo asi, lo borramos?
-    this.id ++; 
+    this.id ++;
     this.TARJETAS.push(tarj); // pero
-    this.http.post( 
+    this.http.post(
       this.urlPost, {
         tarjetaNueva: tarj,
       }).subscribe((data: { [key: string]: any }) => {

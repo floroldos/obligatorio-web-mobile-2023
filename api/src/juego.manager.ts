@@ -1,5 +1,6 @@
 // ----- Logica tarjetas ----- //
 import { tarjeta } from "./tarjeta";
+const actividadSchema = require('./models/actividades.model');
 
 export class JuegoManager {
     jugadores: any[];
@@ -186,7 +187,10 @@ export class JuegoManager {
 
     //funcion para traer las tarjetas desde un endpoint del cliente
     traerTarjetas() {
-        
+        actividadSchema.find().then((data: any) => {
+            this.TARJETAS = data;
+            console.log(this.TARJETAS);
+        })
     }
     
     //algoritmo para elegir tarjetas de forma random
@@ -198,7 +202,7 @@ export class JuegoManager {
         }
         return newArray;
     }
-    
+
 }
 
 
