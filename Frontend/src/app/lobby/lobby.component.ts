@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SalaService } from '../sala.service';
 import { FormsModule } from '@angular/forms';
+import { url } from '../enviorment';
 
 @Component({
   selector: 'app-lobby',
@@ -19,12 +20,16 @@ export class LobbyComponent {
   temaS = new TemaService(this.http);
   tarjS = new TarjetaService(this.http);
   salaService = new SalaService(this.router, this.http);
-  tarjetasGeneradas: tarjeta[] = [];
+  tarjetas: tarjeta[] = [];
+  private urlGet = `${url}/api/actividad`;
+
 
   ngOnInit(): void {  
     console.log("Lobby init");
     this.temaS.getTemas();
-    this.tarjS.getTarjetas();
+    this.http.get(this.urlGet).subscribe((data: { [key: string]: any }) => {
+      this.tarjetas = data as tarjeta[];
+   });
   }
 
   @Input() temaContenedor: string = '';
