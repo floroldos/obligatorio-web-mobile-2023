@@ -1,18 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Input } from '@angular/core';
+import { url } from './enviorment';
+import { HttpClient } from '@angular/common/http';
+import { tema } from './tema';
+import { TemaComponent } from './tema/tema.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemaService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  TEMAS: string[] = ['1'];
+  onInit(): void {
+    console.log("Tema service onInit");
+    this.getTemas();
+  }
+
+  TEMAS: string[] = [];
   @Input() temaContenedor: string = '';
+  private url = `${url}/api/tema`;
 
   getTemas(): string[] {
-    // get a webapi
+    this.http.get(this.url).subscribe((data : any) => {
+      let array = data as tema[];
+      array.forEach(element => {
+        this.TEMAS.push(element.nombre);
+      });
+    })
     return this.TEMAS;
   }
 
@@ -20,14 +35,17 @@ export class TemaService {
     if (this.TEMAS.includes(tema)) {
       const modalElement = document.getElementById('modalTemaExiste');
       if (modalElement) {
+        /*
         modalElement.classList.add('show');
         modalElement.style.display = 'block';
+        */
       }
     }else{
-      console.log(tema);
       this.TEMAS.push(tema);
       this.resetContenedor();
-      //push a webapi
+      let temi: tema = {nombre: tema};
+      this.http.post(this.url, {tema : temi}).subscribe((data: { [key: string]: any }) => {console.log(data)});
+      
     }
     
   }

@@ -14,7 +14,7 @@ export class TarjetaComponent{
   listaTarjetas: tarjeta[] = this.tarjetaService.TARJETAS;
 
   tarjeta: tarjeta = {
-    id: 1,
+    id_tarjeta: 1,
     nombre: 'Sample Tarjeta',
     descripcion: 'A sample tarjeta',
     imagen: 'sample.jpg',

@@ -29,8 +29,8 @@ const getJuegoById = async (req: any, res: any) => {
     await juegoShema
         .findById( id )
         .then((juego: any) => res.json(juego))
-        .catch((err: any) => res.json('Error: ' + err));
-}
+        .catch((err: any) => res.json('Error: ' + err)); 
+} 
 
 const createJuego = async (req: any, res: any) => {
     codigoSala = req.body.codigoSala;

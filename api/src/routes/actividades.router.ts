@@ -1,5 +1,6 @@
 import express from 'express'
-import { getActividad, getActividadById, createActividad, updateActividad, deleteActividad  } from '../controllers/actividades.controller'
+import {  getActividad, getActividadById, createActividad, updateActividad, deleteActividad  } from '../controllers/actividades.controller'
+
 
 const router = express.Router()
 
@@ -7,7 +8,7 @@ const router = express.Router()
 router.post('/crearActividad', createActividad);
 
 // Metodo Get // // Obtener todas las actividades //
-router.get('/actividad', getActividad);
+router.get('/actividad', getActividad);  
 
 // Metodo Get // // Obtener actividad por id //
 router.get('/actividad/:id', getActividadById);

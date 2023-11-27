@@ -16,19 +16,26 @@ import { FormsModule } from '@angular/forms';
 export class LobbyComponent {
   constructor(private router: Router, private http: HttpClient) { }
   
-  temaS = new TemaService();
+  temaS = new TemaService(this.http);
   tarjS = new TarjetaService(this.http);
   salaService = new SalaService(this.router, this.http);
   tarjetasGeneradas: tarjeta[] = [];
 
+  ngOnInit(): void {  
+    console.log("Lobby init");
+    this.temaS.getTemas();
+    this.tarjS.getTarjetas();
+  }
+
   @Input() temaContenedor: string = '';
   
   @Input() tarjContenedor: tarjeta = {
-    id: -1,
+    id_tarjeta: -1, 
     nombre: '',
     descripcion: '',
     imagen: '',
     puntos: 0,
+
     tema: ''
   };
   
@@ -44,6 +51,11 @@ export class LobbyComponent {
     tarj.puntos = 0;
     this.quitarTarjeta(tarj);
   }
+
+ crearTema(tema : string){
+    console.log(tema);
+    this.temaS.addTema(tema);
+ }
 
  /* es para que carguen las imagenes de las tarjetas */
  
