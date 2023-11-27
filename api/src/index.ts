@@ -13,8 +13,9 @@ const cors = require('cors');
 
 app.use(express.json())
 app.use(cors());
-app.use('/api/user', userRouter );
-app.use('/api', juegosRouter );
+app.use('/api/user', userRouter);
+app.use('/api', juegosRouter);
+
 app.use('/api', temasRouter);
 app.use('/api', actividadesRouter);
 app.use('/api', jugadorRouter);

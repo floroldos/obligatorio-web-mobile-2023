@@ -5,6 +5,11 @@ import { LoginService } from '../login.service';
 import { SalaComponent } from '../sala/sala.component';
 import { takeUntil } from 'rxjs/operators';
 import { TemaService } from '../tema.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
+import { url } from '../enviorment';
 
 @Component({
   selector: 'app-login',
@@ -14,29 +19,32 @@ import { TemaService } from '../tema.service';
 export class LoginComponent {
   activeTab: string = 'unirse-juego';
   username: string = '';
-  email: string = '';
   password: string = '';
+  private urlLogin = `${url}/api/user/confirmLogin`;
+  private authToken: string | null = null;
 
-  constructor(public salaService: SalaService, public router: Router, public loginService: LoginService, private temaService: TemaService) {}
+  constructor(public salaService: SalaService, public router: Router, public loginService: LoginService, private temaService: TemaService, public http: HttpClient) {}
 
-ngOnInit() {
+  ngOnInit() : void{
     this.salaService.updateSala();
-}
+  }
 
-  login(): void {
-    this.loginService.login(this.username, this.password).subscribe(
-      (loginSuccessful) => {
-        if (loginSuccessful) {
-          console.log('Inicio de sesión exitoso')
-          this.router.navigate(['../lobby']);
-        } else {
-          console.error('Inicio de sesión fallido. Verifica tus credenciales.');
-        }
-      },
-      (error) => {
-        console.error('Error durante el inicio de sesión:', error);
-      }
-    );
+  login(username: string, password: string) {
+    const payload = { adminName: username, adminPassword: password };
+    const result = this.http.post<any>(`${this.urlLogin}`, payload).subscribe((data: any) => {
+      if (data.error) {
+        alert('Usuario o contraseña incorrectos');
+      } else {
+        this.router.navigate(['../lobby'])
+      }});
+  }
+
+  setToken(token: string): void {
+    this.authToken = token;
+  }
+
+  getToken(): string | null {
+    return this.authToken;
   }
 
   changeTab(tab: string) {

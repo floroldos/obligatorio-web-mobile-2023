@@ -1,4 +1,4 @@
-import { secret } from "../enviorment";
+import { secret, userName, password } from "../enviorment";
 const jwt = require('jsonwebtoken');
 const userSchema = require('../models/users.model');
 
@@ -47,10 +47,20 @@ const deleteUser = async (req: any, res: any) => {
         .catch((err: any) => res.json('Error: ' + err));
 }
 
+const confirmLogin = (req: any, res: any) => {
+    const { adminName, adminPassword } = req.body;
+    if (adminName === userName && adminPassword === password) {
+        res.json( { error: false} );
+    } else {
+        res.json( { error: true} );
+    }
+}
+
 export {
     getUsers,
     singUp,
     login,
     updateUser,
-    deleteUser
+    deleteUser,
+    confirmLogin
 }

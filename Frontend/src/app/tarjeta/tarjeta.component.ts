@@ -3,6 +3,8 @@ import { TarjetaService } from '../tarjeta.service';
 import { tarjeta } from '../tarjeta';
 import { SalaService } from '../sala.service';
 import { Socket, io } from 'socket.io-client';
+import { set } from 'mongoose';
+import { urlPersona } from '../enviorment';
 
 @Component({
   selector: 'app-tarjeta',
@@ -11,7 +13,7 @@ import { Socket, io } from 'socket.io-client';
 })
 export class TarjetaComponent{
 
-  listaTarjetas: tarjeta[] = this.tarjetaService.TARJETAS;
+  listaTarjetas: tarjeta[] = [];
 
   tarjeta: tarjeta = {
     id_tarjeta: 1,
@@ -37,12 +39,17 @@ export class TarjetaComponent{
 
   ngOnInit() : void{
     this.connectSocket();
+    this.wSocket.emit('pedidoTarjetas');
+    setTimeout(() => {
+      this.startAnimation();
+    }, 1000);
   }
 
   ngOnDestroy() {
   }
 
   sumarPuntos(tarj: tarjeta) {
+    console.log(tarj);
     this.wSocket.emit('sumarPuntos', {"tarjeta": tarj}, {'user': this.salaService.nickname});
   }
 
@@ -65,13 +72,23 @@ export class TarjetaComponent{
   }
 
   connectSocket() {
-    this.wSocket = io("ws://localhost:3001/game", { 
+    this.wSocket = io("ws://"+urlPersona+":3001/game", { 
       transports: ['websocket']
     });
     
     this.wSocket.on('cambiarTarjeta', (data: { [key: string]: any}) => {
       this.tarjetaActual = data['tarjeta'];
-      this.startAnimation();
+      console.log("tarjeta actual: ", this.tarjetaActual);  
+      this.stopAnimation();
+      setTimeout(() => {
+        this.startAnimation();
+      }, 1000);
+    })
+
+    this.wSocket.on('listaTarjetas' , (data: { [key: string]: any}) => {
+      console.log("lista tarjetas recibida: ", data['tarjetas'] );
+      this.listaTarjetas = data['tarjetas'];
+      console.log("lista tarjetas: ", this.listaTarjetas);
     })
 
     this.wSocket.on('finalizarVotacion', (data: { [key: string]: any}) => { 
@@ -79,7 +96,5 @@ export class TarjetaComponent{
       this.tarjetaMasVotada = data['tarjetaMasVotada'];
     })
   }
-
-  
   
 }
