@@ -74,40 +74,13 @@ export class JuegoManager {
                     console.log('no se pudo enviar el mensaje');
                 }
             });
-            
-            /* conn.on('pong', () => {
-                console.log('Cliente respondió al Ping');
-                // Limpiar el temporizador si se recibe un Pong
-                clearTimeout(ws.temporizadorPong);
-            });
-            
-            const enviarPing = () => {
-                // Enviar Ping al cliente
-                ws.emit('ping');
-                console.log('Enviando Ping al cliente');
-                // Establecer un temporizador para recibir Pong del cliente
-                ws.temporizadorPong = setTimeout(() => {
-                    console.log('Cliente no respondió al Ping');
-                    ws.emit('comprobarJugadores')
-                    this.jugadores = [];
-                }, 4000);
-            }; */
-
-            //this.pingInterval = setInterval(enviarPing, 5000) as unknown as number;
 
             conn.on('disconnect', () => {
                 console.log('Client disconnected');
-                //clearInterval(this.pingInterval);
 
                 const index = this.jugadores.indexOf(conn.user);
                 if (index > -1) {
                     this.jugadores.splice(index, 1);
-                }
-
-                // Clear the temporizadorPong timeout if it's still active
-                if (ws.temporizadorPong) {
-                    clearTimeout(ws.temporizadorPong);
-                    ws.temporizadorPong = null;
                 }
                 
                 ws.emit('actualizarJugadores', { 'jugadores': this.jugadores });

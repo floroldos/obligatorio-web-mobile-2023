@@ -32,13 +32,6 @@ export class SalaComponent implements OnInit {
     this.updateSala();
     this.connectSocket();
     this.jugadores = this.salaService.jugadores; 
-    //this.resetTimeout();
-  }
-
-  ngOnDestroy() {
-    //this.resetTimeout();
-    this.wSocket.disconnect();
-    this.wSocket.removeAllListeners();
   }
 
   updateSala(){
@@ -69,13 +62,6 @@ export class SalaComponent implements OnInit {
       console.log("empezar");
     });
 
-    // this.wSocket.on('ping', () => {
-    //   console.log('Recibido Ping del servidor');
-    //   // Responder con Pong al servidor
-    //   this.wSocket.emit('pong');
-    //   this.resetTimeout(); 
-    // });
-
     this.wSocket.on('mensajeNuevo', (data: { [key: string]: any}) => {
       if (data['user'] == this.salaService.nickname) {
         this.messageList.push("(YOU): " + data['message']);
@@ -97,22 +83,6 @@ export class SalaComponent implements OnInit {
   empezarPartida() {
     this.wSocket.emit('empezar');
   }
-
-  // private resetTimeout() {
-  //   if (this.timeoutId !== null) {
-  //     window.clearTimeout(this.timeoutId);
-  //     this.timeoutId = null;
-  //   }
-
-  //   this.timeoutId = window.setTimeout(() => {
-  //     // Desconectar al usuario
-  //     this.wSocket.disconnect();
-  //     this.wSocket.removeAllListeners();
-  //     this.wSocket.close();
-  //     this.jugadores.splice(this.jugadores.indexOf(this.salaService.nickname), 1);
-  //     this.wSocket.emit('actualizarJugadores', { 'jugadores': this.jugadores });
-  //   }, 12000); // Desconectar después de 12 segundos
-  // }
 
   iniciarJuego() {
     setTimeout(() => {
