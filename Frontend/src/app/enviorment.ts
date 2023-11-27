@@ -2,5 +2,6 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwi
 const urlPersona = "10.13.230.45"
 const url = "http://"+urlPersona+":3000"
 
+
 export { token, url, urlPersona };
 

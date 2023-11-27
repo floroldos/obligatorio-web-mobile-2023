@@ -8,11 +8,9 @@ export class JuegoManager {
     constructor(socket: any) {
         this.jugadores = [];
         
-
         this.webSocketConn(socket);
     }
 
-    pingInterval: number = 5000;
     wsc: any;
 
 

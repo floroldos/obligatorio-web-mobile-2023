@@ -25,16 +25,18 @@
     </div>
 </div>
 
-<div id="podio" *ngIf="!this.estadoVotacion">
-    <h2 class="text-center mb-5"> Podio! </h2>
-    <div class="card bg-light mb-3" style="max-width: 50rem;">
-        <div class="card-body">
-            <h3 class="card-title">{{this.tarjetaMasVotada?.nombre}}</h3>
-            <p class="card-description">{{this.tarjetaMasVotada?.descripcion}}</p>
-            <p class="card-points"> {{this.tarjetaMasVotada?.puntos}}</p>
-        </div>
+<div id="podio" *ngIf="this.estadoVotacion">
+    <h2 id="fin-juego"> ¡Terminó el juego! </h2>
+    <h3> La tarjeta ganadora es: </h3>
+    <hr>
+    <div class="detalles-tarjeta">
+        <h3 class="card-title"> {{this.tarjetaMasVotada?.nombre}}</h3>
+        <p class="card-description">{{this.tarjetaMasVotada?.descripcion}}</p>
+        <img class="card-image" src="{{this.tarjetaMasVotada?.imagen}}" alt="No disponible">
+        <p class="card-points"> El puntaje fue: {{this.tarjetaMasVotada?.puntos}}</p>
     </div>
 </div>
+
 
 <router-outlet> </router-outlet>
 

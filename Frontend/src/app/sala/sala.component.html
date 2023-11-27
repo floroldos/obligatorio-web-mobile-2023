@@ -19,9 +19,7 @@
       <div class="chat-main-container">
         <div class="chat-container">
           <div class="chat-messages">
-            <ul>
-              <li *ngFor="let m of messageList">{{ m }}</li>
-            </ul>
+              <span id= "chat-text" *ngFor="let m of messageList">{{ m }}</span>
           </div>
           <hr>
           <div class="chat-input" id="chat-input">
