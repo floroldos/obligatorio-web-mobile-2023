@@ -13,7 +13,6 @@ export class JuegoManager {
 
     wsc: any;
 
-
     webSocketConn(ws: any) {
         this.wsc = ws;
         ws.on('connection', (conn: any) => {
@@ -95,7 +94,7 @@ export class JuegoManager {
     }
     
     TARJETAS: tarjeta[] = [
-
+        
     ];
 
     

@@ -14,7 +14,7 @@ export class TarjetaService {
 
   private urlGet = `${url}/api/actividad`;
 
-
+  id: number = 0; //para asignarle un id a cada tarjeta
   puntos: number = 0;
   votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
   tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
@@ -23,7 +23,6 @@ export class TarjetaService {
   puntajes: { [tarjetaId: number]: number } = {}; //para guardar los puntajes de cada tarjeta
   tarjetaMasVotada: tarjeta | null = null;
   estadoVotacion: boolean = true;
-  id: number = 0; // para el id de las tarjetas
 
   @Input() contenedor: tarjeta = {
     id_tarjeta: -1,
@@ -37,9 +36,7 @@ export class TarjetaService {
   //Para agregar tarjetas a la lista de tarjetas existentes
   agregarTarjeta(tarj: tarjeta){
     let tema = document.getElementById('option') as HTMLInputElement;
-    console.log(tema);
     tarj.tema = (tema.value).toString();
-    console.log(tarj.tema);
     tarj.id_tarjeta = this.id; // es auto inncremental, ni idea algo asi, lo borramos?
 
     this.id ++; 

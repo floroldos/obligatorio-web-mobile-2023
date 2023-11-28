@@ -20,7 +20,9 @@ export class LobbyComponent {
   temaS = new TemaService(this.http);
   tarjS = new TarjetaService(this.http);
   salaService = new SalaService(this.router, this.http);
-  tarjetas: tarjeta[] = [];
+  tarjetas: tarjeta[] = [
+    
+  ];
   private urlGet = `${url}/api/actividad`;
 
 
@@ -40,7 +42,6 @@ export class LobbyComponent {
     descripcion: '',
     imagen: '',
     puntos: 0,
-
     tema: ''
   };
   
@@ -49,12 +50,14 @@ export class LobbyComponent {
  }
 
   agregarTarjeta(tarj: tarjeta){
-    this.agregarTarjeta(tarj);
+    this.tarjetas.push(tarj);
+    this.tarjS.agregarTarjeta(tarj);
+    
   }
 
   quitarTarjeta(tarj: tarjeta){
     tarj.puntos = 0;
-    this.quitarTarjeta(tarj);
+    this.tarjS.quitarTarjeta(tarj);
   }
 
  crearTema(tema : string){
