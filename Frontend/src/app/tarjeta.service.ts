@@ -23,6 +23,7 @@ export class TarjetaService {
   puntajes: { [tarjetaId: number]: number } = {}; //para guardar los puntajes de cada tarjeta
   tarjetaMasVotada: tarjeta | null = null;
   estadoVotacion: boolean = true;
+  id: number = 0; // para el id de las tarjetas
 
   @Input() contenedor: tarjeta = {
     id_tarjeta: -1,
