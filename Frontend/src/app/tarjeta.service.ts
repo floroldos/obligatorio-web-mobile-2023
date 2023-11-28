@@ -14,7 +14,7 @@ export class TarjetaService {
 
   private urlGet = `${url}/api/actividad`;
 
-
+  id: number = 0; //para asignarle un id a cada tarjeta
   puntos: number = 0;
   votoEnviado: boolean = false; //para mostrar el mensaje de voto enviado
   tarjetaActual: number = 0; //lleva control de la tarjeta actual para el timeout
