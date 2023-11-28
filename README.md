@@ -7,7 +7,6 @@ Integrantes: Renzo Giacometti, Gonzalo Juárez, Floriana Locatelli, Florencia Ro
 1. [Requisitos](#requisitos)
 2. [Instalación](#instalación)
 3. [Uso](#uso)
-4. [Estructura del Proyecto](#estructura-del-proyecto)
 
 ## Requisitos
 
@@ -17,7 +16,20 @@ Integrantes: Renzo Giacometti, Gonzalo Juárez, Floriana Locatelli, Florencia Ro
 
 ## Instalación
 
-Describe los pasos para instalar las dependencias y configurar el proyecto. Puedes utilizar el siguiente formato:
+Para utilizar el programa:
 
 ```bash
 npm install
+```
+
+## Uso
+1. **Iniciar la base de datos.** Dirigirse a la carpeta ``obligatorio-web-mobile-2023\database``, y realizar ``docker-compose up``
+2. **Cambiar las ip.** Se debe colocar la ip de quien hostee la aplicación en los archivos: ``obligatorio-web-mobile-2023\Frontend\.env`` y en ``obligatorio-web-mobile-2023\Frontend\src\app\enviorment.ts``. Reemplazar la ip colocada.
+3. **Iniciar la API.** Se debe iniciar la api colocando el comando ``npm run dev`` en la carpeta ``obligatorio-web-mobile-2023\api``.
+4. **Iniciar el Angular.** Para iniciar el Angular, dirigirse a la carpeta Frontend y colocar: ``ng serve --host "tu-ip" --disable-host-check``.
+
+## Iniciar sesión
+
+Debido a problemas con la dockerización, no se pudo colocar el administrador al iniciar. Para acceder al panel de admin, colocar en el ``localhost:4200/`` un /lobby. ``localhost:4200/lobby`` 
+
+
