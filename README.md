@@ -28,4 +28,8 @@ npm install
 3. **Iniciar la API.** Se debe iniciar la api colocando el comando ``npm run dev`` en la carpeta ``obligatorio-web-mobile-2023\api``.
 4. **Iniciar el Angular.** Para iniciar el Angular, dirigirse a la carpeta Frontend y colocar: ``ng serve --host "tu-ip" --disable-host-check``.
 
+## Iniciar sesión
+
+Debido a problemas con la dockerización, no se pudo colocar el administrador al iniciar. Para acceder al panel de admin, colocar en el ``localhost:4200/`` un /lobby. ``localhost:4200/lobby`` 
+
 
