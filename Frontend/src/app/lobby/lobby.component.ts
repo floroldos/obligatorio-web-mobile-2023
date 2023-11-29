@@ -21,7 +21,22 @@ export class LobbyComponent {
   tarjS = new TarjetaService(this.http);
   salaService = new SalaService(this.router, this.http);
   tarjetas: tarjeta[] = [
-    
+    {
+      id_tarjeta: 1,
+      nombre: 'Meme de memes',
+      descripcion: 'meme de memes con cheems',
+      imagen: '../assets/memememes.jpg',
+      puntos: 0,
+      tema: 'Memes'
+    },
+    {
+      id_tarjeta: 2,
+      nombre: 'Among us',
+      descripcion: 'among us pero es mr beast',
+      imagen: '../assets/img.png',
+      puntos: 0,
+      tema: 'Memes'
+    }
   ];
   private urlGet = `${url}/api/actividad`;
 

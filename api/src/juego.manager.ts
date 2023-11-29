@@ -94,7 +94,23 @@ export class JuegoManager {
     }
     
     TARJETAS: tarjeta[] = [
-        
+        {
+            id: 1,
+            nombre: 'Meme de memes',
+            descripcion: 'meme de memes con cheems',
+            imagen: '../assets/memememes.jpg',
+            puntos: 0,
+            tema: 'Memes'
+          },
+          {
+            id: 2,
+            nombre: 'Among us',
+            descripcion: 'among us pero es mr beast',
+            imagen: '../assets/img.png',
+            puntos: 0,
+            tema: 'Memes'
+          }
+      
     ];
 
     
